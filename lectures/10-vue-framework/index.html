@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKALA | Vue.js 핵심 - 복습노트</title>
+<style>
+  :root{
+    --bg:#0f1117;--panel:#161925;--panel2:#1c2030;--border:#2a2f42;--text:#e6e8ef;--muted:#9aa0b4;
+    --accent:#7c9dff;--accent2:#4fd1c5;--code-bg:#10131c;--code-text:#c9e6ff;
+    --p1:#7c9dff;--p2:#4fd1c5;--p3:#f6ad55;--p4:#f687b3;--p5:#b794f4;--warn:#f6ad55;--danger:#f687b3;
+  }
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,"Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.68;font-size:15px}
+  body.light{--bg:#f7f8fc;--panel:#fff;--panel2:#f0f2f9;--border:#e2e5f0;--text:#20232e;--muted:#6b7180;--accent:#3f5fd6;--accent2:#0f9488;--code-bg:#f4f6fb;--code-text:#1d3b6b}
+  .site-topbar{display:flex;align-items:center;gap:10px;padding:9px 18px;background:var(--panel2);border-bottom:1px solid var(--border);font-size:12.5px;position:sticky;top:0;z-index:30}
+  .site-topbar a{color:var(--muted);text-decoration:none}.site-topbar a:hover{color:var(--accent)}.crumb-sep{color:var(--border)}.crumb-cur{font-weight:600}
+  .layout{display:flex;min-height:100vh}.sidebar{width:300px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);position:sticky;top:38px;height:calc(100vh - 38px);overflow-y:auto;padding:20px 14px}
+  .sidebar h1{font-size:15px;margin:0 6px 4px}.sidebar .sub{font-size:11.5px;color:var(--muted);margin:0 6px 16px}.toolbar{display:flex;gap:8px;margin-bottom:14px}
+  .theme-btn{flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-size:12.5px;cursor:pointer}
+  .search{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-size:13px;margin-bottom:14px}
+  .part-group{margin-bottom:10px}.part-title{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 6px 4px;font-weight:700}
+  .part-title.p1{color:var(--p1)}.part-title.p2{color:var(--p2)}.part-title.p3{color:var(--p3)}.part-title.p4{color:var(--p4)}.part-title.p5{color:var(--p5)}
+  .navlink{display:block;padding:6px 8px;border-radius:6px;color:var(--muted);text-decoration:none;font-size:13px;margin:1px 0}.navlink:hover{background:var(--panel2);color:var(--text)}.navlink.active{background:rgba(124,157,255,.15);color:var(--accent);font-weight:600}
+  main{flex:1;min-width:0;padding:40px 56px 160px;max-width:1180px}.page-head{margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}.page-head h1{font-size:28px;margin:0 0 8px}.page-head p{color:var(--muted);font-size:14px;margin:0}.badges{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}.badges span{font-size:11.5px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted)}
+  .sec{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px 26px 26px;margin-bottom:28px;scroll-margin-top:50px}.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:2px}.part-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;color:#0b0d14}.part-badge.p1{background:var(--p1)}.part-badge.p2{background:var(--p2)}.part-badge.p3{background:var(--p3)}.part-badge.p4{background:var(--p4)}.part-badge.p5{background:var(--p5)}
+  .sec h2{font-size:20px;margin:0;display:flex;gap:8px;align-items:baseline}.sec h2 .num{color:var(--muted);font-weight:500}.subtitle{color:var(--muted);font-size:13.5px;margin:6px 0 16px;padding-bottom:14px;border-bottom:1px dashed var(--border)}.sec h3{font-size:16px;margin:22px 0 6px}.sec h4{font-size:13.5px;margin:16px 0 6px;color:var(--accent2)}
+  p{font-size:14.5px;margin:8px 0}.b{margin:4px 0 14px;padding-left:22px}.b li{margin:6px 0;font-size:14.5px}.b li::marker{color:var(--accent)}
+  .tldr,.prof,.confuse{border-radius:12px;padding:14px 16px;margin:14px 0 18px}.tldr{display:flex;gap:12px;background:rgba(124,157,255,.09);border:1px solid rgba(124,157,255,.35)}.tldr .icon{font-size:18px}.tldr .txt{font-size:14px}.tldr b{color:var(--accent)}
+  .prof{background:rgba(79,209,197,.09);border:1px solid rgba(79,209,197,.38)}.prof strong{display:block;color:var(--accent2);margin-bottom:4px}.confuse{background:rgba(246,135,179,.07);border:1px solid rgba(246,135,179,.3)}.confuse .q{font-weight:700;color:var(--danger)}.confuse .a{margin-top:6px}
+  .codebox{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;margin:12px 0;overflow:hidden}.codehead{font-size:11px;color:var(--muted);padding:7px 12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02);text-transform:uppercase}.codebox pre{margin:0;padding:12px 14px;overflow-x:auto}.codebox code{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:13px;color:var(--code-text);line-height:1.8;white-space:pre}
+  table.t{border-collapse:collapse;width:100%;margin:12px 0;font-size:13.5px}table.t th{background:var(--panel2);text-align:left;padding:8px 10px;border:1px solid var(--border);color:var(--accent2);font-size:12px}table.t td{padding:8px 10px;border:1px solid var(--border);vertical-align:top}.note{font-size:12.5px;color:var(--warn);background:rgba(246,173,85,.08);border-left:3px solid var(--warn);padding:8px 12px;margin:12px 0;border-radius:4px}.danger{color:var(--danger);border-left-color:var(--danger);background:rgba(246,135,179,.08)}
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:14px 0}.flow div{background:var(--panel2);border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center;font-size:13px}
+  .quiz-wrap{margin:36px 0 60px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px 28px 28px}.quiz-wrap h2{font-size:19px;margin:0 0 4px}.quiz-wrap>p{color:var(--muted);font-size:13px;margin:0 0 18px}.quiz-score{display:inline-block;background:var(--panel2);border:1px solid var(--border);border-radius:999px;padding:4px 14px;font-size:12.5px;color:var(--accent2);font-weight:700;margin-bottom:16px}.quiz-q{border-top:1px dashed var(--border);padding:16px 0}.quiz-q:first-of-type{border-top:none}.quiz-qtext{font-size:14.5px;margin:0 0 10px;font-weight:600}.qtype{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:5px;margin-right:8px;background:var(--panel2);color:var(--muted)}.quiz-opts{display:flex;flex-wrap:wrap;gap:8px}.quiz-opt{background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;text-align:left}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{background:rgba(79,209,197,.18);border-color:var(--accent2);color:var(--accent2);font-weight:700}.quiz-opt.incorrect{background:rgba(246,135,179,.15);border-color:var(--danger);color:var(--danger)}.quiz-opt[disabled]{cursor:default}.quiz-short{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.quiz-short input{flex:1;min-width:180px;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--code-bg);color:var(--text);font-size:13px}.quiz-check{background:var(--accent);color:#0b0d14;border:none;border-radius:7px;padding:8px 16px;font-size:12.5px;font-weight:700;cursor:pointer}.quiz-feedback{font-size:12.5px;margin-top:8px;font-weight:600;line-height:1.6}.quiz-feedback.ok{color:var(--accent2)}.quiz-feedback.no{color:var(--danger)}
+  .overview-grid,.compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:16px 0}.overview-card,.compare-card{background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:15px}.overview-card span{display:block;color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.05em;margin-bottom:5px}.overview-card b,.compare-card b{display:block;margin-bottom:5px}.overview-card p,.compare-card p{color:var(--muted);font-size:13px;margin:0}.compare-card code{color:var(--accent2)}
+  details.study-part{margin:0 0 32px;border:1px solid var(--border);border-radius:18px;background:rgba(255,255,255,.015);overflow:hidden}details.study-part>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:18px 22px;background:var(--panel);cursor:pointer;font-weight:750;position:sticky;top:38px;z-index:8;border-bottom:1px solid transparent}details.study-part>summary::-webkit-details-marker{display:none}details.study-part>summary::after{content:'＋';margin-left:auto;color:var(--muted);font-size:20px}details.study-part[open]>summary{border-bottom-color:var(--border)}details.study-part[open]>summary::after{content:'−'}details.study-part>.sec,details.study-part>.quiz-wrap{margin-left:18px;margin-right:18px}details.study-part>.sec:first-of-type{margin-top:20px}
+  .quiz-dashboard{display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(135deg,rgba(124,157,255,.12),rgba(79,209,197,.09));border:1px solid rgba(124,157,255,.32);border-radius:14px;padding:16px 18px;margin:20px 0 30px}.quiz-dashboard strong{display:block;font-size:16px}.quiz-dashboard span{color:var(--muted);font-size:12.5px}.reset-btn{border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:9px;padding:9px 14px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}.reset-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .practice-steps{counter-reset:practice;display:grid;gap:10px;margin:16px 0}.practice-step{counter-increment:practice;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:13px}.practice-step::before{content:counter(practice);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#0b0d14;font-weight:800}.practice-step b{display:block;margin-bottom:3px}.practice-step p{margin:0;color:var(--muted);font-size:13.5px}
+  .top-btn{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#0b0d14;border:none;border-radius:999px;width:44px;height:44px;font-size:18px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);display:none}
+  ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#333850;border-radius:6px}::-webkit-scrollbar-track{background:transparent}
+  @media(max-width:900px){main{padding:20px}.sidebar{display:none}.site-topbar{position:sticky}.page-head h1{font-size:23px}.sec{padding:18px}.sec-head h2{min-width:0;overflow-wrap:anywhere}table.t{display:block;max-width:100%;overflow-x:auto}.flow,.overview-grid,.compare-grid{grid-template-columns:1fr}details.study-part>summary{top:38px;padding:15px}details.study-part>.sec,details.study-part>.quiz-wrap{margin-left:10px;margin-right:10px}.quiz-dashboard{align-items:flex-start;flex-direction:column}}
+</style>
+<link rel="stylesheet" href="../../assets/seoyeon-journal.css">
+</head>
+<body class="light">
+<div class="site-topbar"><a href="../../index.html">🏠 서연의 학습 홈</a><span class="crumb-sep">/</span><span class="crumb-cur">Vue.js 핵심</span></div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <h1>SKALA Vue.js</h1><p class="sub">4일 강의 전체 · 이해 중심 복습노트</p>
+  <div class="toolbar"><button class="theme-btn" id="themeBtn">🌙 다크 모드</button></div>
+  <input class="search" id="searchBox" type="text" placeholder="검색 (예: ref, Props, Vite)">
+  <div class="part-group"><div class="part-title">빠른 복습</div><a class="navlink" href="#vue-flow">전체 흐름</a><a class="navlink" href="#confusion-map">헷갈리는 개념</a><a class="navlink" href="#practice-flow">실전 연결</a><a class="navlink" href="#final-check">최종 체크</a></div>
+  <div class="part-group"><div class="part-title p1">파트 1 — Modern JavaScript</div><a class="navlink" href="#part-1">핵심 지도</a><a class="navlink" href="#s1">1. JS 동작 원리</a><a class="navlink" href="#s2">2. Vue용 ES6+ 문법</a><a class="navlink" href="#s3">3. 비동기 처리</a><a class="navlink" href="#quiz-p1">✅ 파트 1 퀴즈</a></div>
+  <div class="part-group"><div class="part-title p2">파트 2 — Vue 문법</div><a class="navlink" href="#part-2">핵심 지도</a><a class="navlink" href="#s4">4. Vue·SPA·SFC</a><a class="navlink" href="#s5">5. 디렉티브</a><a class="navlink" href="#s6">6. 이벤트·폼·스타일</a><a class="navlink" href="#quiz-p2">✅ 파트 2 퀴즈</a></div>
+  <div class="part-group"><div class="part-title p3">파트 3 — Composition API</div><a class="navlink" href="#part-3">핵심 지도</a><a class="navlink" href="#s7">7. ref vs reactive</a><a class="navlink" href="#s8">8. computed와 watch</a><a class="navlink" href="#s9">9. Lifecycle</a><a class="navlink" href="#quiz-p3">✅ 파트 3 퀴즈</a></div>
+  <div class="part-group"><div class="part-title p4">파트 4 — 앱 구조</div><a class="navlink" href="#part-4">핵심 지도</a><a class="navlink" href="#s10">10. Props & Emits</a><a class="navlink" href="#s11">11. Inject & Slot</a><a class="navlink" href="#s12">12. Vue Router</a><a class="navlink" href="#s13">13. Pinia</a><a class="navlink" href="#s14">14. Axios</a><a class="navlink" href="#quiz-p4">✅ 파트 4 퀴즈</a></div>
+  <div class="part-group"><div class="part-title p5">파트 5 — 품질·배포</div><a class="navlink" href="#part-5">핵심 지도</a><a class="navlink" href="#s15">15. UI·코드 품질</a><a class="navlink" href="#s16">16. 환경변수·보안</a><a class="navlink" href="#s17">17. 빌드·배포</a><a class="navlink" href="#quiz-p5">✅ 파트 5 퀴즈</a></div>
+</nav>
+<main>
+  <div class="page-head"><h1>Vue.js 핵심 — 4일 강의 완전 복습</h1><p>4일 강의와 275쪽 강의자료의 핵심을 정리했습니다. 설명 → 코드 → 헷갈림 → 퀴즈 순서로 이 페이지만 읽어도 전체 흐름을 다시 잡을 수 있습니다.</p><div class="badges"><span>Modern JavaScript</span><span>Composition API</span><span>Components</span><span>Router·Pinia·Axios</span><span>Vite Build</span></div></div>
+
+  <section class="sec" id="vue-flow"><div class="sec-head"><span class="part-badge p1">START</span><h2>Vue 전체 흐름 한눈에 보기</h2></div><p class="subtitle">문법을 따로 외우지 말고 데이터가 화면과 서버 사이를 이동하는 순서로 이해하세요.</p>
+    <div class="overview-grid">
+      <div class="overview-card"><span>01 · JAVASCRIPT</span><b>데이터를 읽고 가공한다</b><p>객체·배열·함수·비동기로 API 응답을 다룬다.</p></div>
+      <div class="overview-card"><span>02 · REACTIVITY</span><b>상태가 화면을 움직인다</b><p><code>ref</code>로 상태를 만들고 <code>computed</code>로 파생값을 만든다.</p></div>
+      <div class="overview-card"><span>03 · COMPONENT</span><b>화면을 책임별로 나눈다</b><p>데이터는 Props로 내리고 변경 요청은 Emits로 올린다.</p></div>
+      <div class="overview-card"><span>04 · APPLICATION</span><b>페이지와 공용 상태를 연결한다</b><p>Router가 화면을 바꾸고 Pinia가 여러 화면의 상태를 공유한다.</p></div>
+      <div class="overview-card"><span>05 · NETWORK</span><b>서버 상태를 안전하게 표시한다</b><p>Axios 요청을 loading·data·error 세 상태로 나눈다.</p></div>
+      <div class="overview-card"><span>06 · DELIVERY</span><b>검사하고 빌드해 배포한다</b><p>lint → build → preview 후 <code>dist</code>를 정적 호스팅한다.</p></div>
+    </div>
+  </section>
+
+  <div class="quiz-dashboard" aria-live="polite"><div><strong id="overallScore">전체 0 / 21 정답</strong><span>각 파트에서 푼 결과가 여기에 합산됩니다.</span></div><button class="reset-btn" id="resetAllQuiz" type="button">전체 퀴즈 초기화</button></div>
+
+  <details class="study-part" open>
+  <summary class="study-summary"><span class="part-badge p1">파트 1</span><span>Modern JavaScript — Vue 코드를 읽기 위한 기반</span></summary>
+  <section class="sec" id="part-1"><div class="sec-head"><span class="part-badge p1">파트 1</span><h2>Modern JavaScript 핵심 지도</h2></div><p class="subtitle">Vue 문법보다 먼저 필요한 JavaScript 사고방식</p><div class="prof"><strong>🎙 교수님이 가장 먼저 강조한 말</strong>“Vue는 JavaScript를 모르면 진도가 나가지 않는다.” 전부 외우기보다 객체·배열·함수·비동기를 직접 읽고 쓸 수 있어야 합니다.</div><div class="flow"><div>값과 참조<br><b>const</b></div><div>데이터 가공<br><b>array methods</b></div><div>안전한 접근<br><b>?. / ??</b></div><div>서버 통신<br><b>async / await</b></div></div></section>
+
+  <section class="sec" id="s1"><div class="sec-head"><span class="part-badge p1">파트 1</span><h2><span class="num">1.</span>JavaScript가 움직이는 방식</h2></div><p class="subtitle">인터프리터 · 동적 타이핑 · 싱글 스레드 · 값과 참조</p>
+    <div class="tldr"><span class="icon">💡</span><div class="txt">JavaScript는 한 명의 요리사가 한 줄씩 주문을 처리하는 것과 같습니다. 오래 걸리는 요청은 브라우저에게 맡기고, 완료 알림을 받은 뒤 콜백을 실행합니다. <b>싱글 스레드와 비동기는 모순이 아닙니다.</b></div></div>
+    <ul class="b"><li><b>동적 타이핑</b>: 값이 들어오는 순간 타입이 정해집니다.</li><li><b>싱글 스레드</b>: JavaScript 실행 스택은 한 번에 한 작업만 처리합니다.</li><li><b>원시값</b>은 값 자체를, 객체·배열·함수는 참조를 다룹니다.</li><li>비교는 형 변환이 없는 <code>===</code>를 기본으로 사용합니다.</li></ul>
+    <div class="codebox"><div class="codehead">const가 객체 내부 변경을 허용하는 이유</div><pre><code>const user = { name: '서연', level: 1 }
+user.level = 2        // 가능: 같은 객체 내부 값 변경
+// user = { level: 3 } // 불가: 다른 객체로 참조 재할당</code></pre></div>
+    <div class="confuse"><div class="q">Q. const는 상수인데 왜 push()가 되나요?</div><div class="a">A. const가 고정하는 것은 객체의 내용이 아니라 변수가 가리키는 <b>참조</b>입니다. 배열을 통째로 재할당할 수는 없지만 같은 배열에 요소를 넣는 것은 가능합니다.</div></div>
+    <div class="note">강의에서는 이해를 위해 JavaScript를 “인터프리터 언어”로 설명했지만, 현대 브라우저 엔진은 성능을 위해 JIT 컴파일도 사용합니다. 복습할 때는 <b>실행 전에 Java처럼 별도 빌드 산출물을 만들지 않아도 브라우저가 실행하며, 많은 오류가 런타임에 드러날 수 있다</b>는 의미로 이해하면 충분합니다.</div>
+  </section>
+
+  <section class="sec" id="s2"><div class="sec-head"><span class="part-badge p1">파트 1</span><h2><span class="num">2.</span>Vue에서 자주 만나는 ES6+ 문법</h2></div><p class="subtitle">화살표 함수 · 구조분해 · Spread/Rest · 배열 메서드 · 안전한 객체 접근</p>
+    <div class="prof"><strong>🎙 교수님 강조</strong>Vue에서는 함수 표현식과 화살표 함수, 객체·배열 조작을 계속 사용합니다. 특히 JSON 응답을 다루므로 객체와 배열이 핵심입니다.</div>
+    <table class="t"><thead><tr><th>문법</th><th>역할</th><th>기억할 점</th></tr></thead><tbody><tr><td><code>const add = (a,b) =&gt; a+b</code></td><td>화살표 함수</td><td>Vue 핸들러·콜백의 실무 표준</td></tr><tr><td><code>const {name} = user</code></td><td>객체 구조분해</td><td>key 이름으로 꺼냄</td></tr><tr><td><code>const [first] = list</code></td><td>배열 구조분해</td><td>순서로 꺼냄</td></tr><tr><td><code>{...old, level:2}</code></td><td>Spread</td><td>새 객체를 만들며 뒤의 값이 덮어씀</td></tr><tr><td><code>user?.profile?.name</code></td><td>Optional chaining</td><td>null/undefined에서 안전하게 중단</td></tr><tr><td><code>count ?? 0</code></td><td>Nullish coalescing</td><td>0·빈 문자열·false는 보존</td></tr></tbody></table>
+    <div class="codebox"><div class="codehead">배열 가공은 원본과 결과를 구분한다</div><pre><code>const cities = [
+  { name: '광주', temp: 27 },
+  { name: '서울', temp: 24 },
+]
+const hotCities = cities
+  .filter(city =&gt; city.temp &gt;= 25)
+  .map(city =&gt; city.name)
+
+const copied = [...cities] // 새 배열이지만 내부 객체는 같은 참조: 얕은 복사</code></pre></div>
+    <div class="note">Spread는 <b>얕은 복사</b>입니다. 중첩 객체까지 완전히 복제하지 않습니다. 중첩 데이터의 불변 갱신은 각 레벨을 다시 펼치거나 <code>structuredClone()</code> 같은 목적에 맞는 방법을 선택하세요.</div>
+  </section>
+
+  <section class="sec" id="s3"><div class="sec-head"><span class="part-badge p1">파트 1</span><h2><span class="num">3.</span>Promise와 async/await</h2></div><p class="subtitle">비동기 요청의 완료·실패·마무리</p>
+    <div class="tldr"><span class="icon">💡</span><div class="txt">Promise는 “결과가 나중에 도착할 영수증”, <code>await</code>는 그 영수증의 결과를 해당 <code>async</code> 함수 안에서 기다리는 문법입니다. 브라우저 전체가 멈추는 것은 아닙니다.</div></div>
+    <div class="codebox"><div class="codehead">실무에서 읽기 쉬운 비동기 패턴</div><pre><code>const loadWeather = async () =&gt; {
+  isLoading.value = true
+  try {
+    const response = await axios.get('/weather')
+    weather.value = response.data
+  } catch (error) {
+    message.value = '날씨를 불러오지 못했습니다.'
+  } finally {
+    isLoading.value = false
+  }
+}</code></pre></div>
+    <ul class="b"><li><code>async</code> 함수는 항상 Promise를 반환합니다.</li><li><code>await</code>는 기본적으로 <code>async</code> 함수 안에서 사용합니다.</li><li><code>try/catch/finally</code>로 성공·실패·로딩 종료를 분리합니다.</li><li>서로 독립적인 여러 요청을 순서대로 기다리지 말고 필요하면 <code>Promise.all()</code>로 병렬 처리합니다.</li></ul>
+  </section>
+
+  <div class="quiz-wrap" id="quiz-p1"><h2>✅ 파트 1 퀴즈</h2><p>JavaScript 기초를 확인하세요.</p><div class="quiz-score">0 / 4 정답</div>
+    <div class="quiz-q" data-type="ox" data-answer="o" data-explain="const 객체는 참조 재할당만 막고 내부 속성 변경은 허용합니다."><p class="quiz-qtext"><span class="qtype">OX</span>const로 선언한 객체의 내부 속성은 변경할 수 있다.</p><div class="quiz-opts"><button class="quiz-opt" data-val="o">O</button><button class="quiz-opt" data-val="x">X</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="mc" data-answer="c" data-explain="??는 null과 undefined일 때만 기본값을 사용하므로 0과 빈 문자열을 보존합니다."><p class="quiz-qtext"><span class="qtype">객관식</span>숫자 0을 유효한 값으로 유지하면서 기본값을 지정할 연산자는?</p><div class="quiz-opts"><button class="quiz-opt" data-val="a">||</button><button class="quiz-opt" data-val="b">&&</button><button class="quiz-opt" data-val="c">??</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="short" data-accept='["얕은 복사","shallow copy","얕은복사"]' data-explain="Spread는 바깥 배열이나 객체만 새로 만들고 중첩 객체 참조는 공유합니다."><p class="quiz-qtext"><span class="qtype">단답형</span><code>[...array]</code>가 수행하는 복사의 종류는?</p><div class="quiz-short"><input type="text" placeholder="정답 입력..."><button class="quiz-check">확인</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="ox" data-answer="o" data-explain="일반 값을 return해도 JavaScript가 Promise.resolve 값으로 감쌉니다."><p class="quiz-qtext"><span class="qtype">OX</span>async 함수는 항상 Promise를 반환한다.</p><div class="quiz-opts"><button class="quiz-opt" data-val="o">O</button><button class="quiz-opt" data-val="x">X</button></div><div class="quiz-feedback"></div></div>
+  </div>
+
+  </details>
+
+  <details class="study-part">
+  <summary class="study-summary"><span class="part-badge p2">파트 2</span><span>Vue 문법 — 상태와 화면을 연결하는 규칙</span></summary>
+  <section class="sec" id="part-2"><div class="sec-head"><span class="part-badge p2">파트 2</span><h2>Vue 문법 핵심 지도</h2></div><p class="subtitle">데이터가 바뀌면 화면이 따라 바뀌는 규칙</p><div class="flow"><div>상태<br><b>script setup</b></div><div>화면<br><b>template</b></div><div>표현<br><b>directives</b></div><div>사용자 입력<br><b>events·v-model</b></div></div></section>
+
+  <section class="sec" id="s4"><div class="sec-head"><span class="part-badge p2">파트 2</span><h2><span class="num">4.</span>Vue·SPA·SFC의 큰 그림</h2></div><p class="subtitle">MVVM · Virtual DOM · Single Page Application · Vite</p>
+    <div class="tldr"><span class="icon">💡</span><div class="txt"><b>상태가 원인이고 DOM은 결과</b>입니다. 직접 DOM을 고치기보다 상태를 바꾸면 Vue가 필요한 화면만 갱신합니다.</div></div>
+    <ul class="b"><li><b>SPA</b>: 최초에 하나의 HTML을 받고, 이후 화면 전환은 컴포넌트를 교체합니다.</li><li><b>MVVM</b>: Model(데이터)과 View(화면) 사이를 Vue의 반응형 시스템이 연결합니다.</li><li><b>Virtual DOM</b>: 이전 가상 트리와 새 가상 트리의 차이를 계산해 실제 DOM 변경을 최소화합니다.</li><li><b>SFC</b>: 하나의 <code>.vue</code> 파일에 template·script·style을 모읍니다.</li></ul>
+    <div class="codebox"><div class="codehead">프로젝트 시작 흐름</div><pre><code>// src/main.js
+import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App).mount('#app')
+
+// App.vue
+&lt;script setup&gt;/* 상태와 로직 */&lt;/script&gt;
+&lt;template&gt;&lt;!-- 화면 --&gt;&lt;/template&gt;
+&lt;style scoped&gt;/* 이 컴포넌트 스타일 */&lt;/style&gt;</code></pre></div>
+    <div class="confuse"><div class="q">Q. 개발 중에는 .vue가 보이는데 브라우저가 .vue를 직접 실행하나요?</div><div class="a">A. 아닙니다. Vite의 Vue 플러그인이 개발 중 변환하고, 배포 시에는 HTML·CSS·JavaScript로 빌드합니다.</div></div>
+  </section>
+
+  <section class="sec" id="s5"><div class="sec-head"><span class="part-badge p2">파트 2</span><h2><span class="num">5.</span>템플릿과 디렉티브</h2></div><p class="subtitle">Interpolation · v-bind · v-if/v-show · v-for · v-html</p>
+    <table class="t"><thead><tr><th>문법</th><th>뜻</th><th>주의</th></tr></thead><tbody><tr><td><code>{{ message }}</code></td><td>텍스트 보간</td><td>표현식은 가능하지만 문장은 쓰지 않음</td></tr><tr><td><code>:disabled="loading"</code></td><td>v-bind 축약</td><td>HTML 속성을 JS 값에 연결</td></tr><tr><td><code>v-if</code></td><td>DOM 생성·제거</td><td>전환이 드문 조건에 적합</td></tr><tr><td><code>v-show</code></td><td>CSS display 전환</td><td>자주 켜고 끄는 UI에 적합</td></tr><tr><td><code>v-for</code></td><td>목록 반복</td><td>안정적인 고유 <code>:key</code> 필요</td></tr><tr><td><code>v-html</code></td><td>HTML 문자열 렌더링</td><td>신뢰하지 않는 입력은 XSS 위험</td></tr></tbody></table>
+    <div class="codebox"><div class="codehead">목록 렌더링</div><pre><code>&lt;li v-for="city in cities" :key="city.id"&gt;
+  {{ city.name }} · {{ city.temp }}℃
+&lt;/li&gt;</code></pre></div>
+    <div class="prof"><strong>🎙 교수님 강조</strong><code>v-if</code>와 <code>v-show</code>는 둘 다 보이기/숨기기지만 동작 비용이 다릅니다. 목록에서는 화면 상태가 꼬이지 않도록 key를 습관처럼 지정하세요.</div>
+    <div class="note danger"><code>v-html</code>에 사용자 입력이나 검증되지 않은 서버 문자열을 바로 넣지 마세요. Vue의 기본 텍스트 보간은 HTML을 이스케이프하지만 v-html은 그렇지 않습니다.</div>
+  </section>
+
+  <section class="sec" id="s6"><div class="sec-head"><span class="part-badge p2">파트 2</span><h2><span class="num">6.</span>이벤트·폼·스타일</h2></div><p class="subtitle">v-on · Event modifiers · v-model · scoped style</p>
+    <div class="codebox"><div class="codehead">사용자 입력 흐름</div><pre><code>&lt;script setup&gt;
+import { ref } from 'vue'
+const city = ref('광주')
+const submit = () =&gt; console.log(city.value)
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;form @submit.prevent="submit"&gt;
+    &lt;input v-model.trim="city" @keyup.enter="submit"&gt;
+    &lt;button&gt;검색&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/template&gt;</code></pre></div>
+    <ul class="b"><li><code>@click</code>은 <code>v-on:click</code>의 축약입니다.</li><li><code>.prevent</code>는 기본 동작을 막고, <code>.stop</code>은 이벤트 전파를 막습니다.</li><li><code>v-model</code>은 입력값과 상태를 양방향으로 동기화합니다.</li><li><code>.trim</code>, <code>.number</code>, <code>.lazy</code>로 입력 동작을 보정할 수 있습니다.</li><li><code>&lt;style scoped&gt;</code>는 스타일 적용 범위를 현재 컴포넌트 중심으로 제한합니다.</li></ul>
+    <div class="confuse"><div class="q">Q. v-model이 Props를 자식에서 직접 바꾸는 기능인가요?</div><div class="a">A. 기본 입력 요소에서는 양방향 바인딩이지만, 컴포넌트에서는 prop과 <code>update:modelValue</code> 이벤트의 약속으로 구현됩니다. 단방향 데이터 흐름 원칙은 유지됩니다.</div></div>
+  </section>
+
+  <div class="quiz-wrap" id="quiz-p2"><h2>✅ 파트 2 퀴즈</h2><p>Vue 템플릿 문법을 확인하세요.</p><div class="quiz-score">0 / 4 정답</div>
+    <div class="quiz-q" data-type="mc" data-answer="b" data-explain="SFC는 한 .vue 파일 안에서 template, script, style을 함께 구성합니다."><p class="quiz-qtext"><span class="qtype">객관식</span>Vue SFC의 기본 세 영역은?</p><div class="quiz-opts"><button class="quiz-opt" data-val="a">HTML·SQL·Java</button><button class="quiz-opt" data-val="b">template·script·style</button><button class="quiz-opt" data-val="c">router·store·axios</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="mc" data-answer="a" data-explain="v-show는 요소를 유지한 채 CSS display만 바꾸므로 빈번한 토글에 유리합니다."><p class="quiz-qtext"><span class="qtype">객관식</span>자주 열고 닫는 패널에 더 적합한 것은?</p><div class="quiz-opts"><button class="quiz-opt" data-val="a">v-show</button><button class="quiz-opt" data-val="b">v-if</button><button class="quiz-opt" data-val="c">v-once</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="short" data-accept='[":key","key","v-bind:key"]' data-explain="고유 key는 Vue가 각 목록 항목의 정체성을 추적하도록 돕습니다."><p class="quiz-qtext"><span class="qtype">단답형</span>v-for 목록의 각 항목에 지정해야 하는 바인딩은?</p><div class="quiz-short"><input type="text" placeholder="정답 입력..."><button class="quiz-check">확인</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="ox" data-answer="x" data-explain="v-html은 HTML을 그대로 삽입하므로 검증되지 않은 입력에 사용하면 XSS 위험이 있습니다."><p class="quiz-qtext"><span class="qtype">OX</span>사용자가 입력한 문자열은 v-html로 바로 출력해도 안전하다.</p><div class="quiz-opts"><button class="quiz-opt" data-val="o">O</button><button class="quiz-opt" data-val="x">X</button></div><div class="quiz-feedback"></div></div>
+  </div>
+
+  </details>
+
+  <details class="study-part">
+  <summary class="study-summary"><span class="part-badge p3">파트 3</span><span>Composition API — 반응형 상태의 생명주기</span></summary>
+  <section class="sec" id="part-3"><div class="sec-head"><span class="part-badge p3">파트 3</span><h2>Composition API 핵심 지도</h2></div><p class="subtitle">상태 선언 → 파생값 → 부수효과 → 생명주기</p><div class="flow"><div>상태<br><b>ref/reactive</b></div><div>파생값<br><b>computed</b></div><div>후속 작업<br><b>watch</b></div><div>시점 제어<br><b>lifecycle</b></div></div></section>
+
+  <section class="sec" id="s7"><div class="sec-head"><span class="part-badge p3">파트 3</span><h2><span class="num">7.</span>ref와 reactive</h2></div><p class="subtitle">반응형 상태 · .value · 재할당 · 반응성 단절</p>
+    <div class="prof"><strong>🎙 교수님 강조</strong><code>ref</code>는 모든 타입을 감쌀 수 있고, script에서는 <code>.value</code>, template에서는 자동 언래핑되어 값만 씁니다. <code>reactive</code>는 객체형 전용이며 통째 재할당과 구조분해를 특히 조심해야 합니다.</div>
+    <table class="t"><thead><tr><th>구분</th><th>ref</th><th>reactive</th></tr></thead><tbody><tr><td>대상</td><td>원시값·객체 모두</td><td>객체·배열·Map·Set</td></tr><tr><td>script 접근</td><td><code>count.value</code></td><td><code>state.count</code></td></tr><tr><td>template 접근</td><td><code>{{ count }}</code></td><td><code>{{ state.count }}</code></td></tr><tr><td>통째 교체</td><td><code>user.value = 새객체</code> 가능</td><td>변수 재할당 시 연결 단절</td></tr></tbody></table>
+    <div class="codebox"><div class="codehead">안전한 기본 선택</div><pre><code>import { ref, reactive, toRefs } from 'vue'
+
+const count = ref(0)
+const user = ref({ name: '서연' })
+count.value++
+user.value = { name: '새 이름' }
+
+const state = reactive({ city: '광주', temp: 27 })
+state.temp = 28
+const { city, temp } = toRefs(state) // 구조분해가 필요하면 반응성 보존</code></pre></div>
+    <div class="note">팀 규칙이 없다면 객체까지 <code>ref</code>로 통일하는 방식은 재할당에 안전하고 일관적입니다. 다만 reactive도 틀린 선택은 아니며, 둘의 접근 규칙을 섞지 않는 것이 중요합니다.</div>
+  </section>
+
+  <section class="sec" id="s8"><div class="sec-head"><span class="part-badge p3">파트 3</span><h2><span class="num">8.</span>computed·watch·watchEffect</h2></div><p class="subtitle">파생값과 부수효과를 분리하기</p>
+    <div class="tldr"><span class="icon">💡</span><div class="txt"><b>computed는 계산기</b>, <b>watch는 경보기</b>입니다. 화면에 보여줄 파생값은 computed, 값이 바뀐 뒤 API 호출·저장·로그 같은 일을 해야 하면 watch를 고려합니다.</div></div>
+    <table class="t"><thead><tr><th>도구</th><th>언제</th><th>특징</th></tr></thead><tbody><tr><td><code>computed</code></td><td>기존 상태로 새 값을 계산</td><td>의존성이 바뀔 때만 재계산·캐시·기본 읽기 전용</td></tr><tr><td><code>watch</code></td><td>특정 상태 변경 후 후속 작업</td><td>대상을 명시하며 new/old 값을 받을 수 있음</td></tr><tr><td><code>watchEffect</code></td><td>콜백 안 의존성을 자동 추적</td><td>처음에도 즉시 실행, old 값 없음</td></tr></tbody></table>
+    <div class="codebox"><div class="codehead">의도를 코드에 드러낸다</div><pre><code>const celsius = ref(20)
+const fahrenheit = computed(() =&gt; celsius.value * 9 / 5 + 32)
+
+watch(celsius, (newValue, oldValue) =&gt; {
+  console.log(`${oldValue} → ${newValue}`)
+})
+
+watch(() =&gt; user.value.age, (newAge, oldAge) =&gt; {
+  // 객체 전체 deep watch보다 필요한 속성만 감시하면 이전 값도 명확하다.
+})</code></pre></div>
+    <div class="confuse"><div class="q">Q. 객체 내부 변경이 watch에서 안 잡혀요.</div><div class="a">A. ref 객체 전체의 참조만 보고 있다면 <code>{ deep: true }</code>가 필요할 수 있습니다. 하지만 과거 값까지 정확히 필요하면 <code>() =&gt; user.value.age</code>처럼 필요한 속성만 getter로 감시하는 편이 명확합니다.</div></div>
+  </section>
+
+  <section class="sec" id="s9"><div class="sec-head"><span class="part-badge p3">파트 3</span><h2><span class="num">9.</span>컴포넌트 Lifecycle</h2></div><p class="subtitle">생성 · 마운트 · 업데이트 · 언마운트</p>
+    <div class="flow"><div>setup 실행<br>상태·함수 준비</div><div>onMounted<br>DOM·초기 요청</div><div>onUpdated<br>DOM 갱신 후</div><div>onUnmounted<br>타이머·리스너 정리</div></div>
+    <div class="codebox"><div class="codehead">생성한 자원은 반드시 정리한다</div><pre><code>import { onMounted, onUnmounted } from 'vue'
+
+let timerId
+onMounted(() =&gt; {
+  timerId = setInterval(refreshWeather, 30000)
+})
+onUnmounted(() =&gt; {
+  clearInterval(timerId)
+})</code></pre></div>
+    <ul class="b"><li><code>&lt;script setup&gt;</code> 본문은 컴포넌트 인스턴스 생성 때 실행됩니다.</li><li><code>onMounted</code>는 DOM 접근이나 첫 데이터 요청에 흔히 사용합니다.</li><li><code>onUpdated</code>에서 다시 상태를 무조건 바꾸면 업데이트 루프를 만들 수 있습니다.</li><li>타이머·전역 이벤트·구독·소켓은 언마운트 때 해제해 메모리 누수를 막습니다.</li></ul>
+  </section>
+
+  <div class="quiz-wrap" id="quiz-p3"><h2>✅ 파트 3 퀴즈</h2><p>반응형 상태와 생명주기를 확인하세요.</p><div class="quiz-score">0 / 4 정답</div>
+    <div class="quiz-q" data-type="mc" data-answer="b" data-explain="ref는 script에서 .value로 접근하고 template에서는 자동 언래핑됩니다."><p class="quiz-qtext"><span class="qtype">객관식</span>ref로 만든 count를 script에서 증가시키는 코드는?</p><div class="quiz-opts"><button class="quiz-opt" data-val="a">count++</button><button class="quiz-opt" data-val="b">count.value++</button><button class="quiz-opt" data-val="c">count.ref++</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="ox" data-answer="o" data-explain="reactive 변수를 일반 새 객체로 재할당하면 기존 Proxy와의 연결이 끊깁니다."><p class="quiz-qtext"><span class="qtype">OX</span>reactive 객체를 통째로 일반 객체로 재할당하면 반응성이 끊길 수 있다.</p><div class="quiz-opts"><button class="quiz-opt" data-val="o">O</button><button class="quiz-opt" data-val="x">X</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="mc" data-answer="a" data-explain="computed는 반응형 의존성으로부터 캐시되는 파생값을 만들 때 적합합니다."><p class="quiz-qtext"><span class="qtype">객관식</span>섭씨 상태로 화씨 표시값을 계산할 때 가장 알맞은 것은?</p><div class="quiz-opts"><button class="quiz-opt" data-val="a">computed</button><button class="quiz-opt" data-val="b">onUnmounted</button><button class="quiz-opt" data-val="c">provide</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="short" data-accept='["onunmounted","onunmounted()"]' data-explain="컴포넌트가 사라질 때 타이머와 구독을 정리하면 메모리 누수를 막을 수 있습니다."><p class="quiz-qtext"><span class="qtype">단답형</span>컴포넌트 소멸 후 타이머를 정리하는 대표 훅은?</p><div class="quiz-short"><input type="text" placeholder="정답 입력..."><button class="quiz-check">확인</button></div><div class="quiz-feedback"></div></div>
+  </div>
+
+  </details>
+
+  <details class="study-part">
+  <summary class="study-summary"><span class="part-badge p4">파트 4</span><span>앱 구조 — 컴포넌트에서 서버 통신까지</span></summary>
+  <section class="sec" id="part-4"><div class="sec-head"><span class="part-badge p4">파트 4</span><h2>앱 구조 핵심 지도</h2></div><p class="subtitle">컴포넌트 통신 → 페이지 이동 → 전역 상태 → 서버 통신</p><div class="flow"><div>부모·자식<br><b>Props/Emits</b></div><div>화면 전환<br><b>Router</b></div><div>전역 상태<br><b>Pinia</b></div><div>서버 데이터<br><b>Axios</b></div></div></section>
+
+  <section class="sec" id="s10"><div class="sec-head"><span class="part-badge p4">파트 4</span><h2><span class="num">10.</span>컴포넌트·Props·Emits</h2></div><p class="subtitle">데이터는 아래로, 이벤트는 위로</p>
+    <div class="prof"><strong>🎙 교수님 최중요 포인트</strong>전체 강의에서 가장 어렵고 중요한 부분으로 Props와 Emits를 꼽았습니다. 부모가 상태를 소유하고, 자식은 읽은 뒤 변경이 필요하면 이벤트로 요청합니다.</div>
+    <div class="flow"><div>Parent state</div><div>↓ Props<br>읽기 전용</div><div>Child</div><div>↑ Emits<br>변경 요청</div></div>
+    <div class="codebox"><div class="codehead">ChildCard.vue</div><pre><code>&lt;script setup&gt;
+const props = defineProps({
+  cityName: { type: String, required: true },
+  forecast: { type: Array, default: () =&gt; [] },
+})
+const emit = defineEmits(['select-city'])
+const select = () =&gt; emit('select-city', props.cityName)
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;button @click="select"&gt;{{ cityName }} 선택&lt;/button&gt;
+&lt;/template&gt;</code></pre></div>
+    <div class="codebox"><div class="codehead">ParentView.vue</div><pre><code>&lt;ChildCard
+  :city-name="selectedCity"
+  @select-city="handleSelectCity"
+/&gt;</code></pre></div>
+    <ul class="b"><li><code>defineProps</code>와 <code>defineEmits</code>는 <code>&lt;script setup&gt;</code> 컴파일러 매크로라 import하지 않습니다.</li><li>JavaScript에서는 camelCase, 템플릿 속성·이벤트는 kebab-case를 권장합니다.</li><li>Array/Object prop의 default는 각 인스턴스마다 새 값을 만들도록 함수로 반환합니다.</li><li>Prop을 자식에서 직접 수정하지 말고 이벤트로 부모에게 변경을 요청합니다.</li></ul>
+  </section>
+
+  <section class="sec" id="s11"><div class="sec-head"><span class="part-badge p4">파트 4</span><h2><span class="num">11.</span>Provide/Inject와 Slot</h2></div><p class="subtitle">깊은 전달과 화면 조각 전달</p>
+    <table class="t"><thead><tr><th>도구</th><th>무엇을 전달?</th><th>언제?</th></tr></thead><tbody><tr><td>Props</td><td>부모의 데이터</td><td>직접 부모·자식 관계</td></tr><tr><td>Provide/Inject</td><td>조상의 값·의존성</td><td>특정 컴포넌트 트리의 깊은 하위</td></tr><tr><td>Pinia</td><td>앱 전역 상태와 로직</td><td>로그인·장바구니 등 복잡한 공유 상태</td></tr><tr><td>Slot</td><td>HTML·템플릿 조각</td><td>자식 레이아웃의 일부를 부모가 채움</td></tr></tbody></table>
+    <div class="codebox"><div class="codehead">provide/inject와 named slot</div><pre><code>// ancestor
+provide('theme', readonly(theme))
+// descendant
+const theme = inject('theme', 'light')
+
+// CardLayout.vue
+&lt;header&gt;&lt;slot name="header" /&gt;&lt;/header&gt;
+&lt;main&gt;&lt;slot /&gt;&lt;/main&gt;
+
+// parent
+&lt;CardLayout&gt;
+  &lt;template #header&gt;&lt;h2&gt;날씨&lt;/h2&gt;&lt;/template&gt;
+  &lt;p&gt;오늘은 맑음&lt;/p&gt;
+&lt;/CardLayout&gt;</code></pre></div>
+    <div class="note">Provide/Inject는 가까운 트리 범위의 의존성 공유에 좋지만, 어디서 값이 왔는지 추적이 어려워질 수 있습니다. 앱 전체의 복잡한 상태는 Pinia가 더 명확합니다.</div>
+  </section>
+
+  <section class="sec" id="s12"><div class="sec-head"><span class="part-badge p4">파트 4</span><h2><span class="num">12.</span>Vue Router</h2></div><p class="subtitle">RouterLink · RouterView · useRoute · useRouter · Guard</p>
+    <div class="tldr"><span class="icon">💡</span><div class="txt"><code>route</code>는 <b>현재 표</b>, <code>router</code>는 <b>운전 기사</b>입니다. 현재 주소 정보를 읽을 때 useRoute, 코드로 이동시킬 때 useRouter를 사용합니다.</div></div>
+    <div class="codebox"><div class="codehead">router/index.js</div><pre><code>const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    { path: '/', component: () =&gt; import('@/views/HomeView.vue') },
+    { path: '/weather/:cityId', name: 'weather', component: () =&gt; import('@/views/WeatherView.vue') },
+    { path: '/:pathMatch(.*)*', component: () =&gt; import('@/views/NotFoundView.vue') },
+  ],
+})</code></pre></div>
+    <div class="codebox"><div class="codehead">현재 정보 읽기와 이동</div><pre><code>const route = useRoute()
+const router = useRouter()
+
+const cityId = computed(() =&gt; route.params.cityId)
+const goWeather = city =&gt; router.push({
+  name: 'weather',
+  params: { cityId: city.id },
+  query: { unit: 'c' },
+})</code></pre></div>
+    <ul class="b"><li><code>&lt;RouterLink&gt;</code>는 전체 새로고침 없이 주소를 바꿉니다.</li><li><code>&lt;RouterView&gt;</code>는 현재 route에 맞는 View 컴포넌트가 나타나는 자리입니다.</li><li><code>router.push</code>는 뒤로 가기 기록을 남기고, <code>replace</code>는 현재 기록을 대체합니다.</li><li>Navigation Guard는 이동 직전에 인증 같은 조건을 검사합니다. 클라이언트 가드는 UX 장치일 뿐, 실제 권한 검사는 서버에서도 해야 합니다.</li></ul>
+  </section>
+
+  <section class="sec" id="s13"><div class="sec-head"><span class="part-badge p4">파트 4</span><h2><span class="num">13.</span>Pinia 상태관리</h2></div><p class="subtitle">state · getters · actions · storeToRefs</p>
+    <div class="tldr"><span class="icon">💡</span><div class="txt">Pinia Store는 앱 여러 곳이 함께 쓰는 <b>공용 서랍</b>입니다. 관련 상태끼리 store 파일을 나누고, 상태 변경과 서버 통신은 actions에 모으면 흐름을 추적하기 쉽습니다.</div></div>
+    <div class="codebox"><div class="codehead">stores/configStore.js</div><pre><code>export const useConfigStore = defineStore('config', () =&gt; {
+  const unit = ref('celsius')                 // state
+  const unitSymbol = computed(() =&gt; unit.value === 'celsius' ? '℃' : '℉') // getter
+  const toggleUnit = () =&gt; {                 // action
+    unit.value = unit.value === 'celsius' ? 'fahrenheit' : 'celsius'
+  }
+  return { unit, unitSymbol, toggleUnit }
+})</code></pre></div>
+    <div class="codebox"><div class="codehead">컴포넌트에서 구조분해할 때</div><pre><code>const configStore = useConfigStore()
+const { unit, unitSymbol } = storeToRefs(configStore) // state/getter 반응성 보존
+const { toggleUnit } = configStore                    // action은 바로 구조분해 가능</code></pre></div>
+    <div class="prof"><strong>🎙 교수님 강조</strong>Store를 무조건 많이 만들기보다 “앱 전체에서 공유해야 하는 의미 있는 상태가 무엇인가?”를 먼저 생각하세요. 로그인, 설정, 장바구니처럼 책임 단위로 나눕니다.</div>
+    <div class="note danger">토큰을 localStorage에 저장하는 예제는 흐름을 배우기에는 쉽지만, XSS가 발생하면 JavaScript로 탈취될 수 있습니다. 실제 인증 저장 방식은 백엔드와 함께 설계하고, 필요하면 Secure·HttpOnly·SameSite 쿠키와 CSRF 방어를 검토하세요.</div>
+  </section>
+
+  <section class="sec" id="s14"><div class="sec-head"><span class="part-badge p4">파트 4</span><h2><span class="num">14.</span>Axios와 API 통신</h2></div><p class="subtitle">HTTP · REST · loading/error/data · 공통 인스턴스</p>
+    <table class="t"><thead><tr><th>HTTP</th><th>CRUD</th><th>의미</th></tr></thead><tbody><tr><td>GET</td><td>Read</td><td>조회</td></tr><tr><td>POST</td><td>Create</td><td>생성</td></tr><tr><td>PUT/PATCH</td><td>Update</td><td>전체/일부 수정</td></tr><tr><td>DELETE</td><td>Delete</td><td>삭제</td></tr></tbody></table>
+    <div class="codebox"><div class="codehead">API 호출의 최소 상태 3개</div><pre><code>const data = ref(null)
+const loading = ref(false)
+const errorMessage = ref('')
+
+const load = async () =&gt; {
+  loading.value = true
+  errorMessage.value = ''
+  try {
+    const response = await api.get('/weather', { params: { city: 'gwangju' } })
+    data.value = response.data
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message ?? '네트워크 오류'
+  } finally {
+    loading.value = false
+  }
+}</code></pre></div>
+    <ul class="b"><li>REST URI는 자원을 명사로 표현하고 행위는 HTTP Method로 표현합니다.</li><li>Axios는 JSON 응답을 <code>response.data</code>에 파싱하고 4xx/5xx를 reject합니다.</li><li>반복되는 baseURL·헤더·공통 오류는 <code>axios.create</code>와 interceptor로 모을 수 있습니다.</li><li>요청 전에 Postman으로 API URL·파라미터·응답 구조를 먼저 확인하면 디버깅이 빠릅니다.</li></ul>
+  </section>
+
+  <div class="quiz-wrap" id="quiz-p4"><h2>✅ 파트 4 퀴즈</h2><p>컴포넌트부터 서버 통신까지 확인하세요.</p><div class="quiz-score">0 / 5 정답</div>
+    <div class="quiz-q" data-type="mc" data-answer="a" data-explain="Vue의 기본 통신은 부모에서 자식으로 Props, 자식에서 부모로 Emits입니다."><p class="quiz-qtext"><span class="qtype">객관식</span>부모·자식 컴포넌트 통신 방향으로 맞는 것은?</p><div class="quiz-opts"><button class="quiz-opt" data-val="a">데이터↓ Props / 이벤트↑ Emits</button><button class="quiz-opt" data-val="b">데이터↑ Props / 이벤트↓ Emits</button><button class="quiz-opt" data-val="c">둘 다 양방향 수정</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="ox" data-answer="x" data-explain="defineProps와 defineEmits는 script setup 전용 컴파일러 매크로라 import하지 않습니다."><p class="quiz-qtext"><span class="qtype">OX</span>defineProps를 사용하려면 vue 패키지에서 import해야 한다.</p><div class="quiz-opts"><button class="quiz-opt" data-val="o">O</button><button class="quiz-opt" data-val="x">X</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="mc" data-answer="b" data-explain="현재 주소 정보는 route가 갖고, router는 push·replace 같은 이동 메서드를 제공합니다."><p class="quiz-qtext"><span class="qtype">객관식</span>로그인 성공 후 코드로 홈으로 이동할 때 사용할 것은?</p><div class="quiz-opts"><button class="quiz-opt" data-val="a">useRoute().params</button><button class="quiz-opt" data-val="b">useRouter().push()</button><button class="quiz-opt" data-val="c">defineProps()</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="short" data-accept='["storetorefs","storetorefs()"]' data-explain="Pinia의 state와 getter를 구조분해할 때 storeToRefs가 ref로 감싸 반응성을 보존합니다."><p class="quiz-qtext"><span class="qtype">단답형</span>Pinia state/getter를 반응성 유지한 채 구조분해하는 함수는?</p><div class="quiz-short"><input type="text" placeholder="정답 입력..."><button class="quiz-check">확인</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="mc" data-answer="c" data-explain="Axios가 파싱한 서버 응답 본문은 response.data에서 읽습니다."><p class="quiz-qtext"><span class="qtype">객관식</span>Axios 응답의 JSON 본문은 보통 어디에 있는가?</p><div class="quiz-opts"><button class="quiz-opt" data-val="a">response.json()</button><button class="quiz-opt" data-val="b">response.body.text</button><button class="quiz-opt" data-val="c">response.data</button></div><div class="quiz-feedback"></div></div>
+  </div>
+
+  </details>
+
+  <details class="study-part">
+  <summary class="study-summary"><span class="part-badge p5">파트 5</span><span>품질과 배포 — 개발 코드를 사용자에게 전달하기</span></summary>
+  <section class="sec" id="part-5"><div class="sec-head"><span class="part-badge p5">파트 5</span><h2>품질·빌드·배포 핵심 지도</h2></div><p class="subtitle">개발 코드가 사용자의 정적 파일이 되기까지</p><div class="flow"><div>검사<br><b>ESLint</b></div><div>정렬<br><b>Prettier</b></div><div>설정<br><b>Vite·env</b></div><div>완제품<br><b>dist</b></div></div></section>
+
+  <section class="sec" id="s15"><div class="sec-head"><span class="part-badge p5">파트 5</span><h2><span class="num">15.</span>UI Library와 코드 품질</h2></div><p class="subtitle">Element Plus · ESLint · Prettier</p>
+    <ul class="b"><li><b>UI Library</b>는 예쁘기만 한 것이 아니라 접근성·폼·테이블·날짜 선택 같은 검증된 기능을 재사용합니다.</li><li><b>ESLint</b>는 문법 오류·미사용 변수·위험한 패턴을 정적 분석합니다.</li><li><b>Prettier</b>는 들여쓰기·따옴표·줄바꿈 같은 서식을 통일합니다.</li><li>두 도구의 역할을 분리하고 저장 시 format, 작업 단위마다 lint를 실행합니다.</li></ul>
+    <div class="codebox"><div class="codehead">검사 순서</div><pre><code>npm run format  # 파일 서식 자동 정리
+npm run lint    # 잠재 오류와 규칙 위반 검사
+npm run build   # 실제 배포 빌드 성공 확인</code></pre></div>
+    <div class="prof"><strong>🎙 교수님 강조</strong>외부 UI 라이브러리는 단순히 더 예쁘게 보이기 위해서가 아니라, 직접 만들기 어려운 기능을 안정적으로 활용하기 위해 선택합니다. 라이브러리 선정 이유를 설명할 수 있어야 합니다.</div>
+  </section>
+
+  <section class="sec" id="s16"><div class="sec-head"><span class="part-badge p5">파트 5</span><h2><span class="num">16.</span>Vite 환경변수와 보안</h2></div><p class="subtitle">.env · VITE_ · import.meta.env · 공개 번들</p>
+    <div class="codebox"><div class="codehead">환경별 설정</div><pre><code># .env.staging
+VITE_API_URL=https://api-staging.example.com
+
+# .env.production
+VITE_API_URL=https://api.example.com
+
+// 사용
+const apiUrl = import.meta.env.VITE_API_URL
+
+// package.json
+"build:staging": "vite build --mode staging"</code></pre></div>
+    <div class="prof"><strong>🎙 교수님 강조</strong>개발·스테이징·운영처럼 환경에 따라 바뀌는 API 주소는 하드코딩하지 말고 환경변수로 분리합니다. 클라이언트에서 읽을 변수는 반드시 <code>VITE_</code>로 시작합니다.</div>
+    <div class="note danger"><b>중요 보완:</b> <code>VITE_</code> 변수는 빌드 결과 JavaScript에 포함되어 브라우저 사용자가 볼 수 있습니다. <code>.env</code>를 Git에서 제외하는 것은 소스 유출만 막을 뿐, 프론트엔드 비밀 저장소가 아닙니다. 절대 숨겨야 하는 API 키·DB 비밀번호·서버 토큰은 백엔드에 두고 프론트엔드는 백엔드 API를 호출하세요.</div>
+    <div class="confuse"><div class="q">Q. .env를 .gitignore에 넣으면 키가 완전히 안전한가요?</div><div class="a">A. GitHub에는 안 올라가지만 <code>VITE_</code> 값은 사용자에게 전달되는 번들에서 확인할 수 있습니다. 브라우저에서 동작해야 하는 값은 공개 정보라고 가정해야 합니다.</div></div>
+  </section>
+
+  <section class="sec" id="s17"><div class="sec-head"><span class="part-badge p5">파트 5</span><h2><span class="num">17.</span>Bundling·Build·Preview·Deployment</h2></div><p class="subtitle">개발 서버와 배포 완제품의 차이</p>
+    <div class="prof"><strong>🎙 교수님 최종 강조</strong>“번들링과 빌드를 이해해야 Vue 프로그램을 이해한 것이다.” 브라우저는 .vue 파일을 그대로 실행하지 않으며, 배포 대상은 빌드된 정적 파일입니다.</div>
+    <div class="flow"><div>소스<br>.vue·JS·CSS</div><div>npm run build<br>분석·변환·번들</div><div>dist<br>HTML·CSS·JS</div><div>정적 호스팅<br>Vercel·Pages 등</div></div>
+    <table class="t"><thead><tr><th>명령</th><th>목적</th><th>확인 대상</th></tr></thead><tbody><tr><td><code>npm run dev</code></td><td>개발 서버</td><td>빠른 HMR 개발</td></tr><tr><td><code>npm run build</code></td><td>프로덕션 빌드</td><td><code>dist/</code> 생성과 빌드 오류</td></tr><tr><td><code>npm run preview</code></td><td>빌드 결과 로컬 확인</td><td>실제 배포 산출물</td></tr></tbody></table>
+    <ul class="b"><li>Vite는 개발 중 ESM 기반 서버를 사용하고, 빌드 시 Rollup으로 최적화합니다.</li><li>파일명 해시는 내용이 바뀌면 이름도 바뀌게 해 오래된 브라우저 캐시를 피합니다.</li><li>배포 전 시크릿 창에서 공개 저장소와 배포 URL이 로그인 없이 열리는지 확인합니다.</li><li>GitHub Pages의 하위 경로에 Vue 앱을 배포할 때는 Vite <code>base</code>와 Router history fallback을 호스팅 방식에 맞게 설정합니다.</li></ul>
+    <div class="codebox"><div class="codehead">제출 전 최소 체크</div><pre><code>npm run format
+npm run lint
+npm run build
+npm run preview
+
+# 확인 후 Git push → 배포 서비스가 저장소 변경을 감지해 빌드·배포</code></pre></div>
+  </section>
+
+  <div class="quiz-wrap" id="quiz-p5"><h2>✅ 파트 5 퀴즈</h2><p>보안과 배포 흐름을 확인하세요.</p><div class="quiz-score">0 / 4 정답</div>
+    <div class="quiz-q" data-type="ox" data-answer="x" data-explain="VITE_ 변수는 클라이언트 번들에 포함되므로 사용자가 확인할 수 있습니다. 진짜 비밀은 서버에 둬야 합니다."><p class="quiz-qtext"><span class="qtype">OX</span>VITE_SECRET_KEY에 넣으면 브라우저 사용자도 값을 볼 수 없다.</p><div class="quiz-opts"><button class="quiz-opt" data-val="o">O</button><button class="quiz-opt" data-val="x">X</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="short" data-accept='["dist","dist/"]' data-explain="Vite의 기본 프로덕션 빌드 산출물은 dist 폴더에 생성됩니다."><p class="quiz-qtext"><span class="qtype">단답형</span>Vite 기본 빌드 결과가 생성되는 폴더는?</p><div class="quiz-short"><input type="text" placeholder="정답 입력..."><button class="quiz-check">확인</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="mc" data-answer="c" data-explain="preview는 npm run build로 만들어진 dist 결과를 로컬 정적 서버에서 검증합니다."><p class="quiz-qtext"><span class="qtype">객관식</span>npm run preview의 목적은?</p><div class="quiz-opts"><button class="quiz-opt" data-val="a">소스 자동 포맷</button><button class="quiz-opt" data-val="b">Vue 패키지 설치</button><button class="quiz-opt" data-val="c">빌드 산출물 로컬 검증</button></div><div class="quiz-feedback"></div></div>
+    <div class="quiz-q" data-type="mc" data-answer="a" data-explain="ESLint는 잠재 버그와 규칙 위반, Prettier는 시각적 서식을 담당합니다."><p class="quiz-qtext"><span class="qtype">객관식</span>ESLint와 Prettier의 역할 구분으로 맞는 것은?</p><div class="quiz-opts"><button class="quiz-opt" data-val="a">ESLint 오류 검사 / Prettier 서식</button><button class="quiz-opt" data-val="b">ESLint 배포 / Prettier 서버</button><button class="quiz-opt" data-val="c">둘 다 API 통신</button></div><div class="quiz-feedback"></div></div>
+  </div>
+
+  </details>
+
+  <section class="sec" id="confusion-map"><div class="sec-head"><span class="part-badge p4">비교</span><h2>헷갈리는 개념 한 번에 구분하기</h2></div><p class="subtitle">이름을 외우기보다 “누가 상태를 소유하고, 어떤 일이 필요한가?”로 선택하세요.</p>
+    <div class="compare-grid">
+      <div class="compare-card"><b><code>ref</code> vs <code>reactive</code></b><p>통째 교체하거나 일관된 규칙이 필요하면 ref. 객체 속성을 묶어 직접 다루면 reactive. 구조분해할 때는 toRefs가 필요합니다.</p></div>
+      <div class="compare-card"><b><code>computed</code> vs <code>watch</code></b><p>기존 상태로 값을 계산하면 computed. 변경 뒤 API 호출·저장처럼 외부 작업을 하면 watch입니다.</p></div>
+      <div class="compare-card"><b><code>watch</code> vs <code>watchEffect</code></b><p>대상과 이전 값이 중요하면 watch. 콜백에서 읽는 의존성을 자동 추적하고 즉시 실행하려면 watchEffect입니다.</p></div>
+      <div class="compare-card"><b><code>v-if</code> vs <code>v-show</code></b><p>거의 바뀌지 않고 초기 비용을 줄이면 v-if. 자주 열고 닫으면 DOM을 유지하는 v-show가 적합합니다.</p></div>
+      <div class="compare-card"><b>Props vs Emits</b><p>부모 상태는 Props로 내려 읽고, 자식의 변경 의도는 Emits로 올립니다. 자식이 Prop을 직접 수정하지 않습니다.</p></div>
+      <div class="compare-card"><b><code>route</code> vs <code>router</code></b><p>현재 주소·params·query를 읽으면 route. push·replace로 이동하면 router입니다.</p></div>
+      <div class="compare-card"><b>Provide/Inject vs Pinia</b><p>가까운 컴포넌트 트리에 의존성을 전달하면 Provide/Inject. 여러 화면이 공유하고 추적해야 하는 앱 상태는 Pinia입니다.</p></div>
+      <div class="compare-card"><b><code>VITE_</code> 설정 vs 비밀값</b><p>VITE_ 값은 브라우저 번들에 공개됩니다. API 주소 같은 설정만 두고 비밀번호·서버 토큰은 백엔드에 둡니다.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="practice-flow"><div class="sec-head"><span class="part-badge p5">실전</span><h2>날씨 대시보드로 전체 개념 연결하기</h2></div><p class="subtitle">기능 하나를 만들 때 Vue의 각 도구가 어디에 들어가는지 순서대로 복기하세요.</p>
+    <div class="practice-steps">
+      <div class="practice-step"><div><b>Router가 도시 페이지를 연다</b><p><code>/weather/:cityId</code>에서 <code>route.params.cityId</code>를 읽습니다.</p></div></div>
+      <div class="practice-step"><div><b>Pinia가 공용 설정을 제공한다</b><p>섭씨·화씨 단위처럼 여러 화면이 공유하는 상태만 Store에 둡니다.</p></div></div>
+      <div class="practice-step"><div><b>Axios가 서버 데이터를 가져온다</b><p><code>loading</code>을 켜고 try/catch/finally로 data·error·종료를 분리합니다.</p></div></div>
+      <div class="practice-step"><div><b>computed가 표시값을 만든다</b><p>원본 온도를 바꾸지 않고 선택된 단위에 맞는 표시값을 계산합니다.</p></div></div>
+      <div class="practice-step"><div><b>부모와 자식이 역할을 나눈다</b><p>부모는 날씨 상태를 소유해 Props로 내리고, 카드의 새로고침 요청은 Emits로 받습니다.</p></div></div>
+      <div class="practice-step"><div><b>언마운트와 배포를 마무리한다</b><p>타이머를 정리하고 lint → build → preview로 <code>dist</code>를 검증합니다.</p></div></div>
+    </div>
+    <div class="tldr"><span class="icon">💡</span><div class="txt"><b>핵심 판단:</b> 컴포넌트 안의 상태는 ref, 계산 결과는 computed, 변경 후 외부 작업은 watch, 가까운 자식에게는 Props/Emits, 앱 전체 공유 상태는 Pinia를 먼저 떠올리세요.</div></div>
+  </section>
+
+  <section class="sec" id="final-check"><div class="sec-head"><span class="part-badge p5">마무리</span><h2>최종 복습 체크리스트</h2></div><p class="subtitle">설명할 수 있으면 이해한 것입니다</p><ul class="b"><li>왜 Vue를 배우기 전에 객체·배열·함수·비동기 JavaScript가 필요한지 설명할 수 있다.</li><li>ref/reactive, computed/watch, Props/Emits의 차이를 코드 없이 말할 수 있다.</li><li>route/router, provide/Pinia를 상황에 맞게 고를 수 있다.</li><li>API 요청에서 loading·data·error 상태를 나눌 수 있다.</li><li>VITE_ 환경변수가 비밀키 저장소가 아닌 이유를 설명할 수 있다.</li><li>dev → lint → build → preview → deploy 흐름을 실행할 수 있다.</li><li>날씨 대시보드 흐름에서 Router·Pinia·Axios·computed·Props/Emits가 맡는 일을 연결해 설명할 수 있다.</li></ul></section>
+</main>
+</div>
+<button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+<script>
+  const links=document.querySelectorAll('.navlink');
+  const sections=document.querySelectorAll('.sec');
+  const searchBox=document.getElementById('searchBox');
+  const topBtn=document.getElementById('topBtn');
+  const overallScore=document.getElementById('overallScore');
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-10% 0px -70% 0px'});
+  sections.forEach(s=>obs.observe(s));
+  links.forEach(link=>link.addEventListener('click',()=>{const target=document.querySelector(link.getAttribute('href'));const part=target?.closest('.study-part');if(part)part.open=true}));
+  searchBox.addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();sections.forEach(sec=>{const match=q===''||sec.textContent.toLowerCase().includes(q);sec.style.display=match?'':'none';if(q&&match){const part=sec.closest('.study-part');if(part)part.open=true}})});
+  window.addEventListener('scroll',()=>{topBtn.style.display=window.scrollY>600?'block':'none'});topBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const themeBtn=document.getElementById('themeBtn');themeBtn.addEventListener('click',()=>{document.body.classList.toggle('light');themeBtn.textContent=document.body.classList.contains('light')?'🌙 다크 모드':'☀ 라이트 모드'});
+  function updateOverallScore(){const total=document.querySelectorAll('.quiz-q').length;const correct=document.querySelectorAll('.quiz-q.answered-correct').length;overallScore.textContent='전체 '+correct+' / '+total+' 정답'}
+  function updateScore(wrap){const total=wrap.querySelectorAll('.quiz-q').length;const correct=wrap.querySelectorAll('.quiz-q.answered-correct').length;wrap.querySelector('.quiz-score').textContent=correct+' / '+total+' 정답';updateOverallScore()}
+  document.querySelectorAll('.quiz-q[data-type="ox"],.quiz-q[data-type="mc"]').forEach(qEl=>{const answer=qEl.dataset.answer;const explain=qEl.dataset.explain;const wrap=qEl.closest('.quiz-wrap');qEl.querySelectorAll('.quiz-opt').forEach(opt=>opt.addEventListener('click',()=>{if(qEl.classList.contains('locked'))return;qEl.classList.add('locked');const ok=opt.dataset.val===answer;qEl.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=true;if(o.dataset.val===answer)o.classList.add('correct');else if(o===opt)o.classList.add('incorrect')});const fb=qEl.querySelector('.quiz-feedback');fb.textContent=(ok?'정답입니다. ':'정답을 확인하세요. ')+explain;fb.className='quiz-feedback '+(ok?'ok':'no');if(ok)qEl.classList.add('answered-correct');updateScore(wrap)}))});
+  document.querySelectorAll('.quiz-q[data-type="short"]').forEach(qEl=>{const accept=JSON.parse(qEl.dataset.accept).map(a=>a.toLowerCase().trim());const explain=qEl.dataset.explain;const wrap=qEl.closest('.quiz-wrap');const input=qEl.querySelector('input');const btn=qEl.querySelector('.quiz-check');const fb=qEl.querySelector('.quiz-feedback');function check(){if(qEl.classList.contains('locked'))return;const val=input.value.toLowerCase().trim();if(accept.includes(val)&&val!==''){qEl.classList.add('locked','answered-correct');fb.textContent='정답입니다. '+explain;fb.className='quiz-feedback ok';input.disabled=true;btn.disabled=true;updateScore(wrap)}else{fb.textContent='다시 생각해보세요. 힌트: '+accept[0]+' · '+explain;fb.className='quiz-feedback no'}}btn.addEventListener('click',check);input.addEventListener('keydown',e=>{if(e.key==='Enter')check()})});
+  document.getElementById('resetAllQuiz').addEventListener('click',()=>{document.querySelectorAll('.quiz-q').forEach(q=>{q.classList.remove('locked','answered-correct');q.querySelectorAll('.quiz-opt').forEach(opt=>{opt.disabled=false;opt.classList.remove('correct','incorrect')});const input=q.querySelector('input');const check=q.querySelector('.quiz-check');const feedback=q.querySelector('.quiz-feedback');if(input){input.value='';input.disabled=false}if(check)check.disabled=false;feedback.textContent='';feedback.className='quiz-feedback'});document.querySelectorAll('.quiz-wrap').forEach(updateScore)});
+  updateOverallScore();
+</script>
+</body>
+</html>

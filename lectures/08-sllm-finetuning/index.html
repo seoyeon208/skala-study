@@ -267,17 +267,15 @@
 
 <body class="light">
 <div class="site-topbar">
-  <a href="../../index.html">🏠 Full-stack 학습 홈</a>
+  <a href="../../index.html">학습 홈</a>
   <span class="crumb-sep">/</span>
   <span class="crumb-cur">sLLM 구현과 Fine-Tuning</span>
+<button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 <div class="layout">
   <nav class="sidebar" id="sidebar">
     <h1>SKALA sLLM·Fine-Tuning</h1>
     <p class="sub">LLM 파이프라인부터 PEFT·LoRA·SFT, sLLM 서비스 설계까지 · 복습노트</p>
-    <div class="toolbar">
-      <button class="theme-btn" id="themeBtn">🌙 다크 모드</button>
-    </div>
     <input class="search" id="searchBox" type="text" placeholder="검색 (예: LoRA, PEFT, SFT, RAG...)">
     <div class="day-group"><div class="day-title d1">Day 1 — sLLM과 Fine-Tuning 기초</div>
 <a class="navlink" href="#s1" data-sec="1">1. LLM 서빙 파이프라인 개요</a>
@@ -286,7 +284,7 @@
 <a class="navlink" href="#s4" data-sec="4">4. sLLM Use Case — 실전 활용 시나리오</a>
 <a class="navlink" href="#s5" data-sec="5">5. Fine-Tuning 전략과 PEFT 기법 개요</a>
 <a class="navlink" href="#s6" data-sec="6">6. LoRA 파라미터 구조 이해</a>
-<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">✅ Day1 퀴즈</a>
+<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">Day1 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d2">Day 2 — Fine-Tuning 실전과 서비스 설계</div>
 <a class="navlink" href="#s7" data-sec="7">7. SFT 학습 데이터 구조 설계</a>
@@ -295,7 +293,7 @@
 <a class="navlink" href="#s10" data-sec="10">10. PEFT 시나리오 설계</a>
 <a class="navlink" href="#s11" data-sec="11">11. sLLM 서비스 아키텍처 설계</a>
 <a class="navlink" href="#s12" data-sec="12">12. sLLM 서비스 구현과 배포</a>
-<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">✅ Day2 퀴즈</a>
+<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">Day2 퀴즈</a>
 </div>
   </nav>
   <main>
@@ -1243,7 +1241,7 @@ Q1. 이 요구사항이 다루는 정보가 <b>자주 바뀌는가?</b><br>
   themeBtn.addEventListener('click', ()=>{
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    themeBtn.textContent = isLight ? '🌙 다크 모드' : '☀ 라이트 모드';
+    themeBtn.textContent = isLight ? '다크 모드' : '라이트 모드';
   });
 
   // ==== Quiz logic (3회 재시도 후 해설 공개) ====

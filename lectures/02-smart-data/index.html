@@ -379,17 +379,17 @@
 
 <body class="light">
 <div class="site-topbar">
-  <a href="../../index.html">🏠 Full-stack 학습 홈</a>
+  <a href="../../index.html">학습 홈</a>
   <span class="crumb-sep">/</span>
   <span class="crumb-cur">스마트 데이터 이해 및 활용</span>
+<button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 <div class="layout">
   <nav class="sidebar" id="sidebar">
     <h1>SKALA 스마트 데이터</h1>
     <p class="sub">이해 및 활용 · 복습노트</p>
     <div class="toolbar">
-      <button class="theme-btn" id="themeBtn">🌙 다크 모드</button>
-      <button class="theme-btn" id="exerciseNavBtn">✏️ 연습문제</button>
+      <button class="theme-btn" id="exerciseNavBtn">연습문제</button>
     </div>
     <input class="search" id="searchBox" type="text" placeholder="검색 (예: 인덱스, JOIN, VACUUM...)">
     <div class="day-group"><div class="day-title d1">Day 1 — 관계형 모델 & SQL 기초</div>
@@ -401,7 +401,7 @@
 <a class="navlink" href="#s6" data-sec="6">6. SQL 기초 — DDL</a>
 <a class="navlink" href="#s7" data-sec="7">7. SQL 기초 — DML</a>
 <a class="navlink" href="#s8" data-sec="8">8. Day 1 핵심 복습 & DBMS 생태계</a>
-<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">✅ Day1 퀴즈</a>
+<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">Day1 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d2">Day 2 — SQL 중급/고급 & Window Function</div>
 <a class="navlink" href="#s9" data-sec="9">9. SQL 중급 — 집계 & 그룹화</a>
@@ -410,7 +410,7 @@
 <a class="navlink" href="#s12" data-sec="12">12. 서브쿼리 & 집합 연산자</a>
 <a class="navlink" href="#s13" data-sec="13">13. CTE·View·Materialized View</a>
 <a class="navlink" href="#s14" data-sec="14">14. Windows Function – 분석 함수</a>
-<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">✅ Day2 퀴즈</a>
+<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">Day2 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d3">Day 3 — 인덱스·튜닝·트랜잭션</div>
 <a class="navlink" href="#s15" data-sec="15">15. 인덱스 설계 및 최적화</a>
@@ -419,7 +419,7 @@
 <a class="navlink" href="#s18" data-sec="18">18. MVCC & 트랜잭션 격리 수준</a>
 <a class="navlink" href="#s19" data-sec="19">19. Lock & Deadlock 관리</a>
 <a class="navlink" href="#s20" data-sec="20">20. 고급 DB 설계</a>
-<a class="navlink" href="#quiz-day3" style="color:var(--accent2);">✅ Day3 퀴즈</a>
+<a class="navlink" href="#quiz-day3" style="color:var(--accent2);">Day3 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d4">Day 4 — 운영·보안·클라우드·트렌드</div>
 <a class="navlink" href="#s21" data-sec="21">21. Stored Procedure & 함수</a>
@@ -431,10 +431,10 @@
 <a class="navlink" href="#s27" data-sec="27">27. 보안 및 권한 관리</a>
 <a class="navlink" href="#s28" data-sec="28">28. 백업·복구 & 고가용성</a>
 <a class="navlink" href="#s29" data-sec="29">29. 모니터링 및 운영</a>
-<a class="navlink" href="#quiz-day4" style="color:var(--accent2);">✅ Day4 퀴즈</a>
+<a class="navlink" href="#quiz-day4" style="color:var(--accent2);">Day4 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title">종합</div>
-<a class="navlink" href="#quiz-dayfinal" style="color:var(--accent2);">📝 과목 마무리 퀴즈</a>
+<a class="navlink" href="#quiz-dayfinal" style="color:var(--accent2);">과목 마무리 퀴즈</a>
 </div>
   </nav>
   <main>
@@ -6801,7 +6801,7 @@ LIMIT 10;</textarea>
   themeBtn.addEventListener('click', ()=>{
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    themeBtn.textContent = isLight ? '🌙 다크 모드' : '☀ 라이트 모드';
+    themeBtn.textContent = isLight ? '다크 모드' : '라이트 모드';
   });
 
   // ---- SQL Playground (sql.js / SQLite in-browser) ----

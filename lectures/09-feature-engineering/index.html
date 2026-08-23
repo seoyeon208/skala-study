@@ -267,17 +267,15 @@
 
 <body class="light">
 <div class="site-topbar">
-  <a href="../../index.html">🏠 Full-stack 학습 홈</a>
+  <a href="../../index.html">학습 홈</a>
   <span class="crumb-sep">/</span>
   <span class="crumb-cur">실전 Feature Engineering</span>
+<button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 <div class="layout">
   <nav class="sidebar" id="sidebar">
     <h1>SKALA Feature Engineering</h1>
     <p class="sub">결측값·이상치·인코딩부터 Feature Creation·Selection·Store까지 · 복습노트</p>
-    <div class="toolbar">
-      <button class="theme-btn" id="themeBtn">🌙 다크 모드</button>
-    </div>
     <input class="search" id="searchBox" type="text" placeholder="검색 (예: 결측값, 인코딩, RFM, Feature Store...)">
     <div class="day-group"><div class="day-title d1">Day 1 — Feature Engineering 기초와 Transformation</div>
 <a class="navlink" href="#s1" data-sec="1">1. Feature Engineering 개요</a>
@@ -285,7 +283,7 @@
 <a class="navlink" href="#s3" data-sec="3">3. 이상치 처리</a>
 <a class="navlink" href="#s4" data-sec="4">4. Feature Scaling</a>
 <a class="navlink" href="#s5" data-sec="5">5. 범주형 변수 인코딩</a>
-<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">✅ Day1 퀴즈</a>
+<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">Day1 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d2">Day 2 — Feature Creation·Selection과 Feature Store</div>
 <a class="navlink" href="#s6" data-sec="6">6. Feature Creation — 파생 변수 생성 기초</a>
@@ -293,7 +291,7 @@
 <a class="navlink" href="#s8" data-sec="8">8. Feature Selection — 통계 기반 검증</a>
 <a class="navlink" href="#s9" data-sec="9">9. Feature Selection — ML 기반 검증</a>
 <a class="navlink" href="#s10" data-sec="10">10. Feature Store — 개념과 운영</a>
-<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">✅ Day2 퀴즈</a>
+<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">Day2 퀴즈</a>
 </div>
   </nav>
   <main>
@@ -1188,7 +1186,7 @@ print(perm_importance.sort_values(ascending=False))</code></pre></div>
   themeBtn.addEventListener('click', ()=>{
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    themeBtn.textContent = isLight ? '🌙 다크 모드' : '☀ 라이트 모드';
+    themeBtn.textContent = isLight ? '다크 모드' : '라이트 모드';
   });
 
   // ==== Quiz logic (3회 재시도 후 해설 공개) ====

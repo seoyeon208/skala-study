@@ -267,24 +267,22 @@
 
 <body class="light">
 <div class="site-topbar">
-  <a href="../../index.html">🏠 Full-stack 학습 홈</a>
+  <a href="../../index.html">학습 홈</a>
   <span class="crumb-sep">/</span>
   <span class="crumb-cur">Agile 방법론과 MSA</span>
+<button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 <div class="layout">
   <nav class="sidebar" id="sidebar">
     <h1>SKALA Agile·MSA</h1>
     <p class="sub">Agile/Scrum 실전 적용부터 MSA 아키텍처 설계·배포까지 · 복습노트</p>
-    <div class="toolbar">
-      <button class="theme-btn" id="themeBtn">🌙 다크 모드</button>
-    </div>
     <input class="search" id="searchBox" type="text" placeholder="검색 (예: Scrum, Backlog, Eureka, Kafka...)">
     <div class="day-group"><div class="day-title d1">Day 1 — Agile 방법론</div>
 <a class="navlink" href="#s1" data-sec="1">1. Agile 개요와 필요성</a>
 <a class="navlink" href="#s2" data-sec="2">2. Scrum 핵심 요소</a>
 <a class="navlink" href="#s3" data-sec="3">3. User Story와 Product Backlog</a>
 <a class="navlink" href="#s4" data-sec="4">4. Agile 실전 흐름 — 모의 프로젝트</a>
-<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">✅ Day1 퀴즈</a>
+<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">Day1 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d2">Day 2 — MSA 아키텍처 핵심</div>
 <a class="navlink" href="#s5" data-sec="5">5. MSA 개요 — 모놀리식과의 차이</a>
@@ -292,14 +290,14 @@
 <a class="navlink" href="#s7" data-sec="7">7. 서비스 디스커버리(Eureka)</a>
 <a class="navlink" href="#s8" data-sec="8">8. Kafka와 비동기 메시징</a>
 <a class="navlink" href="#s9" data-sec="9">9. 컨테이너와 Docker 핵심 개념</a>
-<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">✅ Day2 퀴즈</a>
+<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">Day2 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d3">Day 3 — MSA 서비스 설계 실습</div>
 <a class="navlink" href="#s10" data-sec="10">10. 요구사항 분석과 도메인 분리</a>
 <a class="navlink" href="#s11" data-sec="11">11. 인프라 구성과 서비스간 통신 설계</a>
 <a class="navlink" href="#s12" data-sec="12">12. DB 설계(ERD)와 API 명세 설계</a>
 <a class="navlink" href="#s13" data-sec="13">13. 컨테이너 구성·배포와 Sprint Review</a>
-<a class="navlink" href="#quiz-day3" style="color:var(--accent2);">✅ Day3 퀴즈</a>
+<a class="navlink" href="#quiz-day3" style="color:var(--accent2);">Day3 퀴즈</a>
 </div>
   </nav>
   <main>
@@ -1413,7 +1411,7 @@ docker compose down       # 전체 종료 및 컨테이너 제거</code></pre></
   themeBtn.addEventListener('click', ()=>{
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    themeBtn.textContent = isLight ? '🌙 다크 모드' : '☀ 라이트 모드';
+    themeBtn.textContent = isLight ? '다크 모드' : '라이트 모드';
   });
 
   // ==== Quiz logic (3회 재시도 후 해설 공개) ====

@@ -336,17 +336,17 @@
 
 <body class="light">
 <div class="site-topbar">
-  <a href="../../index.html">🏠 Full-stack 학습 홈</a>
+  <a href="../../index.html">학습 홈</a>
   <span class="crumb-sep">/</span>
   <span class="crumb-cur">데이터 분석을 위한 Python 이해</span>
+<button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 <div class="layout">
   <nav class="sidebar" id="sidebar">
     <h1>SKALA 데이터 분석 Python</h1>
     <p class="sub">이해 및 활용 · 복습노트</p>
     <div class="toolbar">
-      <button class="theme-btn" id="themeBtn">🌙 다크 모드</button>
-      <button class="theme-btn" id="exerciseNavBtn">✏️ 연습문제</button>
+      <button class="theme-btn" id="exerciseNavBtn">연습문제</button>
     </div>
     <input class="search" id="searchBox" type="text" placeholder="검색 (예: 컴프리헨션, Pydantic, DuckDB...)">
     <div class="day-group"><div class="day-title d1">Day 1 — 실행구조·자료구조·함수·타입·품질·비동기</div>
@@ -356,7 +356,7 @@
 <a class="navlink" href="#s4" data-sec="4">4. 타입 힌트와 데이터 모델링</a>
 <a class="navlink" href="#s5" data-sec="5">5. 코드 품질과 기초 테스트</a>
 <a class="navlink" href="#s6" data-sec="6">6. 비동기와 병렬 처리 입문</a>
-<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">✅ Day1 퀴즈</a>
+<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">Day1 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d2">Day 2 — Pandas/Polars·시각화·통계/ML·자동화·구조화</div>
 <a class="navlink" href="#s7" data-sec="7">7. Pandas 2.x 실전</a>
@@ -365,10 +365,10 @@
 <a class="navlink" href="#s10" data-sec="10">10. 기초 통계와 ML 파이프라인 연결</a>
 <a class="navlink" href="#s11" data-sec="11">11. 분석 자동화와 파이프라인 설계</a>
 <a class="navlink" href="#s12" data-sec="12">12. 분석 코드 구조화와 공유</a>
-<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">✅ Day2 퀴즈</a>
+<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">Day2 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title">종합</div>
-<a class="navlink" href="#quiz-dayfinal" style="color:var(--accent2);">📝 과목 마무리 퀴즈</a>
+<a class="navlink" href="#quiz-dayfinal" style="color:var(--accent2);">과목 마무리 퀴즈</a>
 </div>
   </nav>
   <main>
@@ -2043,7 +2043,7 @@ $ jupyter nbconvert --to html notebooks/01_explore.ipynb
   themeBtn.addEventListener('click', ()=>{
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    themeBtn.textContent = isLight ? '🌙 다크 모드' : '☀ 라이트 모드';
+    themeBtn.textContent = isLight ? '다크 모드' : '라이트 모드';
   });
 
   // ---- Python syntax highlighting for code boxes ----

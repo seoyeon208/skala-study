@@ -336,17 +336,17 @@
 
 <body class="light">
 <div class="site-topbar">
-  <a href="../../index.html">🏠 Full-stack 학습 홈</a>
+  <a href="../../index.html">학습 홈</a>
   <span class="crumb-sep">/</span>
   <span class="crumb-cur">Python 기초</span>
+<button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 <div class="layout">
   <nav class="sidebar" id="sidebar">
     <h1>SKALA Python 기초</h1>
     <p class="sub">기초 문법부터 데이터 분석 입문까지 · 복습노트</p>
     <div class="toolbar">
-      <button class="theme-btn" id="themeBtn">🌙 다크 모드</button>
-      <button class="theme-btn" id="exerciseNavBtn">✏️ 연습문제</button>
+      <button class="theme-btn" id="exerciseNavBtn">연습문제</button>
     </div>
     <input class="search" id="searchBox" type="text" placeholder="검색 (예: 컴프리헨션, 데코레이터, DFS, Numpy...)">
     <div class="day-group"><div class="day-title d1">Day 1 — 기초 문법·함수·파일·예외</div>
@@ -354,7 +354,7 @@
 <a class="navlink" href="#s2" data-sec="2">2. 함수와 모듈</a>
 <a class="navlink" href="#s3" data-sec="3">3. 파일 입출력</a>
 <a class="navlink" href="#s4" data-sec="4">4. 예외 처리 및 디버깅</a>
-<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">✅ Day1 퀴즈</a>
+<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">Day1 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d2">Day 2 — OOP·고급 자료구조·데코레이터·병렬·DP</div>
 <a class="navlink" href="#s5" data-sec="5">5. 객체지향 프로그래밍 기초</a>
@@ -362,20 +362,20 @@
 <a class="navlink" href="#s7" data-sec="7">7. 데코레이터와 클로저</a>
 <a class="navlink" href="#s8" data-sec="8">8. 멀티스레딩과 멀티프로세싱</a>
 <a class="navlink" href="#s9" data-sec="9">9. 동적 프로그래밍 기법</a>
-<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">✅ Day2 퀴즈</a>
+<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">Day2 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d3">Day 3 — 선형·비선형 자료구조·알고리즘 기초</div>
 <a class="navlink" href="#s10" data-sec="10">10. 선형 자료구조</a>
 <a class="navlink" href="#s11" data-sec="11">11. 비선형 자료구조</a>
 <a class="navlink" href="#s12" data-sec="12">12. 알고리즘 기초</a>
-<a class="navlink" href="#quiz-day3" style="color:var(--accent2);">✅ Day3 퀴즈</a>
+<a class="navlink" href="#quiz-day3" style="color:var(--accent2);">Day3 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d4">Day 4 — 데이터 분석 개요·Numpy·Pandas·시각화</div>
 <a class="navlink" href="#s13" data-sec="13">13. Python 데이터 분석 개요</a>
 <a class="navlink" href="#s14" data-sec="14">14. Numpy</a>
 <a class="navlink" href="#s15" data-sec="15">15. Pandas</a>
 <a class="navlink" href="#s16" data-sec="16">16. Matplotlib & Seaborn</a>
-<a class="navlink" href="#quiz-day4" style="color:var(--accent2);">✅ Day4 퀴즈</a>
+<a class="navlink" href="#quiz-day4" style="color:var(--accent2);">Day4 퀴즈</a>
 </div>
   </nav>
   <main>
@@ -2254,7 +2254,7 @@ plt.style.use('ggplot')        # matplotlib 자체 스타일</code></pre></div>
   themeBtn.addEventListener('click', ()=>{
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    themeBtn.textContent = isLight ? '🌙 다크 모드' : '☀ 라이트 모드';
+    themeBtn.textContent = isLight ? '다크 모드' : '라이트 모드';
   });
 
   // ---- Python syntax highlighting for code boxes ----

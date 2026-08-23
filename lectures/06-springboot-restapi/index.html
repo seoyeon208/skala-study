@@ -346,31 +346,29 @@
 
 <body class="light">
 <div class="site-topbar">
-  <a href="../../index.html">🏠 Full-stack 학습 홈</a>
+  <a href="../../index.html">학습 홈</a>
   <span class="crumb-sep">/</span>
   <span class="crumb-cur">Java·Spring Boot·REST API</span>
+<button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 <div class="layout">
   <nav class="sidebar" id="sidebar">
     <h1>SKALA Spring Boot·REST API</h1>
     <p class="sub">Java 기초부터 Spring Boot, JPA, 인증·배포까지 · 복습노트</p>
-    <div class="toolbar">
-      <button class="theme-btn" id="themeBtn">🌙 다크 모드</button>
-    </div>
     <input class="search" id="searchBox" type="text" placeholder="검색 (예: DI, JPA, JWT, MSA...)">
     <div class="day-group"><div class="day-title d1">Day 1 — Java 기초와 객체지향</div>
 <a class="navlink" href="#s1" data-sec="1">1. Java 실행 구조와 개발 환경</a>
 <a class="navlink" href="#s2" data-sec="2">2. 객체지향 프로그래밍과 SOLID</a>
 <a class="navlink" href="#s3" data-sec="3">3. Java 기초 문법 — 제어문·배열·메서드</a>
 <a class="navlink" href="#s4" data-sec="4">4. 컬렉션·제네릭·람다와 스트림</a>
-<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">✅ Day1 퀴즈</a>
+<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">Day1 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d2">Day 2 — Spring Boot 시작하기</div>
 <a class="navlink" href="#s5" data-sec="5">5. RESTful API 설계 원칙</a>
 <a class="navlink" href="#s6" data-sec="6">6. Spring과 Spring Boot 개요</a>
 <a class="navlink" href="#s7" data-sec="7">7. Spring Boot 핵심 — IoC·DI·Bean</a>
 <a class="navlink" href="#s8" data-sec="8">8. Configuration과 Profile 관리</a>
-<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">✅ Day2 퀴즈</a>
+<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">Day2 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d3">Day 3 — Spring MVC와 컨테이너</div>
 <a class="navlink" href="#s9" data-sec="9">9. Spring Boot MVC와 Actuator</a>
@@ -378,7 +376,7 @@
 <a class="navlink" href="#s11" data-sec="11">11. Controller와 HTTP 요청 처리</a>
 <a class="navlink" href="#s12" data-sec="12">12. Lombok과 입력값 검증</a>
 <a class="navlink" href="#s13" data-sec="13">13. 예외 처리(ExceptionHandler)</a>
-<a class="navlink" href="#quiz-day3" style="color:var(--accent2);">✅ Day3 퀴즈</a>
+<a class="navlink" href="#quiz-day3" style="color:var(--accent2);">Day3 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d4">Day 4 — 공통 처리와 데이터 접근</div>
 <a class="navlink" href="#s14" data-sec="14">14. 자동 설정과 로그 관리</a>
@@ -386,14 +384,14 @@
 <a class="navlink" href="#s16" data-sec="16">16. JPA 기초 — 엔티티와 연관관계 매핑</a>
 <a class="navlink" href="#s17" data-sec="17">17. JPA Repository — 조회와 트랜잭션</a>
 <a class="navlink" href="#s18" data-sec="18">18. SQL Mapper(MyBatis)</a>
-<a class="navlink" href="#quiz-day4" style="color:var(--accent2);">✅ Day4 퀴즈</a>
+<a class="navlink" href="#quiz-day4" style="color:var(--accent2);">Day4 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d5">Day 5 — 문서화·인증·배포</div>
 <a class="navlink" href="#s19" data-sec="19">19. REST API 문서화(OpenAPI/Swagger)</a>
 <a class="navlink" href="#s20" data-sec="20">20. JWT와 Spring Security</a>
 <a class="navlink" href="#s21" data-sec="21">21. 컨테이너 이해 — Docker와 Kubernetes</a>
 <a class="navlink" href="#s22" data-sec="22">22. MSA와 최신 트렌드</a>
-<a class="navlink" href="#quiz-day5" style="color:var(--accent2);">✅ Day5 퀴즈</a>
+<a class="navlink" href="#quiz-day5" style="color:var(--accent2);">Day5 퀴즈</a>
 </div>
   </nav>
   <main>
@@ -3621,7 +3619,7 @@ docker run -d -p 8080:8080 my-registry.example.com/book-api:1.0</code></pre></di
   themeBtn.addEventListener('click', ()=>{
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    themeBtn.textContent = isLight ? '🌙 다크 모드' : '☀ 라이트 모드';
+    themeBtn.textContent = isLight ? '다크 모드' : '라이트 모드';
   });
 
   // ==== Quiz logic (3회 재시도 후 해설 공개) ====

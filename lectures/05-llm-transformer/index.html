@@ -285,30 +285,28 @@
 
 <body class="light">
 <div class="site-topbar">
-  <a href="../../index.html">🏠 Full-stack 학습 홈</a>
+  <a href="../../index.html">학습 홈</a>
   <span class="crumb-sep">/</span>
   <span class="crumb-cur">LLM과 Transformer 아키텍처</span>
+<button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 <div class="layout">
   <nav class="sidebar" id="sidebar">
     <h1>SKALA LLM & Transformer</h1>
     <p class="sub">아키텍처와 최신 기술 · 복습노트</p>
-    <div class="toolbar">
-      <button class="theme-btn" id="themeBtn">🌙 다크 모드</button>
-    </div>
     <input class="search" id="searchBox" type="text" placeholder="검색 (예: Self-Attention, RLHF, MoE...)">
     <div class="day-group"><div class="day-title d1">Day 1 — Transformer 아키텍처 기초</div>
 <a class="navlink" href="#s1" data-sec="1">1. Intro: Software 3.0</a>
 <a class="navlink" href="#s2" data-sec="2">2. NLP Technical Summary</a>
 <a class="navlink" href="#s3" data-sec="3">3. Math Essentials for Transformer</a>
 <a class="navlink" href="#s4" data-sec="4">4. Transformer</a>
-<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">✅ Day1 퀴즈</a>
+<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">Day1 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d2">Day 2 — Modern LLM</div>
 <a class="navlink" href="#s5" data-sec="5">5. LLMs at Work</a>
 <a class="navlink" href="#s6" data-sec="6">6. LLM Landscape</a>
 <a class="navlink" href="#s7" data-sec="7">7. Modern LLM Technologies</a>
-<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">✅ Day2 퀴즈</a>
+<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">Day2 퀴즈</a>
 </div>
   </nav>
   <main>
@@ -1098,7 +1096,7 @@ reverse()를 사용하면 됩니다.
   themeBtn.addEventListener('click', ()=>{
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    themeBtn.textContent = isLight ? '🌙 다크 모드' : '☀ 라이트 모드';
+    themeBtn.textContent = isLight ? '다크 모드' : '라이트 모드';
   });
 
   // ---- Quiz interactivity ----

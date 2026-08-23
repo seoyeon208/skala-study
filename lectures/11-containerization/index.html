@@ -262,10 +262,10 @@ footer.pagefoot{
 <body class="light container-study">
 
 <div class="site-topbar">
-  <a href="../../index.html">🏠 서연의 학습 홈</a>
+  <a href="../../index.html">학습 홈</a>
   <span class="crumb-sep">/</span>
   <span class="crumb-cur">컨테이너 예습</span>
-  <button class="theme-btn top-theme" id="themeBtn">🌙 다크 모드</button>
+  <button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 
 <div class="shell">
@@ -1034,7 +1034,7 @@ volumes:
 const themeBtn = document.getElementById('themeBtn');
 themeBtn.addEventListener('click', () => {
   document.body.classList.toggle('light');
-  themeBtn.textContent = document.body.classList.contains('light') ? '🌙 다크 모드' : '☀ 라이트 모드';
+  themeBtn.textContent = document.body.classList.contains('light') ? '다크 모드' : '라이트 모드';
 });
 
 const QUESTIONS = [

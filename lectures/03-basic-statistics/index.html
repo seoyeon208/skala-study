@@ -270,17 +270,15 @@
 
 <body class="light">
 <div class="site-topbar">
-  <a href="../../index.html">🏠 Full-stack 학습 홈</a>
+  <a href="../../index.html">학습 홈</a>
   <span class="crumb-sep">/</span>
   <span class="crumb-cur">데이터 분석 개요 및 기초통계</span>
+<button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 <div class="layout">
   <nav class="sidebar" id="sidebar">
     <h1>SKALA 데이터 분석 기초통계</h1>
     <p class="sub">개요 및 기초통계 · 복습노트</p>
-    <div class="toolbar">
-      <button class="theme-btn" id="themeBtn">🌙 다크 모드</button>
-    </div>
     <input class="search" id="searchBox" type="text" placeholder="검색 (예: 상관계수, 회귀, 정규분포...)">
     <div class="day-group"><div class="day-title d1">Day 1 — 기초통계</div>
 <a class="navlink" href="#s1" data-sec="1">1. Intro</a>
@@ -288,13 +286,13 @@
 <a class="navlink" href="#s3" data-sec="3">3. 기술 통계</a>
 <a class="navlink" href="#s4" data-sec="4">4. 추론 통계</a>
 <a class="navlink" href="#s5" data-sec="5">5. 가설 검정</a>
-<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">✅ Day1 퀴즈</a>
+<a class="navlink" href="#quiz-day1" style="color:var(--accent2);">Day1 퀴즈</a>
 </div>
 <div class="day-group"><div class="day-title d2">Day 2 — 상관·회귀분석</div>
 <a class="navlink" href="#s6" data-sec="6">6. 상관관계 분석</a>
 <a class="navlink" href="#s7" data-sec="7">7. 회귀 분석</a>
 <a class="navlink" href="#s8" data-sec="8">8. 선형모형 가정</a>
-<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">✅ Day2 퀴즈</a>
+<a class="navlink" href="#quiz-day2" style="color:var(--accent2);">Day2 퀴즈</a>
 </div>
   </nav>
   <main>
@@ -1152,7 +1150,7 @@
   themeBtn.addEventListener('click', ()=>{
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    themeBtn.textContent = isLight ? '🌙 다크 모드' : '☀ 라이트 모드';
+    themeBtn.textContent = isLight ? '다크 모드' : '라이트 모드';
   });
 
   // ---- Quiz interactivity ----

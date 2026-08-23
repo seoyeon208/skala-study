@@ -35,33 +35,6 @@ body{
 }
 ::selection{background:var(--amber-dim); color:#fff;}
 
-/* ---------- layout ---------- */
-.shell{ display:grid; grid-template-columns: 260px 1fr; min-height:100vh; }
-@media (max-width: 900px){ .shell{ grid-template-columns: 1fr; } .sidebar{ position:static; height:auto; } }
-
-.sidebar{
-  position:sticky; top:0; height:100vh; overflow-y:auto;
-  background:var(--bg-alt); border-right:1px solid var(--line);
-  padding:26px 18px 40px;
-}
-.brand{ padding:0 6px 20px; border-bottom:1px solid var(--line); margin-bottom:16px;}
-.brand .tag{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--amber); text-transform:uppercase;}
-.brand h1{ font-family:var(--disp); font-size:19px; margin:8px 0 4px; line-height:1.3; color:var(--ink);}
-.brand p{ font-size:12.5px; color:var(--ink-faint); margin:0;}
-
-.navlist{ list-style:none; margin:0; padding:0; }
-.navlist li a{
-  display:flex; gap:10px; align-items:baseline;
-  padding:8px 8px; border-radius:7px; text-decoration:none;
-  color:var(--ink-dim); font-size:13.5px; transition:background .15s, color .15s;
-}
-.navlist li a:hover{ background:var(--card); color:var(--ink); }
-.navlist li a .n{ font-family:var(--mono); color:var(--ink-faint); font-size:11.5px; min-width:18px;}
-.navlist .navlist{ margin:6px 0 10px 6px; border-left:1px solid var(--line); padding-left:8px;}
-.navlist .navlist li a{ font-size:12.5px; padding:5px 8px;}
-
-.main{ padding: 46px clamp(20px, 5vw, 64px) 90px; max-width:920px; }
-
 /* ---------- hero ---------- */
 .hero{ margin-bottom:56px; }
 .hero .eyebrow{ font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:.1em; text-transform:uppercase;}
@@ -268,30 +241,32 @@ footer.pagefoot{
   <button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
 </div>
 
-<div class="shell">
-  <nav class="sidebar">
-    <div class="brand">
-      <span class="tag">KDT Cloud · 예습 노트</span>
-      <h1>컨테이너 이해 &<br>앱 컨테이너화</h1>
-      <p>2026.08 · 1일차~2일차 대비 요약</p>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <h1>SKALA 컨테이너</h1>
+    <p class="sub">컨테이너 이해 및 앱 컨테이너화 · 예습노트</p>
+    <input class="search" id="searchBox" type="text" placeholder="검색 (예: namespace, Dockerfile)">
+    <div class="part-group">
+      <div class="part-title">컨테이너 학습 흐름</div>
+      <a class="navlink" href="#ch1">01. 컨테이너의 이해</a>
+      <a class="navlink" href="#ch2">02. 나의 데이터베이스 만들기</a>
+      <a class="navlink" href="#ch3">03. 웹 서비스 컨테이너</a>
+      <a class="navlink" href="#ch4">04. 컨테이너 이미지 구조</a>
+      <a class="navlink" href="#ch5">05. 컨테이너 구조</a>
+      <a class="navlink" href="#ch6">06. 컨테이너 플랫폼</a>
+      <a class="navlink" href="#ch7">07. 컨테이너 기본 활용</a>
+      <a class="navlink" href="#ch8">08. Dockerfile 작성</a>
+      <a class="navlink" href="#ch9">09. Registry Push 실습</a>
+      <a class="navlink" href="#ch10">10. Docker Compose</a>
     </div>
-    <ul class="navlist">
-      <li><a href="#ch1"><span class="n">01</span>컨테이너의 이해</a></li>
-      <li><a href="#ch2"><span class="n">02</span>나의 데이터베이스 만들기</a></li>
-      <li><a href="#ch3"><span class="n">03</span>웹 서비스 컨테이너</a></li>
-      <li><a href="#ch4"><span class="n">04</span>컨테이너 이미지 구조</a></li>
-      <li><a href="#ch5"><span class="n">05</span>컨테이너 구조</a></li>
-      <li><a href="#ch6"><span class="n">06</span>컨테이너 플랫폼</a></li>
-      <li><a href="#ch7"><span class="n">07</span>컨테이너 기본 활용</a></li>
-      <li><a href="#ch8"><span class="n">08</span>Dockerfile 작성</a></li>
-      <li><a href="#ch9"><span class="n">09</span>Registry Push 실습</a></li>
-      <li><a href="#ch10"><span class="n">10</span>Docker Compose</a></li>
-      <li><a href="#confuse"><span class="n">✳</span>헷갈리는 포인트 총정리</a></li>
-      <li><a href="#quiz"><span class="n">Q</span>이해도 확인 퀴즈</a></li>
-    </ul>
+    <div class="part-group">
+      <div class="part-title">마무리</div>
+      <a class="navlink" href="#confuse">헷갈리는 포인트 총정리</a>
+      <a class="navlink" href="#quiz">이해도 확인 퀴즈</a>
+    </div>
   </nav>
 
-  <main class="main">
+  <main>
 
     <div class="hero">
       <span class="eyebrow">Pre-study · 예습용 정리</span>
@@ -1036,6 +1011,26 @@ themeBtn.addEventListener('click', () => {
   document.body.classList.toggle('light');
   themeBtn.textContent = document.body.classList.contains('light') ? '다크 모드' : '라이트 모드';
 });
+
+const navLinks = [...document.querySelectorAll('.navlink')];
+const searchable = [...document.querySelectorAll('details.chapter, #confuse, #quiz')];
+navLinks.forEach(link => link.addEventListener('click', () => {
+  const target = document.querySelector(link.getAttribute('href'));
+  if (target?.matches('details')) target.open = true;
+}));
+document.getElementById('searchBox').addEventListener('input', event => {
+  const query = event.target.value.trim().toLowerCase();
+  searchable.forEach(target => {
+    const match = !query || target.textContent.toLowerCase().includes(query);
+    target.style.display = match ? '' : 'none';
+    if (query && match && target.matches('details')) target.open = true;
+  });
+});
+const sectionObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+  if (!entry.isIntersecting) return;
+  navLinks.forEach(link => link.classList.toggle('active', link.hash === `#${entry.target.id}`));
+}), { rootMargin: '-10% 0px -70% 0px' });
+searchable.forEach(target => sectionObserver.observe(target));
 
 const QUESTIONS = [
   {

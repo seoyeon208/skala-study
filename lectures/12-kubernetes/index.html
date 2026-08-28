@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kubernetes 복습 노트 · 서연의 학습 홈</title>
+<style>
+:root{
+  --bg:#10151b; --bg-alt:#161d25; --card:#1b242e; --card-hi:#212c38; --line:#2a3541;
+  --ink:#e7edf2; --ink-dim:#9db0bf; --ink-faint:#6c7f8d; --amber:#e3a53c;
+  --amber-dim:#7a5c2a; --teal:#5cc8b8; --teal-dim:#2c534d; --red:#e0685a; --green:#7fbf7f;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  --disp:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.65;font-size:15.5px;}
+.site-topbar{display:flex;align-items:center;gap:10px;padding:9px 18px;background:var(--card-hi);border-bottom:1px solid var(--line);font-size:12.5px;position:sticky;top:0;z-index:40;}
+.site-topbar a{color:var(--ink-dim);text-decoration:none;}.crumb-sep{color:var(--line);}.crumb-cur{color:var(--ink);font-weight:600;}
+.theme-btn{padding:8px 12px;border:1px solid var(--line);background:var(--card-hi);color:var(--ink);cursor:pointer;}
+.layout{display:flex;min-height:100vh;}
+.sidebar{width:286px;flex:none;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;padding:20px 14px;background:var(--card);border-right:1px solid var(--line);}
+.sidebar h1{font-size:15px;margin:0 6px 4px;}.sidebar .sub{font-size:11.5px;color:var(--ink-dim);margin:0 6px 16px;}
+.search{width:100%;padding:8px 10px;border:1px solid var(--line);background:var(--card-hi);color:var(--ink);margin-bottom:14px;}
+.part-group{margin-bottom:10px;}.part-title{font-size:11px;letter-spacing:.06em;color:var(--ink-dim);padding:8px 6px 4px;font-weight:700;}
+.navlink{display:block;padding:6px 8px;border-radius:6px;color:var(--ink-dim);text-decoration:none;font-size:13px;margin:1px 0;}
+.navlink:hover{background:var(--card-hi);color:var(--ink);}.navlink.active{background:rgba(227,165,60,.12);color:var(--amber);font-weight:700;}
+main{flex:1;min-width:0;max-width:980px;margin:0 auto;padding:64px 54px 160px;}
+.hero{margin-bottom:56px;}.eyebrow{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;}
+.hero h1{font-family:var(--disp);font-size:clamp(30px,4vw,48px);line-height:1.15;margin:12px 0 14px;}.hero p.lead{color:var(--ink-dim);font-size:16px;max-width:760px;}
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin:18px 0 22px;}.flow-step{background:var(--card-hi);border:1px solid var(--line);border-radius:9px;padding:12px 14px;text-align:center;min-width:96px;flex:1;display:flex;flex-direction:column;justify-content:center;gap:3px;}
+.flow-step .k{font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);text-transform:uppercase;}.flow-step .v{font-size:13px;color:var(--ink);font-weight:600;}.flow-step.accent{border-color:var(--amber-dim);background:rgba(227,165,60,.08);}.flow-step.accent .v{color:var(--amber);}.flow-arrow{color:var(--ink-faint);display:flex;align-items:center;padding:0 7px;}
+details.chapter{scroll-margin-top:70px;margin-bottom:22px;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+details.chapter>summary{list-style:none;cursor:pointer;padding:20px 24px;display:flex;align-items:center;gap:16px;background:var(--card-hi);}details.chapter>summary::-webkit-details-marker{display:none;}
+.ch-num{font-family:var(--mono);font-size:12px;color:var(--bg);background:var(--amber);border-radius:5px;padding:3px 8px;flex:none;}.ch-title{flex:1;}.ch-title h2{font-size:19px;margin:0 0 2px;}.ch-title .sub{color:var(--ink-faint);font-size:12.5px;}.chev{color:var(--ink-faint);transition:transform .2s;}details[open] .chev{transform:rotate(90deg);}
+.ch-body{padding:6px 24px 28px;}.ch-body h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--teal);margin:24px 0 10px;}.ch-body p,.ch-body ul,.ch-body ol{color:var(--ink-dim);}.ch-body ul,.ch-body ol{padding-left:21px;}.ch-body li{margin-bottom:7px;}.ch-body strong{color:var(--ink);}
+pre{background:#0c1015;border:1px solid var(--line);border-radius:8px;padding:14px 16px;overflow-x:auto;margin:9px 0 15px;}code{font-family:var(--mono);font-size:12.6px;color:#c9e6de;line-height:1.65;}.ch-body p code,.ch-body li code,td code{background:#0c1015;padding:1px 6px;border-radius:4px;color:#e3c281;border:1px solid var(--line);}
+.callout,.previewbox{margin:14px 0;padding:14px 16px;border-radius:8px;background:rgba(227,165,60,.07);border:1px solid var(--amber-dim);}.previewbox{background:rgba(92,200,184,.06);border-color:var(--teal-dim);}.lbl{font-family:var(--mono);font-size:11px;color:var(--amber);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:block;}.previewbox .lbl{color:var(--teal);}.callout p,.previewbox p,.callout ul,.previewbox ul{margin:0;font-size:14px;}.callout ul,.previewbox ul{padding-left:18px;}
+table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:13.5px;}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);color:var(--ink-dim);vertical-align:top;}th{color:var(--ink-faint);font-family:var(--mono);font-size:11.5px;}td strong{color:var(--ink);}
+.stackbox{margin:16px 0 20px;}.stackbox .row{display:flex;border:1px solid var(--line);border-radius:8px;margin-bottom:5px;overflow:hidden;}.stackbox .tag{font-family:var(--mono);font-size:10.5px;padding:11px 12px;background:var(--card-hi);color:var(--amber);min-width:142px;border-right:1px solid var(--line);}.stackbox .desc{padding:11px 14px;font-size:12.8px;color:var(--ink-dim);}
+.confuse-grid{display:grid;gap:14px;margin-top:18px;}.confuse-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;}.confuse-card h4{font-size:15.5px;margin:0 0 8px;color:var(--red);}.confuse-card p{color:var(--ink-dim);font-size:13.8px;margin:6px 0 0;}
+#quiz{margin-top:56px;}.quiz-head{margin-bottom:22px;}.quiz-head h2{font-size:26px;margin:10px 0 8px;}.quiz-head p{color:var(--ink-dim);}.qcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:14px;}.qnum{font-family:var(--mono);color:var(--amber);font-size:12px;margin-bottom:8px;}.qtext{font-size:15px;margin-bottom:14px;font-weight:600;}.opts{display:grid;gap:8px;}.opt{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--bg-alt);font-size:13.8px;color:var(--ink-dim);}.opt input{accent-color:var(--teal);}.opt.correct{border-color:var(--green);background:rgba(127,191,127,.08);color:var(--ink);}.opt.wrong{border-color:var(--red);background:rgba(224,104,90,.08);}.explain{display:none;margin-top:12px;padding:12px 14px;border-radius:8px;background:var(--bg-alt);font-size:13.3px;color:var(--ink-dim);}.explain.show{display:block;}.quiz-footer{text-align:center;margin-top:26px;padding:26px;background:var(--card-hi);border-radius:10px;}#scoreText{font-size:22px;color:var(--amber);margin-bottom:8px;}#scoreDetail{color:var(--ink-dim);font-size:13.5px;margin-bottom:16px;}.btn{font-family:var(--mono);font-size:13px;background:var(--amber);color:#171006;border:0;padding:11px 22px;border-radius:7px;cursor:pointer;font-weight:700;}.btn.secondary{background:transparent;border:1px solid var(--line);color:var(--ink-dim);margin-left:8px;}.pagefoot{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12px;font-family:var(--mono);}
+@media(max-width:900px){.sidebar{display:none;}main{width:100%;padding:38px 18px 110px;}.hero h1{font-size:36px;}}
+@media(max-width:680px){.flow{flex-direction:column;}.flow-arrow{transform:rotate(90deg);padding:4px 0;align-self:center;}.stackbox .row{display:block;}.stackbox .tag{display:block;border-right:0;border-bottom:1px solid var(--line);}.ch-body{padding:6px 18px 24px;}table{display:block;overflow-x:auto;}}
+</style>
+<link rel="stylesheet" href="../../assets/seoyeon-journal.css">
+</head>
+<body class="light container-study kubernetes-study">
+
+<div class="site-topbar">
+  <a href="../../index.html">학습 홈</a>
+  <span class="crumb-sep">/</span>
+  <span class="crumb-cur">Kubernetes 복습 노트</span>
+  <button class="theme-btn top-theme" id="themeBtn">다크 모드</button>
+</div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <h1>SKALA Kubernetes</h1>
+    <p class="sub">구조부터 배포·장애 대응까지 · 복습 노트</p>
+    <input class="search" id="searchBox" type="text" placeholder="검색 (예: Pod, Service, probe)">
+    <div class="part-group">
+      <div class="part-title">파트 1 — 큰 그림과 구조</div>
+      <a class="navlink" href="#ch1">01. 왜 Kubernetes인가</a>
+      <a class="navlink" href="#ch2">02. 클러스터 아키텍처</a>
+      <a class="navlink" href="#ch3">03. 생성 요청의 여행</a>
+    </div>
+    <div class="part-group">
+      <div class="part-title">파트 2 — 실행과 배포</div>
+      <a class="navlink" href="#ch4">04. kubectl과 장애 확인</a>
+      <a class="navlink" href="#ch5">05. Pod 생명주기</a>
+      <a class="navlink" href="#ch6">06. Deployment와 롤아웃</a>
+    </div>
+    <div class="part-group">
+      <div class="part-title">파트 3 — 안정성과 통신</div>
+      <a class="navlink" href="#ch7">07. Probe와 리소스</a>
+      <a class="navlink" href="#ch8">08. Service와 Ingress</a>
+      <a class="navlink" href="#ch9">09. DNS·CNI·요청 흐름</a>
+    </div>
+    <div class="part-group">
+      <div class="part-title">파트 4 — 설정과 데이터</div>
+      <a class="navlink" href="#ch10">10. ConfigMap과 Secret</a>
+      <a class="navlink" href="#ch11">11. PV·PVC와 상태 저장</a>
+    </div>
+    <div class="part-group">
+      <div class="part-title">파트 5 — 운영 판단</div>
+      <a class="navlink" href="#ch12">12. 배포 전략·보안·비용</a>
+      <a class="navlink" href="#practice">13. 실습·장애 체크리스트</a>
+    </div>
+    <div class="part-group">
+      <div class="part-title">마무리</div>
+      <a class="navlink" href="#confuse">헷갈리는 포인트</a>
+      <a class="navlink" href="#quiz">상황형 퀴즈 15문항</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <span class="eyebrow">Kubernetes · Review note</span>
+      <h1>Kubernetes 복습 노트</h1>
+      <p class="lead">컨테이너를 여러 서버에서 안정적으로 운영하기 위한 선언형 관리부터 Pod·Deployment·Service·Ingress·스토리지와 실무 장애 대응까지 한 흐름으로 정리했습니다. 명령을 외우기보다 <strong>요청이 어디를 지나고, 누가 원하는 상태를 회복하는지</strong> 설명하는 것이 목표입니다.</p>
+      <div class="flow">
+        <div class="flow-step accent"><span class="k">client</span><span class="v">User</span></div><div class="flow-arrow">→</div>
+        <div class="flow-step"><span class="k">route</span><span class="v">DNS · LB</span></div><div class="flow-arrow">→</div>
+        <div class="flow-step"><span class="k">L7</span><span class="v">Ingress</span></div><div class="flow-arrow">→</div>
+        <div class="flow-step"><span class="k">stable</span><span class="v">Service</span></div><div class="flow-arrow">→</div>
+        <div class="flow-step accent"><span class="k">workload</span><span class="v">Pod · Container</span></div>
+      </div>
+    </div>
+
+    <details class="chapter" id="ch1" open>
+      <summary><span class="ch-num">01</span><div class="ch-title"><h2>왜 Kubernetes인가</h2><span class="sub">명령 모음이 아니라 원하는 상태를 유지하는 운영 시스템</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <h3>Docker 다음에 필요한 것</h3>
+        <p>Docker는 애플리케이션을 이미지로 만들고 컨테이너로 실행합니다. 컨테이너가 수십·수백 개가 되면 어느 서버에 배치할지, 죽었을 때 누가 다시 띄울지, 업데이트 중 트래픽을 어떻게 유지할지를 사람이 직접 처리하기 어렵습니다. Kubernetes는 이 운영 문제를 자동화합니다.</p>
+        <table><tr><th>운영 질문</th><th>Kubernetes의 답</th></tr><tr><td>어디에 실행할까?</td><td>Scheduler가 조건과 자원을 보고 Node를 선택</td></tr><tr><td>죽으면?</td><td>Controller가 desired state와 비교해 다시 생성</td></tr><tr><td>주소가 바뀌면?</td><td>Service가 안정적인 접근점 제공</td></tr><tr><td>업데이트는?</td><td>Deployment가 점진 교체와 롤백 관리</td></tr></table>
+        <h3>선언형 관리와 조정 루프</h3>
+        <pre><code>Manifest(YAML)의 spec: "Pod 3개가 필요하다"
+현재 status: "Pod 2개가 실행 중이다"
+Controller: 차이 1개를 발견 → Pod 1개 생성 → 다시 관찰</code></pre>
+        <ul><li><strong>Manifest</strong>: 원하는 상태를 적은 YAML 파일</li><li><strong>Resource</strong>: API Server에 등록되어 클러스터가 관리하는 객체</li><li><strong>spec</strong>: 사용자가 원하는 상태</li><li><strong>status</strong>: 시스템이 관찰한 현재 상태</li></ul>
+        <div class="callout"><span class="lbl">핵심</span><p><code>kubectl apply</code>가 Pod를 직접 실행하는 것이 아닙니다. 원하는 상태를 API Server에 전달하면 여러 컴포넌트가 계속 비교하고 조정합니다. 이것이 <strong>reconciliation</strong>과 self-healing의 출발점입니다.</p></div>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch2">
+      <summary><span class="ch-num">02</span><div class="ch-title"><h2>클러스터 아키텍처</h2><span class="sub">Control Plane은 판단하고 Worker Node는 실행한다</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <h3>Control Plane</h3>
+        <div class="stackbox">
+          <div class="row"><div class="tag">API Server</div><div class="desc">모든 요청의 입구. 인증·인가·검증 후 상태를 처리한다.</div></div>
+          <div class="row"><div class="tag">etcd</div><div class="desc">클러스터의 상태를 저장하는 분산 Key-Value 저장소. 백업이 곧 클러스터 상태 백업이다.</div></div>
+          <div class="row"><div class="tag">Scheduler</div><div class="desc">Node가 정해지지 않은 Pod를 보고 자원·제약조건에 맞는 Node를 선택한다.</div></div>
+          <div class="row"><div class="tag">Controller Manager</div><div class="desc">Replica·Node·Endpoint 등 현재 상태가 원하는 상태와 같아지도록 조정한다.</div></div>
+          <div class="row"><div class="tag">Cloud Controller</div><div class="desc">클라우드 Load Balancer·Node·Route 같은 외부 인프라와 연결한다.</div></div>
+        </div>
+        <h3>Worker Node</h3>
+        <ul><li><strong>kubelet</strong>: 자신의 Node에서 Pod가 정의대로 실행되는지 관리</li><li><strong>container runtime</strong>: containerd·CRI-O 등이 이미지를 받고 컨테이너 실행</li><li><strong>kube-proxy</strong>: Service 트래픽 전달 규칙 구성</li><li><strong>CNI</strong>: Pod 네트워크와 IP, <strong>CSI</strong>: 스토리지 연결</li></ul>
+        <div class="previewbox"><span class="lbl">EKS 책임 경계</span><p>AWS가 Control Plane의 가용성과 운영을 맡아도, 사용자는 Worker Node·Pod·네트워크·권한·배포 설정과 비용을 관리해야 합니다. <strong>Worker가 없어도 EKS Control Plane 비용은 발생</strong>하므로 만들고 잊어버리면 안 됩니다.</p></div>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch3">
+      <summary><span class="ch-num">03</span><div class="ch-title"><h2>생성 요청의 여행</h2><span class="sub">apply 한 번 뒤에서 누가 어떤 순서로 일하는가</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <h3>Deployment를 적용했을 때</h3>
+        <ol><li><code>kubectl</code>이 kubeconfig의 cluster·user·context를 읽고 API Server에 요청한다.</li><li>API Server가 인증·인가·검증을 거쳐 desired state를 etcd에 저장한다.</li><li>Deployment Controller가 ReplicaSet을, ReplicaSet Controller가 필요한 Pod를 만든다.</li><li>Scheduler가 Pending Pod에 알맞은 Node를 배정한다.</li><li>해당 Node의 kubelet이 CNI로 네트워크를 준비하고 runtime에 컨테이너 실행을 요청한다.</li><li>Probe가 통과해 Ready가 되면 Service Endpoint에 포함되어 트래픽을 받는다.</li></ol>
+        <div class="flow"><div class="flow-step"><span class="k">owner</span><span class="v">Deployment</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">revision</span><span class="v">ReplicaSet</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">runtime</span><span class="v">Pod</span></div></div>
+        <div class="callout"><span class="lbl">자주 겪는 상황</span><p>Deployment가 관리하는 Pod 하나를 직접 삭제하면 Controller가 부족한 개수를 발견해 다시 만듭니다. 서비스를 멈추려면 Pod를 반복 삭제하지 말고 <code>kubectl scale deployment NAME --replicas=0</code> 또는 Deployment 삭제를 사용합니다.</p></div>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch4">
+      <summary><span class="ch-num">04</span><div class="ch-title"><h2>kubectl과 장애 확인</h2><span class="sub">get → describe/Events → logs 순서를 습관으로</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <h3>안전한 적용 흐름</h3>
+        <pre><code>kubectl config current-context
+kubectl config set-context --current --namespace=my-app
+kubectl diff -f app.yaml
+kubectl apply --dry-run=server -f app.yaml
+kubectl apply -f app.yaml
+kubectl rollout status deployment/app</code></pre>
+        <h3>문제 확인 순서</h3>
+        <pre><code>kubectl get pods -o wide
+kubectl describe pod POD_NAME       # 맨 아래 Events 확인
+kubectl logs POD_NAME
+kubectl logs POD_NAME --previous    # 재시작 전 컨테이너 로그
+kubectl get events --sort-by=.lastTimestamp</code></pre>
+        <ul><li><code>Pending</code>: 스케줄링·자원·PVC·IP 부족 가능성</li><li><code>ImagePullBackOff</code>: 이미지 이름·태그·Registry 인증 확인</li><li><code>CrashLoopBackOff</code>: 애플리케이션 종료 원인과 이전 로그 확인</li><li><code>Running</code>이지만 <code>0/1 Ready</code>: readiness probe·의존성 확인</li></ul>
+        <div class="previewbox"><span class="lbl">유용한 보조 명령</span><p><code>kubectl explain deployment.spec.template.spec</code>로 필드를 확인하고, <code>kubectl auth can-i create deployments</code>로 현재 권한을 확인합니다. <code>k</code> 별칭은 입력을 줄일 뿐 동작은 같습니다.</p></div>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch5">
+      <summary><span class="ch-num">05</span><div class="ch-title"><h2>Pod 생명주기</h2><span class="sub">가장 작은 배포 단위이지만 직접 관리하는 단위는 아니다</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <h3>Pod 안에서 공유되는 것</h3>
+        <p>Pod는 같은 Node에서 함께 실행되는 하나 이상의 컨테이너 묶음입니다. 컨테이너들은 <strong>네트워크 namespace와 IP를 공유</strong>하므로 <code>localhost</code>로 통신하고, 선언한 Volume도 함께 사용할 수 있습니다.</p>
+        <table><tr><th>패턴</th><th>역할</th></tr><tr><td>Init Container</td><td>앱 시작 전에 설정·마이그레이션·의존성 확인. 성공해야 앱 컨테이너가 시작</td></tr><tr><td>Sidecar</td><td>로그 수집·프록시처럼 앱을 보조하며 함께 실행</td></tr><tr><td>Ambassador/Adapter</td><td>외부 통신 대리 또는 데이터 형식 변환</td></tr></table>
+        <div class="callout"><span class="lbl">Init Container 주의</span><p>Pod가 다시 생성되면 Init Container도 다시 실행됩니다. 파일이 이미 있거나 마이그레이션 일부가 수행된 상태에서도 안전하도록 <strong>멱등성(idempotency)</strong>을 가져야 합니다.</p></div>
+        <h3>종료 흐름</h3>
+        <p>Pod 삭제 시 Endpoint에서 제외되고 SIGTERM이 전달된 뒤 <code>terminationGracePeriodSeconds</code> 동안 정상 종료를 기다립니다. 애플리케이션이 종료 신호를 처리하고 새 요청을 받지 않게 해야 배포 중 요청 손실을 줄일 수 있습니다.</p>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch6">
+      <summary><span class="ch-num">06</span><div class="ch-title"><h2>Deployment와 롤아웃</h2><span class="sub">ReplicaSet을 통해 Pod 개수와 버전을 관리</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <h3>왜 Pod를 직접 만들지 않는가</h3>
+        <p>Pod는 교체 가능한 실행 단위입니다. Deployment는 새 버전마다 ReplicaSet을 만들고, ReplicaSet은 지정된 수의 Pod를 유지합니다. 운영에서는 Pod보다 Deployment의 <code>replicas</code>와 Pod template을 변경합니다.</p>
+        <pre><code>kubectl set image deployment/app app=registry/app:1.2.0
+kubectl rollout status deployment/app
+kubectl rollout history deployment/app
+kubectl rollout undo deployment/app
+kubectl scale deployment/app --replicas=3</code></pre>
+        <table><tr><th>RollingUpdate 옵션</th><th>의미</th></tr><tr><td><code>maxSurge</code></td><td>기존 replicas보다 추가로 만들 수 있는 최대 Pod 수</td></tr><tr><td><code>maxUnavailable</code></td><td>업데이트 중 사용할 수 없어도 되는 최대 Pod 수</td></tr><tr><td><code>minReadySeconds</code></td><td>Ready 후 안정 상태로 인정하기까지 기다리는 시간</td></tr></table>
+        <div class="callout"><span class="lbl">롤백이 가능한 이유</span><p>이전 ReplicaSet 정보가 남아 있기 때문입니다. 단, 이미지 태그를 계속 덮어쓰는 <code>latest</code>보다 버전 태그나 digest를 써야 어떤 버전으로 돌아가는지 추적할 수 있습니다.</p></div>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch7">
+      <summary><span class="ch-num">07</span><div class="ch-title"><h2>Probe와 리소스</h2><span class="sub">Running·Ready·Healthy를 구분하고 스케줄링 기준을 제공</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <table><tr><th>검사</th><th>질문</th><th>실패 시</th></tr><tr><td><strong>startupProbe</strong></td><td>초기 구동이 끝났는가?</td><td>성공할 때까지 다른 probe 시작을 미룸</td></tr><tr><td><strong>readinessProbe</strong></td><td>지금 요청을 받을 수 있는가?</td><td>Service Endpoint에서 제외</td></tr><tr><td><strong>livenessProbe</strong></td><td>프로세스를 재시작해야 하는가?</td><td>컨테이너 재시작</td></tr></table>
+        <div class="callout"><span class="lbl">무조건 세 개가 정답은 아님</span><p>잘못된 liveness는 일시적인 DB 장애에도 정상 프로세스를 계속 재시작시킬 수 있습니다. 느린 시작에는 startup, 트래픽 제어에는 readiness를 먼저 정확히 설계하고, liveness는 <strong>재시작으로 회복되는 고장</strong>만 검사합니다. 거짓 재시작 위험이 크면 liveness를 생략하는 판단도 가능합니다.</p></div>
+        <h3>requests와 limits</h3>
+        <table><tr><th>필드</th><th>누가 사용하는가</th><th>의미</th></tr><tr><td><code>requests</code></td><td>Scheduler</td><td>배치 판단에 사용하는 보장 요청량</td></tr><tr><td><code>limits</code></td><td>runtime·kernel</td><td>컨테이너가 사용할 수 있는 상한</td></tr></table>
+        <pre><code>resources:
+  requests:
+    cpu: 250m       # 0.25 CPU
+    memory: 256Mi   # 이진 단위
+  limits:
+    cpu: "1"
+    memory: 512Mi</code></pre>
+        <p>CPU 초과는 보통 throttling, 메모리 limit 초과는 OOMKilled로 이어질 수 있습니다. <code>250m</code>는 250밀리코어이며, 메모리의 <code>Mi</code>와 CPU의 <code>m</code>을 혼동하지 않습니다.</p>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch8">
+      <summary><span class="ch-num">08</span><div class="ch-title"><h2>Service와 Ingress</h2><span class="sub">변하는 Pod 앞에 안정적인 주소와 HTTP 라우팅을 둔다</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <h3>Service가 Pod를 찾는 방법</h3>
+        <p>Pod는 재생성될 때 이름과 IP가 달라집니다. Service는 <strong>selector와 일치하는 label</strong>을 가진 Ready Pod들을 Endpoint로 묶고, 고정된 ClusterIP와 DNS 이름을 제공합니다.</p>
+        <pre><code>selector:
+  app: api        # Service
+
+metadata:
+  labels:
+    app: api      # Pod template: 정확히 일치해야 함</code></pre>
+        <table><tr><th>Service 유형</th><th>용도</th></tr><tr><td>ClusterIP</td><td>클러스터 내부 통신의 기본</td></tr><tr><td>NodePort</td><td>각 Node의 포트로 노출, 주로 제한적 실습·구성 요소 연결</td></tr><tr><td>LoadBalancer</td><td>클라우드 외부 LB를 생성해 공개</td></tr><tr><td>ExternalName</td><td>외부 DNS 이름을 내부 Service처럼 참조</td></tr></table>
+        <h3>Ingress의 역할</h3>
+        <p>Ingress는 <code>host/path → Service</code> HTTP(S) 라우팅 규칙이고, 실제 트래픽을 처리하는 <strong>Ingress Controller</strong>가 별도로 있어야 합니다. 규칙만 만들고 Controller가 없으면 동작하지 않습니다.</p>
+        <div class="previewbox"><span class="lbl">비용 관점</span><p>Service마다 LoadBalancer를 만들면 외부 LB 비용이 늘어납니다. 여러 서비스의 도메인·경로 라우팅을 하나의 Ingress 계층에서 공유할 수 있습니다. 관리형 ALB와 NGINX Ingress는 운영 편의·기능·비용이 다르므로 환경에 맞춰 선택합니다.</p></div>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch9">
+      <summary><span class="ch-num">09</span><div class="ch-title"><h2>DNS·CNI·요청 흐름</h2><span class="sub">이름 해석, Pod IP 할당, 패킷 전달을 분리해서 이해</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <h3>내부 통신</h3>
+        <p>애플리케이션은 Pod IP를 하드코딩하지 않고 <code>service-name.namespace.svc.cluster.local</code> 같은 Service DNS를 사용합니다. CoreDNS가 이름을 ClusterIP로 해석하고, kube-proxy 규칙이 Endpoint Pod로 전달합니다.</p>
+        <h3>CNI와 IP 계획</h3>
+        <p>CNI는 Pod 네트워크를 구성합니다. EKS의 VPC CNI에서는 Pod가 VPC 대역의 IP를 사용하므로 subnet의 사용 가능한 IP가 부족하면 Node CPU·메모리가 남아도 Pod가 Pending에 머물 수 있습니다.</p>
+        <div class="flow"><div class="flow-step"><span class="k">name</span><span class="v">CoreDNS</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">virtual IP</span><span class="v">Service</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">rules</span><span class="v">kube-proxy</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">network</span><span class="v">CNI · Pod</span></div></div>
+        <div class="callout"><span class="lbl">port-forward의 경계</span><p><code>kubectl port-forward pod/POD 8080:8080</code>은 내 PC와 특정 리소스 사이에 임시 통로를 여는 <strong>디버깅 도구</strong>입니다. 운영 사용자를 위한 노출 방식은 Service·Ingress이며, 터미널이 끊기면 port-forward도 끝납니다.</p></div>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch10">
+      <summary><span class="ch-num">10</span><div class="ch-title"><h2>ConfigMap과 Secret</h2><span class="sub">이미지와 환경별 설정을 분리하는 12-Factor 원칙</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <p>개발·운영마다 다른 URL이나 옵션을 이미지에 굽지 않고 외부 설정으로 주입하면 같은 이미지를 여러 환경에서 사용할 수 있습니다. 값 하나는 환경변수로, 설정 파일은 Volume으로 마운트할 수 있습니다.</p>
+        <table><tr><th>리소스</th><th>담는 것</th><th>주의</th></tr><tr><td>ConfigMap</td><td>일반 설정, 파일 내용</td><td>비밀값을 넣지 않음</td></tr><tr><td>Secret</td><td>비밀번호·토큰·인증서</td><td>기본 저장은 base64 표현이며 암호화와 다름</td></tr></table>
+        <div class="callout"><span class="lbl">보안 핵심</span><p>base64는 누구나 복원할 수 있는 인코딩입니다. RBAC 최소 권한, etcd encryption at rest, 외부 Secret Manager, 로그·Git 노출 방지를 함께 설계해야 합니다. Manifest에 실제 비밀값을 커밋하지 않습니다.</p></div>
+        <p>환경변수로 주입한 값은 Pod 재시작 전까지 자동 갱신되지 않습니다. Volume 파일은 갱신될 수 있어도 애플리케이션이 다시 읽는지는 별도 문제이므로, 변경 반영 방식까지 정해야 합니다.</p>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch11">
+      <summary><span class="ch-num">11</span><div class="ch-title"><h2>PV·PVC와 상태 저장</h2><span class="sub">Pod 수명과 데이터 수명을 분리하고 접근 모드를 확인</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <div class="stackbox"><div class="row"><div class="tag">PVC</div><div class="desc">사용자가 필요한 용량·접근 모드를 요청</div></div><div class="row"><div class="tag">StorageClass</div><div class="desc">어떤 provisioner와 정책으로 볼륨을 만들지 정의</div></div><div class="row"><div class="tag">PV</div><div class="desc">클러스터가 관리하는 실제 스토리지 자원</div></div><div class="row"><div class="tag">CSI</div><div class="desc">클라우드·스토리지 제품을 Kubernetes와 연결하는 표준 인터페이스</div></div></div>
+        <table><tr><th>접근 모드</th><th>뜻</th></tr><tr><td>ReadWriteOnce (RWO)</td><td>한 Node에서 읽기·쓰기</td></tr><tr><td>ReadOnlyMany (ROX)</td><td>여러 Node에서 읽기 전용</td></tr><tr><td>ReadWriteMany (RWX)</td><td>여러 Node에서 읽기·쓰기, 지원 스토리지 필요</td></tr></table>
+        <p>데이터베이스처럼 각 인스턴스에 안정적인 이름과 개별 볼륨이 필요하면 StatefulSet을 검토합니다. 하지만 Kubernetes 안에 DB를 올리는 것이 항상 최선은 아닙니다. 백업·복구·복제 운영 부담까지 비교해 클라우드 관리형 DB가 더 적합할 수 있습니다.</p>
+        <div class="callout"><span class="lbl">삭제 정책 확인</span><p>PVC나 클러스터를 지웠을 때 실제 볼륨이 남는지는 StorageClass의 reclaim policy에 따라 달라집니다. <code>Delete</code>와 <code>Retain</code>을 확인하지 않고 정리하면 비용이 남거나 데이터가 삭제될 수 있습니다.</p></div>
+      </div>
+    </details>
+
+    <details class="chapter" id="ch12">
+      <summary><span class="ch-num">12</span><div class="ch-title"><h2>배포 전략·보안·비용</h2><span class="sub">무중단은 하나의 기능이 아니라 여러 조건의 조합</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <table><tr><th>전략</th><th>방식</th><th>장단점</th></tr><tr><td>Rolling Update</td><td>기존 Pod를 새 Pod로 점진 교체</td><td>기본 기능으로 간단하지만 두 버전이 잠시 공존</td></tr><tr><td>Blue-Green</td><td>구·신 환경을 모두 준비하고 트래픽 전환</td><td>빠른 전환·복구, 자원 비용 큼</td></tr><tr><td>Canary</td><td>일부 트래픽만 신버전에 보내 지표 확인</td><td>위험을 작게 검증, 라우팅·관측 필요</td></tr></table>
+        <p>세 전략은 서로 배타적인 이름표가 아닙니다. Rolling으로 Pod를 교체하면서 일부 트래픽만 Canary에 보내거나, Blue-Green 환경 안에서 점진 전환하는 식으로 조합할 수 있습니다.</p>
+        <h3>운영 Manifest가 길어지는 이유</h3>
+        <ul><li><code>securityContext</code>로 non-root, capability, read-only filesystem 등을 제한</li><li>requests/limits, probe, graceful shutdown으로 장애와 배포 안정성 확보</li><li>PodDisruptionBudget·anti-affinity·topology spread로 동시 장애 범위 축소</li><li>NetworkPolicy와 RBAC로 통신·API 권한을 최소화</li></ul>
+        <div class="previewbox"><span class="lbl">Cloud 습관</span><p>실습을 마치면 Deployment만이 아니라 LoadBalancer, EKS cluster, Node group, PVC/PV, EBS 같은 과금 자원을 확인합니다. 편의 기능을 만드는 순간 비용과 보안 책임도 함께 생깁니다.</p></div>
+      </div>
+    </details>
+
+    <details class="chapter" id="practice">
+      <summary><span class="ch-num">13</span><div class="ch-title"><h2>실습·장애 체크리스트</h2><span class="sub">증상에서 바로 재시작하지 말고 계층별로 좁힌다</span></div><span class="chev">▸</span></summary>
+      <div class="ch-body">
+        <h3>배포 전</h3>
+        <ul><li>현재 context·namespace와 변경 대상이 맞는지 확인</li><li><code>diff</code>와 server-side dry-run으로 변경 검증</li><li>고유 이미지 태그 또는 digest, Registry 인증 확인</li><li>label/selector, Service <code>targetPort</code>, Ingress host/path 연결 확인</li><li>probe·requests/limits·종료 유예시간 설정</li><li>Secret이 Git과 로그에 노출되지 않았는지 확인</li></ul>
+        <h3>장애가 났을 때</h3>
+        <ol><li><strong>객체 상태</strong>: Deployment·ReplicaSet·Pod·Service·Ingress를 <code>get</code>으로 확인</li><li><strong>이벤트</strong>: <code>describe</code> 맨 아래 Events에서 scheduling·pull·mount 실패 확인</li><li><strong>로그</strong>: 현재 로그와 <code>--previous</code> 로그 확인</li><li><strong>연결 관계</strong>: Service selector와 Endpoint, Ingress backend 확인</li><li><strong>네트워크</strong>: DNS 해석, NetworkPolicy, CNI IP 여유 확인</li><li><strong>자원·스토리지</strong>: requests, quota, PVC Pending, mount 상태 확인</li></ol>
+        <pre><code>kubectl get deploy,rs,pod,svc,ingress -n my-app
+kubectl describe pod POD -n my-app
+kubectl logs POD -n my-app --previous
+kubectl get endpoints,endpointslices -n my-app
+kubectl get pvc -n my-app
+kubectl top pod -n my-app</code></pre>
+        <div class="callout"><span class="lbl">마지막 점검</span><p>“안 된다”를 <strong>Pod가 생성되지 않음 / 실행 후 종료 / Ready가 아님 / Service Endpoint가 없음 / Ingress에서 도달하지 못함</strong>으로 나누면 원인을 훨씬 빨리 찾을 수 있습니다.</p></div>
+      </div>
+    </details>
+
+    <section id="confuse">
+      <div class="quiz-head"><span class="eyebrow">Common traps</span><h2>헷갈리는 포인트 총정리</h2><p>비슷해 보이지만 역할이 다른 개념을 마지막으로 구분합니다.</p></div>
+      <div class="confuse-grid">
+        <div class="confuse-card"><h4>Running ≠ Ready</h4><p>프로세스가 실행 중이어도 readiness가 실패하면 Service 트래픽을 받지 않습니다.</p></div>
+        <div class="confuse-card"><h4>Service ≠ Ingress</h4><p>Service는 Pod 집합의 안정적인 접근점, Ingress는 HTTP(S) host/path를 Service로 보내는 규칙입니다.</p></div>
+        <div class="confuse-card"><h4>Ingress ≠ Ingress Controller</h4><p>Ingress는 선언한 규칙이고 Controller는 그 규칙을 읽어 실제 프록시·LB를 구성하는 실행 주체입니다.</p></div>
+        <div class="confuse-card"><h4>requests ≠ limits</h4><p>requests는 배치 판단 기준, limits는 실행 중 사용 상한입니다.</p></div>
+        <div class="confuse-card"><h4>Secret의 base64 ≠ 암호화</h4><p>base64는 표현 방식일 뿐 보안 기능이 아닙니다. 권한·저장 암호화·외부 비밀 관리가 필요합니다.</p></div>
+        <div class="confuse-card"><h4>CNI ≠ CSI</h4><p>CNI는 네트워크와 Pod IP, CSI는 스토리지 연결을 담당합니다.</p></div>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <div class="quiz-head"><span class="eyebrow">Self check</span><h2>상황형 복습 퀴즈</h2><p>정답을 고르면 바로 해설이 나옵니다. 정의보다 실제 상황에서의 판단을 확인해보세요.</p></div>
+      <div id="quizForm"></div>
+      <div class="quiz-footer"><div id="scoreText">아직 채점되지 않았습니다</div><div id="scoreDetail">모든 문제를 풀면 자동으로 점수가 계산됩니다.</div><button class="btn" onclick="calcScore()">채점하기</button><button class="btn secondary" onclick="resetQuiz()">다시 풀기</button></div>
+    </section>
+
+    <footer class="pagefoot">KDT Cloud · Kubernetes 이해 및 앱 배포 (2026.08) — 서연의 개인 복습 노트</footer>
+  </main>
+</div>
+
+<script>
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  themeBtn.textContent = document.body.classList.contains('light') ? '다크 모드' : '라이트 모드';
+});
+
+const navLinks = [...document.querySelectorAll('.navlink')];
+const searchable = [...document.querySelectorAll('details.chapter, #confuse, #quiz')];
+navLinks.forEach(link => link.addEventListener('click', () => {
+  const target = document.querySelector(link.getAttribute('href'));
+  if (target?.matches('details')) target.open = true;
+}));
+document.getElementById('searchBox').addEventListener('input', event => {
+  const query = event.target.value.trim().toLowerCase();
+  searchable.forEach(target => {
+    const match = !query || target.textContent.toLowerCase().includes(query);
+    target.style.display = match ? '' : 'none';
+    if (query && match && target.matches('details')) target.open = true;
+  });
+});
+const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+  if (!entry.isIntersecting) return;
+  navLinks.forEach(link => link.classList.toggle('active', link.hash === `#${entry.target.id}`));
+}), {rootMargin:'-10% 0px -70% 0px'});
+searchable.forEach(target => observer.observe(target));
+
+const QUESTIONS = [
+  {
+    q: "Deployment가 관리하는 Pod를 삭제했는데 잠시 후 다시 생겼다. 이유는?",
+    opts: ["kubelet이 삭제를 거부해서", "Controller가 desired state의 replicas와 현재 상태 차이를 복구해서", "Service가 Pod를 복사해서", "etcd가 이미지를 실행해서"],
+    correct: 1,
+    explain: "Deployment와 ReplicaSet Controller는 원하는 Pod 개수를 계속 유지합니다. 완전히 멈추려면 replicas를 0으로 만들거나 Deployment를 삭제해야 합니다."
+  },
+  {
+    q: "Pod 상태는 Running이지만 사용자의 요청을 받지 못한다. 가장 먼저 함께 볼 값은?",
+    opts: ["Ready 상태와 readiness probe", "이미지 레이어 수", "etcd 백업 크기", "Dockerfile의 EXPOSE"],
+    correct: 0,
+    explain: "Running은 프로세스 실행 상태이고 Ready는 트래픽 수신 가능 상태입니다. readiness 실패 Pod는 Service Endpoint에서 제외됩니다."
+  },
+  {
+    q: "애플리케이션이 느리게 시작해 liveness 검사에 계속 실패하고 재시작한다. 가장 알맞은 보완은?",
+    opts: ["replicas를 무조건 10개로 늘린다", "startupProbe를 두고 liveness 조건도 재시작으로 회복되는 고장만 검사한다", "Service를 삭제한다", "모든 limit을 제거한다"],
+    correct: 1,
+    explain: "startupProbe가 초기 구동 시간을 보호합니다. liveness는 재시작이 해결책인 상태만 검사해야 거짓 재시작을 막을 수 있습니다."
+  },
+  {
+    q: "Node의 CPU와 메모리가 남아 있는데 EKS의 새 Pod들이 Pending이다. 추가로 확인할 항목은?",
+    opts: ["VPC subnet의 사용 가능한 Pod IP", "Git commit 개수", "Ingress 도메인의 길이", "Secret의 이름 순서"],
+    correct: 0,
+    explain: "VPC CNI에서는 Pod가 VPC IP를 소비합니다. subnet IP 부족도 Pod 스케줄·네트워크 준비 실패의 원인이 됩니다."
+  },
+  {
+    q: "Service가 존재하지만 Endpoint가 비어 있다. 가장 가능성이 높은 설정 오류는?",
+    opts: ["Service selector와 Pod label 불일치", "Pod 이미지에 curl이 없음", "kubectl 별칭을 쓰지 않음", "Control Plane이 관리형임"],
+    correct: 0,
+    explain: "Service는 selector가 일치하고 Ready인 Pod를 Endpoint로 구성합니다. label/selector와 readiness를 확인해야 합니다."
+  },
+  {
+    q: "Ingress YAML을 적용했지만 외부 요청이 전혀 들어오지 않는다. 반드시 확인할 구성 요소는?",
+    opts: ["Ingress Controller", "Init Container 개수", "PVC access mode", "ReplicaSet history"],
+    correct: 0,
+    explain: "Ingress는 라우팅 규칙일 뿐입니다. 실제로 규칙을 읽고 프록시나 LB를 구성하는 Ingress Controller가 필요합니다."
+  },
+  {
+    q: "Secret의 data 값이 base64로 저장되어 있다. 이에 대한 올바른 판단은?",
+    opts: ["충분히 암호화되었다", "인코딩일 뿐이므로 RBAC와 저장 암호화 등 추가 보호가 필요하다", "Pod에서 절대 복원할 수 없다", "ConfigMap보다 항상 공개적이다"],
+    correct: 1,
+    explain: "base64는 암호화가 아니며 쉽게 복원됩니다. 최소 권한, encryption at rest, 외부 Secret Manager 등을 함께 고려합니다."
+  },
+  {
+    q: "requests.cpu가 250m인 컨테이너의 의미로 옳은 것은?",
+    opts: ["CPU 250개", "CPU 0.25개를 스케줄링 요청량으로 사용", "메모리 250Mi", "250초 동안만 실행"],
+    correct: 1,
+    explain: "CPU 1000m가 1 core입니다. requests는 Scheduler의 배치 판단 기준이고 limits는 실행 상한입니다."
+  },
+  {
+    q: "재시작이 반복되는 Pod의 직전 컨테이너 종료 로그를 확인하는 명령은?",
+    opts: ["kubectl logs POD --previous", "kubectl get pod --future", "kubectl apply --old", "kubectl describe service --logs"],
+    correct: 0,
+    explain: "현재 컨테이너 로그와 함께 --previous 로그를 확인하면 CrashLoopBackOff 직전의 오류를 볼 수 있습니다."
+  },
+  {
+    q: "여러 내부 서비스마다 별도의 클라우드 LoadBalancer 비용이 발생한다. 일반적인 개선 방향은?",
+    opts: ["모든 Pod IP를 사용자에게 공개", "Ingress 계층에서 여러 host/path를 Service로 라우팅", "etcd를 외부에 공개", "Service를 모두 삭제"],
+    correct: 1,
+    explain: "하나의 Ingress 계층에서 여러 HTTP(S) 경로를 공유하면 외부 LB 수를 줄일 수 있습니다. 환경별 비용과 운영 편의는 별도 비교해야 합니다."
+  },
+  {
+    q: "Init Container가 재시도될 때 데이터가 중복 생성된다. 설계에서 놓친 성질은?",
+    opts: ["멱등성", "가상화", "오버커밋", "로드밸런싱"],
+    correct: 0,
+    explain: "Init Container는 Pod 재생성과 실패 재시도 때 다시 실행될 수 있으므로 여러 번 실행해도 결과가 안전해야 합니다."
+  },
+  {
+    q: "운영 서비스 노출을 kubectl port-forward로 유지하려는 계획의 문제는?",
+    opts: ["항상 HTTPS만 지원한다", "로컬 디버깅용 임시 통로이며 세션 종료 시 끊어진다", "Pod IP를 영구 고정한다", "Control Plane 비용을 없앤다"],
+    correct: 1,
+    explain: "port-forward는 디버깅에 편리하지만 운영 진입점이 아닙니다. 사용자 트래픽은 Service와 Ingress 같은 정식 경로로 노출합니다."
+  },
+  {
+    q: "업데이트 도중 새 Pod가 Ready 전에 기존 Pod들이 빠져 요청이 실패한다. 관련 설정으로 가장 가까운 것은?",
+    opts: ["readinessProbe와 maxUnavailable", "Secret base64", "CoreDNS 도메인", "PVC reclaim policy만"],
+    correct: 0,
+    explain: "새 Pod가 실제 준비된 뒤 트래픽을 받아야 하며, RollingUpdate의 maxUnavailable로 동시에 빠지는 수를 제한합니다."
+  },
+  {
+    q: "여러 Node에서 동시에 읽기·쓰기해야 하는 공유 볼륨이 필요하다. 확인할 접근 모드는?",
+    opts: ["RWO", "ROX", "RWX", "CNI"],
+    correct: 2,
+    explain: "RWX는 여러 Node의 읽기·쓰기를 뜻합니다. 단, 실제 StorageClass와 스토리지 제품이 이를 지원해야 합니다."
+  },
+  {
+    q: "Canary와 Rolling Update에 대한 설명으로 옳은 것은?",
+    opts: ["둘은 절대로 함께 사용할 수 없다", "Canary는 일부 트래픽으로 검증하는 전략이고 Pod 교체에는 Rolling을 조합할 수 있다", "Canary는 스토리지 종류다", "Rolling은 항상 두 배의 전체 환경이 필요하다"],
+    correct: 1,
+    explain: "배포 전략은 서로 배타적이지 않습니다. 트래픽 분배와 Pod 교체 방식을 조합해 위험과 비용을 조절할 수 있습니다."
+  }
+];
+
+const form = document.getElementById('quizForm');
+QUESTIONS.forEach((item, qi) => {
+  const card = document.createElement('div');
+  card.className = 'qcard';
+  card.innerHTML = `<div class="qnum">Q${qi + 1} / ${QUESTIONS.length}</div><div class="qtext">${item.q}</div><div class="opts" id="opts-${qi}">${item.opts.map((option, oi) => `<label class="opt" data-oi="${oi}"><input type="radio" name="q${qi}" value="${oi}"><span>${option}</span></label>`).join('')}</div><div class="explain" id="explain-${qi}"><strong>해설.</strong> ${item.explain}</div>`;
+  form.appendChild(card);
+});
+
+form.addEventListener('change', event => {
+  if (event.target.type !== 'radio') return;
+  const qi = Number(event.target.name.slice(1));
+  const chosen = Number(event.target.value);
+  document.querySelectorAll(`#opts-${qi} .opt`).forEach(label => {
+    const oi = Number(label.dataset.oi);
+    label.classList.toggle('correct', oi === QUESTIONS[qi].correct);
+    label.classList.toggle('wrong', oi === chosen && oi !== QUESTIONS[qi].correct);
+    label.querySelector('input').disabled = true;
+  });
+  document.getElementById(`explain-${qi}`).classList.add('show');
+});
+
+function calcScore(){
+  let answered = 0;
+  let correct = 0;
+  QUESTIONS.forEach((item, qi) => {
+    const checked = document.querySelector(`input[name="q${qi}"]:checked`);
+    if (!checked) return;
+    answered += 1;
+    if (Number(checked.value) === item.correct) correct += 1;
+  });
+  document.getElementById('scoreText').textContent = answered ? `${correct} / ${QUESTIONS.length} 정답` : '아직 답을 고르지 않았습니다';
+  document.getElementById('scoreDetail').textContent = answered < QUESTIONS.length ? `${QUESTIONS.length - answered}문제가 남았습니다.` : correct >= 12 ? '핵심 흐름을 잘 이해했습니다.' : '틀린 문제의 연결 개념을 본문에서 다시 확인해보세요.';
+}
+
+function resetQuiz(){
+  document.querySelectorAll('.opt').forEach(label => {
+    label.classList.remove('correct', 'wrong');
+    label.querySelector('input').checked = false;
+    label.querySelector('input').disabled = false;
+  });
+  document.querySelectorAll('.explain').forEach(item => item.classList.remove('show'));
+  document.getElementById('scoreText').textContent = '아직 채점되지 않았습니다';
+  document.getElementById('scoreDetail').textContent = '모든 문제를 풀면 자동으로 점수가 계산됩니다.';
+}
+</script>
+</body>
+</html>

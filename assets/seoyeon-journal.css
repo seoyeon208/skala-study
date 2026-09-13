@@ -336,3 +336,106 @@ body.container-study {
   .sec, .quiz-wrap { padding: 24px 18px 27px; }
   .flow { grid-template-columns: 1fr; }
 }
+
+/* Global readability scale */
+html body {
+  font-size: 17px;
+  line-height: 1.78;
+}
+html body .site-topbar { font-size: 14px; }
+html body .site-topbar .top-theme { font-size: 13px; }
+html body .sidebar h1 { font-size: 20px; }
+html body .sidebar .sub { font-size: 13.5px; }
+html body .sidebar .day-title,
+html body .sidebar .part-title { font-size: 12px; }
+html body .sidebar .navlink {
+  padding-block: 9px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+html body .hero p,
+html body .page-head p,
+html body p.lead { font-size: 18px; }
+html body .card p,
+html body .howto p,
+html body .steps li { font-size: 16px; }
+html body .section-sub { font-size: 16px; }
+
+html body .sec p {
+  font-size: 17px;
+  line-height: 1.82;
+}
+html body .sec li {
+  font-size: 17px;
+  line-height: 1.82;
+}
+html body .ch-body p {
+  font-size: 17px;
+  line-height: 1.82;
+}
+html body .ch-body li {
+  font-size: 17px;
+  line-height: 1.82;
+}
+html body .subtitle { font-size: 15.5px; line-height: 1.7; }
+html body .sec h2,
+html body .ch-title h2 { font-size: 25px; }
+html body .sec h3,
+html body .ch-body h3 { font-size: 20px; }
+html body .sec h4,
+html body .confuse-card h4 { font-size: 17px; }
+
+html body table { font-size: 15px; }
+html body table th { font-size: 14px; line-height: 1.55; }
+html body table td { font-size: 15px; line-height: 1.7; }
+html body pre code {
+  font-size: 14px;
+  line-height: 1.75;
+}
+html body .codebox code,
+html body .sqlbox code { font-size: 14px; }
+
+html body .tldr .txt,
+html body .prof p,
+html body .confuse p,
+html body .callout p,
+html body .callout li,
+html body .previewbox p,
+html body .previewbox li,
+html body .stackbox .desc { font-size: 16px; line-height: 1.75; }
+html body .quiz-qtext,
+html body .qtext { font-size: 17px; }
+html body .quiz-opt { font-size: 15px; }
+html body .opt,
+html body .explain,
+html body .quiz-feedback { font-size: 15px; line-height: 1.65; }
+html body .cp li { font-size: 16px; line-height: 1.75; }
+html body .cphead,
+html body .callout .ctitle { font-size: 14px; }
+html body .faq .fq,
+html body .faq .fa { font-size: 16px; line-height: 1.75; }
+html body .formula .cap { font-size: 14px; }
+html body .overview-card p,
+html body .compare-card p,
+html body .quiz-wrap > p,
+html body .day-header p { font-size: 16px; line-height: 1.7; }
+html body .note,
+html body .quiz-short input,
+html body .quiz-check { font-size: 15px; }
+html body .quiz-score { font-size: 14px; }
+html body .codehead,
+html body .flow-step .k { font-size: 12.5px; }
+html body .flow-step .v { font-size: 15px; }
+html body .ch-title .sub { font-size: 14px; }
+html body .stackbox .tag,
+html body .qnum,
+html body #scoreDetail { font-size: 13.5px; }
+html body .badges span,
+html body .card .tags span,
+html body .part-badge,
+html body .qtype,
+html body .lbl { font-size: 12.5px; }
+html body figcaption { font-size: 14px !important; line-height: 1.6; }
+html body footer,
+html body .pagefoot { font-size: 13.5px; }

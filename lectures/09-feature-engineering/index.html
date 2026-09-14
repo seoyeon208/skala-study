@@ -312,6 +312,13 @@
     <h2><span class="num">1.</span> Feature Engineering 개요</h2>
   </div>
   <p class="subtitle">Feature Engineering의 정의 · Garbage In, Garbage Out · 데이터 분석/ML 파이프라인에서의 위치 · 모델 성능에 미치는 실질적 영향</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="원시 데이터에서 변수를 생성하고 변환 및 선택한 뒤 모델에 입력하는 Feature Engineering 흐름">
+    <div class="viz-node"><span>INPUT</span><strong>Raw Data</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>CREATE</span><strong>파생 변수 생성</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>TRANSFORM</span><strong>변환</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>SELECT</span><strong>Feature 선택</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>OUTPUT</span><strong>Model</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: <b>Feature Engineering</b>은 원본 데이터를 모델이 잘 학습할 수 있는 형태의 변수(feature)로 가공하는 과정이에요. 아무리 성능 좋은 알고리즘을 쓰더라도 입력으로 들어가는 피처가 부실하면 좋은 결과가 나올 수 없다는 <b>"Garbage In, Garbage Out"</b> 원칙이 이 챕터 전체를 관통하는 핵심이에요. 이번 장에서는 Feature Engineering이 정확히 무엇이고, 전체 데이터 분석/ML 파이프라인 어디쯤에 위치하는지 큰 그림을 잡아봐요. 예제 데이터는 <b>중고차 가격 예측</b>(주행거리, 연식, 브랜드, 사고이력 등)을 계속 사용할 거예요.</div></div>
 
   <h3>1) 이 강의를 대하는 태도 — "엔진 전문가"보다 "운전자"</h3>
@@ -399,6 +406,12 @@
     <h2><span class="num">2.</span> 결측값 처리</h2>
   </div>
   <p class="subtitle">결측값이 문제가 되는 이유 · 제거 vs 대체(평균/중앙값/최빈값) vs 보간법 · MCAR·MAR·MNAR · 상황별 처리 전략 선택 기준</p>
+  <div class="learning-viz viz-compare" role="img" aria-label="MCAR, MAR, MNAR 결측이 각각 어떤 정보에 의존하는지 비교">
+    <div class="viz-panel"><span>MCAR</span><strong>어떤 관측값에도 무관</strong><p>완전히 무작위로 빠짐</p></div>
+    <div class="viz-panel is-accent"><span>MAR</span><strong>관측된 다른 변수에 의존</strong><p>보이는 정보로 결측을 설명할 수 있음</p></div>
+    <div class="viz-panel"><span>MNAR</span><strong>빠진 값 자체에 의존</strong><p>결측 원인 모델링이 필요할 수 있음</p></div>
+  </div>
+  <div class="callout"><div class="ctitle">누수 방지 경계</div><p>평균·중앙값 같은 대체 기준은 <b>Train에서만 계산</b>하고, 그 값을 Validation과 Test에 그대로 적용합니다.</p></div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 결측값(missing value)은 그냥 "빈칸"이 아니라, 방치하면 모델을 아예 학습시킬 수 없거나 통계량을 왜곡시키는 <b>실질적인 문제</b>예요. 무조건 지우는 것도, 무조건 채워 넣는 것도 정답이 아니고, <b>왜 결측이 발생했는지</b>를 먼저 파악한 뒤 상황에 맞는 전략을 골라야 해요.</div></div>
 
   <h3>1) 결측값이 왜 문제인가</h3>
@@ -1035,6 +1048,12 @@ print(perm_importance.sort_values(ascending=False))</code></pre></div>
     <h2><span class="num">10.</span> Feature Store — 개념과 운영</h2>
   </div>
   <p class="subtitle">Feature Store의 정의 · Training-Serving Consistency · Feature Store가 없을 때 생기는 문제 · 데이터 사이언티스트에게 주는 이점</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="Feature를 계산해 Registry에 등록하고 Offline과 Online Store에서 학습과 서빙에 일관되게 제공하는 흐름">
+    <div class="viz-node"><span>OFFLINE</span><strong>Feature 계산</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>DEFINE</span><strong>Registry</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>STORE</span><strong>Offline · Online</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>USE</span><strong>Training · Serving</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 지금까지 6~9장에서 만든 파생 변수들(연간 평균 주행거리, 감가율 등)을 <b>한 사람, 한 프로젝트에서만 쓰고 끝내지 않고, 여러 팀이 재사용하고 실시간 서비스에서도 동일하게 활용</b>하려면 어떻게 관리해야 할까요? 그 답이 <b>Feature Store</b>예요. Feature를 계산해서 끝나는 게 아니라, 저장하고, 관리하고, 안정적으로 서빙하는 중앙 인프라라고 보면 돼요.</div></div>
 
   <h3>1) Feature Store란 무엇인가</h3>

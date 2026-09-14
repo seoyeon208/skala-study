@@ -60,7 +60,7 @@
   <div class="page-head"><h1>Vue.js 핵심 — 4일 강의 완전 복습</h1><p>4일 강의와 275쪽 강의자료의 핵심을 정리했습니다. 설명 → 코드 → 헷갈림 → 퀴즈 순서로 이 페이지만 읽어도 전체 흐름을 다시 잡을 수 있습니다.</p><div class="badges"><span>Modern JavaScript</span><span>Composition API</span><span>Components</span><span>Router·Pinia·Axios</span><span>Vite Build</span></div></div>
 
   <section class="sec" id="vue-flow"><div class="sec-head"><span class="part-badge p1">START</span><h2>Vue 전체 흐름 한눈에 보기</h2></div><p class="subtitle">문법을 따로 외우지 말고 데이터가 화면과 서버 사이를 이동하는 순서로 이해하세요.</p>
-    <div class="overview-grid">
+    <div class="overview-grid learning-viz" role="img" aria-label="JavaScript 데이터 처리부터 Vue 반응성, 컴포넌트, 앱 구조, 네트워크, 배포까지의 전체 흐름">
       <div class="overview-card"><span>01 · JAVASCRIPT</span><b>데이터를 읽고 가공한다</b><p>객체·배열·함수·비동기로 API 응답을 다룬다.</p></div>
       <div class="overview-card"><span>02 · REACTIVITY</span><b>상태가 화면을 움직인다</b><p><code>ref</code>로 상태를 만들고 <code>computed</code>로 파생값을 만든다.</p></div>
       <div class="overview-card"><span>03 · COMPONENT</span><b>화면을 책임별로 나눈다</b><p>데이터는 Props로 내리고 변경 요청은 Emits로 올린다.</p></div>
@@ -128,7 +128,7 @@ const copied = [...cities] // 새 배열이지만 내부 객체는 같은 참조
 
   <details class="study-part">
   <summary class="study-summary"><span class="part-badge p2">파트 2</span><span>Vue 문법 — 상태와 화면을 연결하는 규칙</span></summary>
-  <section class="sec" id="part-2"><div class="sec-head"><span class="part-badge p2">파트 2</span><h2>Vue 문법 핵심 지도</h2></div><p class="subtitle">데이터가 바뀌면 화면이 따라 바뀌는 규칙</p><div class="flow"><div>상태<br><b>script setup</b></div><div>화면<br><b>template</b></div><div>표현<br><b>directives</b></div><div>사용자 입력<br><b>events·v-model</b></div></div></section>
+  <section class="sec" id="part-2"><div class="sec-head"><span class="part-badge p2">파트 2</span><h2>Vue 문법 핵심 지도</h2></div><p class="subtitle">데이터가 바뀌면 화면이 따라 바뀌는 규칙</p><div class="flow learning-viz" role="img" aria-label="Vue 상태가 template과 directive로 표현되고 사용자 입력으로 갱신되는 흐름"><div>상태<br><b>script setup</b></div><div>화면<br><b>template</b></div><div>표현<br><b>directives</b></div><div>사용자 입력<br><b>events·v-model</b></div></div></section>
 
   <section class="sec" id="s4"><div class="sec-head"><span class="part-badge p2">파트 2</span><h2><span class="num">4.</span>Vue·SPA·SFC의 큰 그림</h2></div><p class="subtitle">MVVM · Virtual DOM · Single Page Application · Vite</p>
     <div class="tldr"><span class="icon">💡</span><div class="txt"><b>상태가 원인이고 DOM은 결과</b>입니다. 직접 DOM을 고치기보다 상태를 바꾸면 Vue가 필요한 화면만 갱신합니다.</div></div>
@@ -218,7 +218,7 @@ watch(() =&gt; user.value.age, (newAge, oldAge) =&gt; {
   </section>
 
   <section class="sec" id="s9"><div class="sec-head"><span class="part-badge p3">파트 3</span><h2><span class="num">9.</span>컴포넌트 Lifecycle</h2></div><p class="subtitle">생성 · 마운트 · 업데이트 · 언마운트</p>
-    <div class="flow"><div>setup 실행<br>상태·함수 준비</div><div>onMounted<br>DOM·초기 요청</div><div>onUpdated<br>DOM 갱신 후</div><div>onUnmounted<br>타이머·리스너 정리</div></div>
+    <div class="flow learning-viz" role="img" aria-label="Vue 컴포넌트가 setup, mounted, updated, unmounted 순으로 실행되는 생명주기"><div>setup 실행<br>상태·함수 준비</div><div>onMounted<br>DOM·초기 요청</div><div>onUpdated<br>DOM 갱신 후</div><div>onUnmounted<br>타이머·리스너 정리</div></div>
     <div class="codebox"><div class="codehead">생성한 자원은 반드시 정리한다</div><pre><code>import { onMounted, onUnmounted } from 'vue'
 
 let timerId
@@ -246,7 +246,7 @@ onUnmounted(() =&gt; {
 
   <section class="sec" id="s10"><div class="sec-head"><span class="part-badge p4">파트 4</span><h2><span class="num">10.</span>컴포넌트·Props·Emits</h2></div><p class="subtitle">데이터는 아래로, 이벤트는 위로</p>
     <div class="prof"><strong>🎙 교수님 최중요 포인트</strong>전체 강의에서 가장 어렵고 중요한 부분으로 Props와 Emits를 꼽았습니다. 부모가 상태를 소유하고, 자식은 읽은 뒤 변경이 필요하면 이벤트로 요청합니다.</div>
-    <div class="flow"><div>Parent state</div><div>↓ Props<br>읽기 전용</div><div>Child</div><div>↑ Emits<br>변경 요청</div></div>
+    <div class="flow learning-viz" role="img" aria-label="부모 상태가 Props로 자식에게 내려가고 자식의 변경 요청이 Emits로 부모에게 올라가는 흐름"><div>Parent state</div><div>↓ Props<br>읽기 전용</div><div>Child</div><div>↑ Emits<br>변경 요청</div></div>
     <div class="codebox"><div class="codehead">ChildCard.vue</div><pre><code>&lt;script setup&gt;
 const props = defineProps({
   cityName: { type: String, required: true },

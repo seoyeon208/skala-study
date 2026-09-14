@@ -14,6 +14,8 @@ PAGE_MINIMUMS = {
     "lectures/06-springboot-restapi/index.html": 3,
     "lectures/07-agile-msa/index.html": 4,
     "lectures/08-sllm-finetuning/index.html": 3,
+    "lectures/09-feature-engineering/index.html": 3,
+    "lectures/10-vue-framework/index.html": 4,
 }
 
 

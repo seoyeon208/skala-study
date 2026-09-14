@@ -389,6 +389,12 @@
     <h2><span class="num">1.</span> 실행 구조와 개발 환경</h2>
   </div>
   <p class="subtitle">인터프리터 · AST · 바이트코드 · PVM · venv</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="Python 소스 코드가 인터프리터에서 바이트코드로 변환되어 Python 가상 머신에서 실행되는 흐름">
+    <div class="viz-node"><span>SOURCE</span><strong>소스 코드</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>COMPILE</span><strong>Interpreter</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>RESULT</span><strong>Bytecode</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>RUN</span><strong>Python VM</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 파이썬은 소스코드를 기계어로 바로 바꾸지 않고, 중간에 <b>바이트코드</b>라는 요약본을 만든 다음 그걸 <b>PVM</b>(가상머신)이 한 줄씩 실행해요. 이 흐름을 알면 왜 컴프리헨션이 빠른지, 왜 에러 traceback이 그렇게 생기는지 이해가 쉬워져요.</div></div>
 
   <h4>Python — 왜 데이터 분석의 표준 언어인가?</h4>
@@ -1152,6 +1158,10 @@ print(sys.getsizeof(gen))  # ~112B</code></pre></div>
     <h2><span class="num">7.</span> Pandas 2.x 실전</h2>
   </div>
   <p class="subtitle">DataFrame · EDA · 결측치·이상치 · groupby · pivot · merge · CoW</p>
+  <div class="learning-viz viz-compare" role="img" aria-label="Pandas loc와 iloc의 선택 기준 비교">
+    <div class="viz-panel is-accent"><span>LOC</span><strong>행·열의 이름으로 선택</strong><p><code>df.loc['A', 'score']</code></p></div>
+    <div class="viz-panel"><span>ILOC</span><strong>정수 위치로 선택</strong><p><code>df.iloc[0, 2]</code></p></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: <b>DataFrame</b>은 코드로 다루는 엑셀 시트예요. info()/describe()로 훑어보고, 결측치·이상치를 손질한 다음, groupby로 묶어서 집계해요. Pandas 2.x는 기본적으로 <b>CoW(Copy-on-Write)</b>가 켜져 있어서, 자른 결과를 바로 수정하면 경고가 떠요 — copy()를 붙이는 습관이 중요해요.</div></div>
 
   <h4>Pandas — 데이터 분석 표준 라이브러리</h4>
@@ -1555,6 +1565,13 @@ loaded = joblib.load('revenue_pipeline.pkl')</code></pre></div>
     <h2><span class="num">11.</span> 분석 자동화와 파이프라인 설계</h2>
   </div>
   <p class="subtitle">schedule · Jinja2 리포트 · LLM API 개념 · 파이프라인 원칙</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="분석 파이프라인이 데이터를 수집하고 검증과 변환 및 분석을 거쳐 저장하고 공유하는 흐름">
+    <div class="viz-node"><span>1</span><strong>수집</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>2</span><strong>검증</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>3</span><strong>변환</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>4</span><strong>분석</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>5</span><strong>저장·공유</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 매주 같은 리포트를 손으로 만드는 대신, 코드가 정해진 시간에 알아서 만들게 하는 게 자동화예요. <b>schedule</b>은 "언제 실행할지", <b>Jinja2</b>는 "결과를 어떤 모양으로 찍어낼지" 담당해요.</div></div>
 
   <h4>왜 분석을 자동화해야 하는가</h4>

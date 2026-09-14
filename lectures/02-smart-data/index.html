@@ -454,7 +454,13 @@
     <span class="day-badge day1">Day 1</span>
     <h2><span class="num">1.</span> 데이터베이스 개요</h2>
   </div>
-  <p class="subtitle">왜 파일 대신 DB인가 · 발전 과정 · 트랜잭션과 ACID · WAL · Consensus · Isolation Level</p><div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 파일로 데이터 관리하다 한계(중복, 동시접속, 중간에 죽음)를 느껴서 DB가 나왔어요. <b>ACID</b>는 '계좌이체 같은 거래가 중간에 끊기거나 꼬이지 않게 보장하는 4가지 약속'. <b>WAL</b>은 '실제 잔고를 바꾸기 전에 통장 여백에 먼저 메모해두는 것', <b>Consensus</b>는 '서버가 여러 대일 때 다수결로 진짜 기록을 정하는 것', <b>Isolation Level</b>은 '남의 작업이 얼마나 보이게 할지 고르는 등급'이라고 생각하면 쉬워요.</div></div>
+  <p class="subtitle">왜 파일 대신 DB인가 · 발전 과정 · 트랜잭션과 ACID · WAL · Consensus · Isolation Level</p>
+  <div class="learning-viz viz-stack" role="img" aria-label="애플리케이션 요청이 DBMS를 거쳐 저장소와 WAL에 기록되는 데이터베이스 계층">
+    <div class="viz-layer"><span>REQUEST</span><strong>Application</strong></div>
+    <div class="viz-layer is-accent"><span>CONTROL</span><strong>DBMS</strong><p>쿼리·트랜잭션·동시성 관리</p></div>
+    <div class="viz-layer"><span>PERSIST</span><strong>Storage + WAL</strong><p>데이터와 복구 기록 보존</p></div>
+  </div>
+  <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 파일로 데이터 관리하다 한계(중복, 동시접속, 중간에 죽음)를 느껴서 DB가 나왔어요. <b>ACID</b>는 '계좌이체 같은 거래가 중간에 끊기거나 꼬이지 않게 보장하는 4가지 약속'. <b>WAL</b>은 '실제 잔고를 바꾸기 전에 통장 여백에 먼저 메모해두는 것', <b>Consensus</b>는 '서버가 여러 대일 때 다수결로 진짜 기록을 정하는 것', <b>Isolation Level</b>은 '남의 작업이 얼마나 보이게 할지 고르는 등급'이라고 생각하면 쉬워요.</div></div>
   <div class="callout goal"><span class="ctitle">🎯 이 장의 목표</span>
   <p>데이터베이스가 무엇을 해결하려고 태어났는지 이해하고, 트랜잭션의 ACID 네 속성을 각각 설명할 수 있게 된다. 그리고 그 위에 얹히는 세 가지를 ACID와 <b>연결해서</b> 볼 수 있게 된다.</p>
   <ul>
@@ -1027,6 +1033,12 @@ VALUES ('SNIPER', '저격');</code></pre></div>
     <h2><span class="num">3.</span> ERD</h2>
   </div>
   <p class="subtitle">실습 환경 · Entity · Attribute · ERD 작성 7단계 · IE(까마귀발) 표기법 · dbdiagram.io와 DBML</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="데이터 요구사항을 개념 모델과 논리 모델을 거쳐 물리 모델로 구체화하는 흐름">
+    <div class="viz-node"><span>NEED</span><strong>요구사항 문장</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>WHAT</span><strong>개념 모델</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>STRUCTURE</span><strong>논리 모델</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>DBMS</span><strong>물리 모델</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 코드 짜기 전에 테이블 설계도를 그림으로 미리 그려보는 단계예요. <b>네모=엔티티(대체로 테이블)</b>, <b>네모 안 목록=속성(대체로 컬럼)</b>, <b>선=관계(FK)</b>. 요구사항 문장에서 <b>명사에 동그라미</b>, <b>동사에 밑줄</b>을 치면 그림의 재료가 나옵니다.</div></div>
   <div class="callout goal"><span class="ctitle">🎯 이 장의 목표</span>
   <p>요구사항 <b>문장</b>에서 엔티티와 속성을 뽑아 ERD로 그릴 수 있게 된다.</p>
@@ -2921,6 +2933,12 @@ ORDER BY (resigned_at IS NULL), resigned_at DESC;
     <h2><span class="num">10.</span> SQL 고급 — JOIN 알고리즘</h2>
   </div>
   <p class="subtitle">Nested Loop · Hash · Sort-Merge · BNL/BKA · DBMS별 JOIN 엔진 · 실행계획 읽는 법 · 튜닝 체크리스트</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="두 입력 테이블이 조인 조건과 실행 알고리즘을 거쳐 결과 집합을 만드는 흐름">
+    <div class="viz-node"><span>INPUT</span><strong>두 테이블</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>MATCH</span><strong>JOIN 조건</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>PLAN</span><strong>실행 알고리즘</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>OUTPUT</span><strong>결과 집합</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: DB가 두 테이블을 실제로 <b>어떤 방식으로 붙이는지</b>에 대한 이야기예요. 방식이 세 가지 있는데 — <b>작은 것 × 인덱스 = Nested Loop, 큰 것 × 큰 것 = Hash, 정렬돼 있거나 범위 조건 = Merge</b>. 중요한 건 <b>내가 고르는 게 아니라 옵티마이저가 고른다</b>는 점이라, 우리가 할 일은 "왜 저걸 골랐는지 읽는 법"을 익히는 거예요.</div></div>
   <div class="callout goal"><span class="ctitle">🎯 이 장의 목표</span>
   <p><b>JOIN은 SQL에서 가장 느려지기 쉬운 연산이다.</b> 100만 행 × 100만 행을 아무 생각 없이 하면 1조 번의 비교가 필요하다. DB는 그러지 않고 상황에 맞는 전략을 고르는데, 그 전략이 잘못 골라졌을 때 쿼리가 수십 초씩 걸린다.</p>

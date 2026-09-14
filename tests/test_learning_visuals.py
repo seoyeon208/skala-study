@@ -4,7 +4,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
 CSS = (ROOT / "assets/seoyeon-journal.css").read_text(encoding="utf-8")
-PAGE_MINIMUMS = {}
+PAGE_MINIMUMS = {
+    "lectures/00-python-basics/index.html": 3,
+    "lectures/01-python-data-analysis/index.html": 3,
+    "lectures/02-smart-data/index.html": 3,
+}
 
 
 class VisualParser(HTMLParser):

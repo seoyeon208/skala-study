@@ -396,6 +396,12 @@
     <h2><span class="num">1.</span> 기초 문법 요약</h2>
   </div>
   <p class="subtitle">변수·자료형 · 문자열 · 리스트·튜플 · 딕셔너리·집합 · 제어문·반복문 · 컴프리헨션 · 연산자</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="Python 프로그램이 입력을 받아 조건과 반복으로 처리하고 함수를 거쳐 결과를 출력하는 흐름">
+    <div class="viz-node"><span>INPUT</span><strong>값 입력</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>CONTROL</span><strong>조건·반복</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>FUNCTION</span><strong>기능 묶기</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>OUTPUT</span><strong>결과 출력</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: Python은 변수에 <b>=</b>로 값을 바로 담을 수 있고, 자료형을 미리 선언하지 않아도 돼요. <b>리스트</b>는 내용물을 바꿀 수 있는 상자, <b>튜플</b>은 한 번 담으면 못 바꾸는 봉인된 상자, <b>딕셔너리</b>는 이름표가 붙은 서랍장, <b>집합</b>은 중복을 자동으로 걸러주는 통이라고 생각하면 돼요.</div></div>
 
   <h4>변수와 기본 데이터 타입</h4>
@@ -1006,6 +1012,12 @@ print(Drum("스네어").play())  # 쿵쿵!</code></pre></div>
     <h2><span class="num">6.</span> 고급 자료구조</h2>
   </div>
   <p class="subtitle">collections(deque·Counter·defaultdict·OrderedDict) · heapq · bisect</p>
+  <div class="learning-viz viz-compare" role="img" aria-label="Python의 List, Set, Tuple, Dict 자료구조 특성 비교">
+    <div class="viz-panel"><span>LIST</span><strong>순서 있음 · 중복 허용</strong><p>값을 순서대로 바꾸며 관리</p></div>
+    <div class="viz-panel"><span>SET</span><strong>고유값 집합</strong><p>중복 제거와 포함 검사</p></div>
+    <div class="viz-panel"><span>TUPLE</span><strong>순서 있음 · 불변</strong><p>바뀌지 않는 묶음 표현</p></div>
+    <div class="viz-panel is-accent"><span>DICT</span><strong>키 → 값</strong><p>이름으로 값을 빠르게 조회</p></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 리스트는 끝에서 추가/삭제(O(1))는 빠르지만 <b>앞에서</b> 하면 느려요(O(n)). <b>deque</b>는 양쪽 끝 모두 빠른(O(1)) 큐예요. <b>heapq</b>는 "가장 작은 값을 항상 맨 앞에 유지"해주는 우선순위 큐고, <b>bisect</b>는 정렬된 리스트에서 값이 들어갈 위치를 빠르게 찾아줘요.</div></div>
 
   <h4>왜 collections 모듈을 쓰는가 — 리스트의 한계</h4>
@@ -1775,6 +1787,13 @@ def clone_items(items):
     <h2><span class="num">13.</span> Python 데이터 분석 개요</h2>
   </div>
   <p class="subtitle">데이터 분석이란? · 주요 라이브러리 · 머신러닝 프로세스 · CRISP-DM</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="데이터를 수집하고 정리한 뒤 분석과 시각화를 거쳐 해석하는 흐름">
+    <div class="viz-node"><span>1</span><strong>수집</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>2</span><strong>정리</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>3</span><strong>분석</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>4</span><strong>시각화</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>5</span><strong>해석</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 데이터 분석의 핵심은 "데이터를 통한 의사결정"이에요. Numpy로 숫자를 빠르게 계산하고, Pandas로 표(테이블) 데이터를 다루고, Matplotlib·Seaborn으로 눈에 보이게 그려서, 사람이 이해하고 결정을 내리도록 돕는 게 목표예요.</div></div>
 
   <h4>Python 데이터 분석 4대 라이브러리</h4>

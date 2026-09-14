@@ -439,3 +439,68 @@ html body .lbl { font-size: 12.5px; }
 html body figcaption { font-size: 14px !important; line-height: 1.6; }
 html body footer,
 html body .pagefoot { font-size: 13.5px; }
+
+/* Shared concept diagrams */
+.learning-viz { margin: 22px 0; }
+.viz-flow {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+.viz-node,
+.viz-panel,
+.viz-layer,
+.viz-step {
+  flex: 1;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel2);
+}
+.viz-node span,
+.viz-layer span,
+.viz-step span,
+.viz-panel span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 750;
+}
+.viz-node strong,
+.viz-layer strong,
+.viz-step strong,
+.viz-panel strong { display: block; }
+.viz-node p,
+.viz-panel p,
+.viz-layer p,
+.viz-step p { margin: 7px 0 0; }
+.viz-node.is-accent,
+.viz-panel.is-accent,
+.viz-layer.is-accent {
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
+  background: color-mix(in srgb, var(--brand) 10%, var(--panel2));
+}
+.viz-arrow {
+  align-self: center;
+  color: var(--muted);
+  font-weight: 800;
+}
+.viz-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.viz-stack { display: grid; gap: 7px; }
+.viz-timeline {
+  display: grid;
+  gap: 10px;
+  padding-left: 18px;
+  border-left: 3px solid var(--brand);
+}
+
+@media (max-width: 680px) {
+  .viz-flow { flex-direction: column; }
+  .viz-flow .viz-arrow { transform: rotate(90deg); }
+  .viz-compare { grid-template-columns: 1fr; }
+}

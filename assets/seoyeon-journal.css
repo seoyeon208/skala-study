@@ -477,7 +477,8 @@ html body .pagefoot { font-size: 13.5px; }
 .viz-step p { margin: 7px 0 0; }
 .viz-node.is-accent,
 .viz-panel.is-accent,
-.viz-layer.is-accent {
+.viz-layer.is-accent,
+.viz-step.is-accent {
   border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
   background: color-mix(in srgb, var(--brand) 10%, var(--panel2));
 }
@@ -498,9 +499,13 @@ html body .pagefoot { font-size: 13.5px; }
   padding-left: 18px;
   border-left: 3px solid var(--brand);
 }
+.flow.learning-viz { overflow-x: visible; }
+.flow.learning-viz .flow-step { min-width: 0; }
 
 @media (max-width: 680px) {
   .viz-flow { flex-direction: column; }
   .viz-flow .viz-arrow { transform: rotate(90deg); }
   .viz-compare { grid-template-columns: 1fr; }
+  .flow.learning-viz { flex-direction: column; }
+  .flow.learning-viz .flow-arrow { transform: rotate(90deg); }
 }

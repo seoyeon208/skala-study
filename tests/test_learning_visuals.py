@@ -8,6 +8,9 @@ PAGE_MINIMUMS = {
     "lectures/00-python-basics/index.html": 3,
     "lectures/01-python-data-analysis/index.html": 3,
     "lectures/02-smart-data/index.html": 3,
+    "lectures/03-basic-statistics/index.html": 3,
+    "lectures/04-prompt-engineering/index.html": 3,
+    "lectures/05-llm-transformer/index.html": 3,
 }
 
 

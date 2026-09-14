@@ -401,6 +401,12 @@
     <h2><span class="num">2.</span> NLP Technical Summary</h2>
   </div>
   <p class="subtitle">단어 표현부터 Transformer 등장까지 · One-hot·BoW·TF-IDF · Word2Vec · RNN/LSTM/Seq2Seq · Attention · GPT</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="자연어 처리가 빈도 기반 표현에서 임베딩과 순환 신경망을 거쳐 Attention으로 발전한 흐름">
+    <div class="viz-node"><span>빈도</span><strong>BoW · TF-IDF</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>의미 공간</span><strong>Embedding</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>순서</span><strong>RNN · LSTM</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>관계</span><strong>Attention</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 컴퓨터는 글자를 그대로 이해하지 못해서 <b>숫자(벡터)로 바꿔야</b> 해요. 그 방법이 점점 발전해온 역사가 이 장이에요. 처음엔 단어를 "있다/없다"로만 표현했다가(One-hot), 문맥을 반영한 벡터(Word2Vec)로, 다시 문맥에 따라 벡터가 달라지는 방식(Contextual Embedding)으로 진화했고, 그 끝에 Transformer와 GPT가 있어요.</div></div>
 
   <h3>1) 언어 이해의 시작, NLP</h3>
@@ -525,6 +531,13 @@ cos(theta) = 5 / (sqrt(5)*sqrt(10)) = 5 / sqrt(50) ≈ 0.707</code></pre></div>
     <h2><span class="num">4.</span> Transformer</h2>
   </div>
   <p class="subtitle">Attention Is All You Need · Scaled Dot-Product Attention · Multi-head Attention · Encoder-Decoder · Masked Self Attention</p>
+  <div class="learning-viz viz-stack" role="img" aria-label="Transformer 블록에서 토큰과 위치 정보가 Multi-Head Attention과 정규화 및 피드포워드 계층을 거쳐 출력되는 구조">
+    <div class="viz-layer"><span>INPUT</span><strong>Token + Position</strong></div>
+    <div class="viz-layer is-accent"><span>RELATION</span><strong>Multi-Head Attention</strong></div>
+    <div class="viz-layer"><span>STABILIZE</span><strong>Add &amp; Norm</strong></div>
+    <div class="viz-layer"><span>TRANSFORM</span><strong>Feed Forward Network</strong></div>
+    <div class="viz-layer"><span>OUTPUT</span><strong>Contextual Representation</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: Transformer는 <b>"각 단어가 문장 속 다른 모든 단어를 한 번에 훑어보고 얼마나 집중(attention)할지 계산"</b>하는 구조예요. RNN처럼 순서대로 하나씩 읽지 않아도 되니 병렬 학습이 가능해졌고, 그 덕분에 지금의 모든 LLM(GPT, BERT 등)이 이 구조 위에서 만들어졌어요.</div></div>
 
   <h3>1) Attention Is All You Need 논문</h3>
@@ -903,6 +916,12 @@ Output = Weights · V              # (4) 가중치를 Value에 곱해 최종 Att
     <h2><span class="num">7.</span> Modern LLM Technologies</h2>
   </div>
   <p class="subtitle">RLHF · Scaling Law · Chinchilla's Scaling Law · DeepSeek · Distillation · MoE(Mixture of Experts)</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="언어 모델이 사전학습과 지시 튜닝 및 선호 정렬을 거쳐 추론에 사용되는 흐름">
+    <div class="viz-node"><span>1</span><strong>Pre-training</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>2</span><strong>Instruction Tuning</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>3</span><strong>Preference Alignment</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>4</span><strong>Inference</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 이 장은 요즘 LLM을 실제로 "더 똑똑하고, 더 싸게, 더 사람 취향에 맞게" 만드는 4가지 핵심 기술이에요. <b>RLHF</b>는 사람 취향을 가르치고, <b>Scaling Law</b>는 얼마나 키워야 똑똑해지는지 알려주고, <b>Distillation</b>은 큰 모델의 지식을 작은 모델에 옮기고, <b>MoE</b>는 필요한 부분만 계산해서 효율을 높여요.</div></div>
 
   <h3>1) RLHF — 사람의 선호(취향)를 담아보자</h3>

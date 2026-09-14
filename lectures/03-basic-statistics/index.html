@@ -436,6 +436,11 @@
     <h2><span class="num">3.</span> 기술 통계</h2>
   </div>
   <p class="subtitle">Descriptive Statistics · 중심화 · 퍼짐 · 변이계수 · 분포형태(왜도/첨도)</p>
+  <div class="learning-viz viz-compare" role="img" aria-label="기술 통계가 데이터의 중심, 퍼짐, 분포 형태를 요약하는 세 관점">
+    <div class="viz-panel"><span>중심</span><strong>평균 · 중앙값</strong><p>대표적인 위치는 어디인가?</p></div>
+    <div class="viz-panel is-accent"><span>퍼짐</span><strong>분산 · 표준편차</strong><p>값이 얼마나 흩어졌는가?</p></div>
+    <div class="viz-panel"><span>형태</span><strong>왜도 · 첨도</strong><p>분포가 어느 쪽으로 치우쳤는가?</p></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 기술통계는 <b>"데이터를 한 줄로 요약해서 보여주는 것"</b>이에요. 대표값(평균/중앙값/최빈값)으로 "어디에 몰려 있는지", 산포(분산/표준편차/IQR)로 "얼마나 흩어져 있는지"를 봅니다. 평균만 보고 판단하면 위험하다는 게 이 장의 핵심 메시지예요.</div></div>
 
   <h3>1) 기술 통계학이란?</h3>
@@ -521,6 +526,12 @@
     <h2><span class="num">4.</span> 추론 통계</h2>
   </div>
   <p class="subtitle">모집단·표본 · 자유도 · 자료수집 · 표본선정 · 확률변수 · 정규분포 · CLT</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="모집단에서 표본을 뽑아 통계량을 구하고 모집단을 추론하는 흐름">
+    <div class="viz-node"><span>전체</span><strong>모집단</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>추출</span><strong>표본</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>계산</span><strong>통계량</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>해석</span><strong>모집단 추론</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 우리는 모집단 전체를 다 조사할 수 없어서 <b>표본을 뽑아 전체를 추측</b>해요. 이 장에서 배우는 정규분포·68-95-99.7법칙·중심극한정리는 전부 "표본으로 모집단을 추측할 때 얼마나 믿을 수 있는가"를 수치화하기 위한 도구예요.</div></div>
 
   <h3>1) 추론 통계학이란?</h3>
@@ -638,6 +649,12 @@
     <h2><span class="num">5.</span> 가설 검정</h2>
   </div>
   <p class="subtitle">모순에 의한 논증법 · 가설검정 5단계 · 단측/양측검정 · P-hacking · t-분포</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="귀무가설과 대립가설 설정부터 유의수준과 p-value를 이용한 기각 판단까지의 가설검정 흐름">
+    <div class="viz-node"><span>1</span><strong>H₀ · H₁ 설정</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>2</span><strong>유의수준 α</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>3</span><strong>검정통계량 · p-value</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>4</span><strong>기각 여부 판단</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 가설검정은 <b>"이 차이가 진짜인지, 그냥 운(우연)인지"</b>를 판단하는 절차예요. 일단 "차이는 없다(귀무가설)"고 가정한 뒤, 실제 관측된 값이 그 가정 하에서 나오기엔 너무 이상하면 "역시 우연이 아니었다"고 결론 내리는 방식(귀류법)입니다.</div></div>
 
   <h3>1) 가설 검정의 원리</h3>

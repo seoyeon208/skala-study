@@ -518,6 +518,13 @@
     <h2><span class="num">3.</span> Prompt Engineering 기초</h2>
   </div>
   <p class="subtitle">Token · Prompt 구조 · Sampling Controls(Temperature/Top-k/Top-p) · reasoning.effort · Verbosity · RICE Framework</p>
+  <div class="learning-viz viz-stack" role="img" aria-label="좋은 프롬프트를 역할, 맥락, 작업, 제약, 출력 형식 순으로 구성하는 계층">
+    <div class="viz-layer"><span>WHO</span><strong>Role</strong></div>
+    <div class="viz-layer"><span>WHY</span><strong>Context</strong></div>
+    <div class="viz-layer is-accent"><span>WHAT</span><strong>Task</strong></div>
+    <div class="viz-layer"><span>BOUNDARY</span><strong>Constraints</strong></div>
+    <div class="viz-layer"><span>SHAPE</span><strong>Output Format</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: Prompt Engineering은 <b>"LLM이 다음 토큰을 잘 예측하도록 입력을 잘 설계하는 일"</b>이에요. Temperature·Top-p 같은 설정값은 "다음 단어 후보 중 무엇을 얼마나 무작위로 고를지"를 조절하고, RICE 프레임워크는 "질문을 어떻게 구조화할지"를 알려줍니다. 이 장의 개념들이 이후 모든 프롬프트 기법의 기초가 됩니다.</div></div>
 
   <h3>1) Token</h3>
@@ -719,6 +726,13 @@ max_output_tokens = 2000</code></pre></div>
     <h2><span class="num">4.</span> Prompt Engineering Techniques</h2>
   </div>
   <p class="subtitle">RICE 프레임워크 상세 · Zero/One/Few-shot · Chain of Thought · Step-back · Self-Consistency · Devil's Advocate · 멀티 페르소나 · Meta Prompting · 마크다운</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="목표와 맥락을 정의해 응답을 만들고 평가 결과로 프롬프트를 개선하는 반복 흐름">
+    <div class="viz-node"><span>1</span><strong>목표 정의</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>2</span><strong>예시·맥락</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>3</span><strong>응답 생성</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>4</span><strong>평가</strong></div><div class="viz-arrow" aria-hidden="true">↺</div>
+    <div class="viz-node"><span>5</span><strong>Prompt 개선</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 이 장은 <b>"프롬프트를 어떻게 더 잘 쓸 것인가"</b>에 대한 실전 기법 모음이에요. RICE로 구조를 잡고, 예시(Few-shot)로 패턴을 보여주고, CoT로 생각의 과정을 유도하고, Self-Consistency·Devil's Advocate·멀티 페르소나로 답의 신뢰도를 높이는 식이죠. 하나씩 익히면 실무에서 바로 조합해 쓸 수 있습니다.</div></div>
 
   <h3>1) RICE Prompt Framework — (1) Role (역할)</h3>
@@ -1027,6 +1041,11 @@ bottleneck, 경쟁사 비교
     <h2><span class="num">6.</span> Prompt Engineering을 넘어서</h2>
   </div>
   <p class="subtitle">Context Engineering의 등장 배경 · Context Rot · 구성요소 4가지 · Harness Engineering · 핵심 개념 3가지</p>
+  <div class="learning-viz viz-compare" role="img" aria-label="Prompt Engineering, Context Engineering, Agent Workflow가 제어하는 범위 비교">
+    <div class="viz-panel"><span>PROMPT</span><strong>한 번의 지시를 설계</strong><p>질문·예시·출력 형식</p></div>
+    <div class="viz-panel is-accent"><span>CONTEXT</span><strong>모델에 들어갈 정보를 설계</strong><p>기억·문서·도구 결과</p></div>
+    <div class="viz-panel"><span>AGENT</span><strong>여러 행동의 흐름을 설계</strong><p>계획·도구 호출·검증</p></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 프롬프트 하나 잘 쓰는 시대는 지나가고, 이제는 <b>"에이전트가 매 순간 무엇을 알고 있어야 하는지"</b>를 설계하는 시대가 왔어요. 이게 Context Engineering입니다. 그리고 컨텍스트를 아무리 잘 설계해도 해결 못 하는 문제(도구 호출, 실수 반복 방지, 권한, 합격 판정)가 남는데, 이걸 다루는 게 Harness Engineering — 말에 마구를 채우듯 에이전트의 힘을 안전한 방향으로 이끄는 설계입니다.</div></div>
 
   <h3>1) Context Engineering — 등장 배경</h3>

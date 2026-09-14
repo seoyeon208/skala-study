@@ -16,6 +16,8 @@ PAGE_MINIMUMS = {
     "lectures/08-sllm-finetuning/index.html": 3,
     "lectures/09-feature-engineering/index.html": 3,
     "lectures/10-vue-framework/index.html": 4,
+    "lectures/11-containerization/index.html": 4,
+    "lectures/12-kubernetes/index.html": 4,
 }
 
 

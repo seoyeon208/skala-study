@@ -100,7 +100,7 @@ table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:13.5px;}t
       <span class="eyebrow">Kubernetes · Review note</span>
       <h1>Kubernetes 복습 노트</h1>
       <p class="lead">컨테이너를 여러 서버에서 안정적으로 운영하기 위한 선언형 관리부터 Pod·Deployment·Service·Ingress·스토리지와 실무 장애 대응까지 한 흐름으로 정리했습니다. 명령을 외우기보다 <strong>요청이 어디를 지나고, 누가 원하는 상태를 회복하는지</strong> 설명하는 것이 목표입니다.</p>
-      <div class="flow">
+      <div class="flow learning-viz" role="img" aria-label="사용자 요청이 DNS와 Load Balancer, Ingress, Service를 거쳐 Pod 컨테이너에 도달하는 흐름">
         <div class="flow-step accent"><span class="k">client</span><span class="v">User</span></div><div class="flow-arrow">→</div>
         <div class="flow-step"><span class="k">route</span><span class="v">DNS · LB</span></div><div class="flow-arrow">→</div>
         <div class="flow-step"><span class="k">L7</span><span class="v">Ingress</span></div><div class="flow-arrow">→</div>
@@ -137,6 +137,10 @@ Controller: 차이 1개를 발견 → Pod 1개 생성 → 다시 관찰</code></
         </div>
         <h3>Worker Node</h3>
         <ul><li><strong>kubelet</strong>: 자신의 Node에서 Pod가 정의대로 실행되는지 관리</li><li><strong>container runtime</strong>: containerd·CRI-O 등이 이미지를 받고 컨테이너 실행</li><li><strong>kube-proxy</strong>: Service 트래픽 전달 규칙 구성</li><li><strong>CNI</strong>: Pod 네트워크와 IP, <strong>CSI</strong>: 스토리지 연결</li></ul>
+        <div class="learning-viz viz-stack" role="img" aria-label="Kubernetes Control Plane이 상태를 판단하고 Worker Node가 Pod를 실행하는 두 계층 구조">
+          <div class="viz-layer is-accent"><span>CONTROL PLANE</span><strong>API Server → Scheduler · Controller Manager → etcd</strong><p>요청을 받고 배치와 원하는 상태를 결정·저장</p></div>
+          <div class="viz-layer"><span>WORKER NODE</span><strong>kubelet → container runtime · kube-proxy → Pod</strong><p>결정된 워크로드를 실제로 실행하고 연결</p></div>
+        </div>
         <div class="previewbox"><span class="lbl">EKS 책임 경계</span><p>AWS가 Control Plane의 가용성과 운영을 맡아도, 사용자는 Worker Node·Pod·네트워크·권한·배포 설정과 비용을 관리해야 합니다. <strong>Worker가 없어도 EKS Control Plane 비용은 발생</strong>하므로 만들고 잊어버리면 안 됩니다.</p></div>
       </div>
     </details>
@@ -146,7 +150,7 @@ Controller: 차이 1개를 발견 → Pod 1개 생성 → 다시 관찰</code></
       <div class="ch-body">
         <h3>Deployment를 적용했을 때</h3>
         <ol><li><code>kubectl</code>이 kubeconfig의 cluster·user·context를 읽고 API Server에 요청한다.</li><li>API Server가 인증·인가·검증을 거쳐 desired state를 etcd에 저장한다.</li><li>Deployment Controller가 ReplicaSet을, ReplicaSet Controller가 필요한 Pod를 만든다.</li><li>Scheduler가 Pending Pod에 알맞은 Node를 배정한다.</li><li>해당 Node의 kubelet이 CNI로 네트워크를 준비하고 runtime에 컨테이너 실행을 요청한다.</li><li>Probe가 통과해 Ready가 되면 Service Endpoint에 포함되어 트래픽을 받는다.</li></ol>
-        <div class="flow"><div class="flow-step"><span class="k">owner</span><span class="v">Deployment</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">revision</span><span class="v">ReplicaSet</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">runtime</span><span class="v">Pod</span></div></div>
+        <div class="flow learning-viz" role="img" aria-label="Deployment가 ReplicaSet을 만들고 ReplicaSet이 Pod를 관리하는 소유 관계"><div class="flow-step"><span class="k">owner</span><span class="v">Deployment</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">revision</span><span class="v">ReplicaSet</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">runtime</span><span class="v">Pod</span></div></div>
         <div class="callout"><span class="lbl">자주 겪는 상황</span><p>Deployment가 관리하는 Pod 하나를 직접 삭제하면 Controller가 부족한 개수를 발견해 다시 만듭니다. 서비스를 멈추려면 Pod를 반복 삭제하지 말고 <code>kubectl scale deployment NAME --replicas=0</code> 또는 Deployment 삭제를 사용합니다.</p></div>
       </div>
     </details>
@@ -242,7 +246,7 @@ metadata:
         <p>애플리케이션은 Pod IP를 하드코딩하지 않고 <code>service-name.namespace.svc.cluster.local</code> 같은 Service DNS를 사용합니다. CoreDNS가 이름을 ClusterIP로 해석하고, kube-proxy 규칙이 Endpoint Pod로 전달합니다.</p>
         <h3>CNI와 IP 계획</h3>
         <p>CNI는 Pod 네트워크를 구성합니다. EKS의 VPC CNI에서는 Pod가 VPC 대역의 IP를 사용하므로 subnet의 사용 가능한 IP가 부족하면 Node CPU·메모리가 남아도 Pod가 Pending에 머물 수 있습니다.</p>
-        <div class="flow"><div class="flow-step"><span class="k">name</span><span class="v">CoreDNS</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">virtual IP</span><span class="v">Service</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">rules</span><span class="v">kube-proxy</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">network</span><span class="v">CNI · Pod</span></div></div>
+        <div class="flow learning-viz" role="img" aria-label="CoreDNS 이름 조회가 Service 가상 IP와 kube-proxy 규칙 및 CNI 네트워크를 거쳐 Pod로 연결되는 흐름"><div class="flow-step"><span class="k">name</span><span class="v">CoreDNS</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">virtual IP</span><span class="v">Service</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">rules</span><span class="v">kube-proxy</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">network</span><span class="v">CNI · Pod</span></div></div>
         <div class="callout"><span class="lbl">port-forward의 경계</span><p><code>kubectl port-forward pod/POD 8080:8080</code>은 내 PC와 특정 리소스 사이에 임시 통로를 여는 <strong>디버깅 도구</strong>입니다. 운영 사용자를 위한 노출 방식은 Service·Ingress이며, 터미널이 끊기면 port-forward도 끝납니다.</p></div>
       </div>
     </details>

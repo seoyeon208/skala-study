@@ -363,7 +363,7 @@ footer.pagefoot{
         </table>
 
         <h3>이미지·컨테이너 흐름 한눈에</h3>
-        <div class="flow">
+        <div class="flow learning-viz" role="img" aria-label="Dockerfile을 빌드해 이미지를 만들고 레지스트리를 거쳐 컨테이너로 실행하는 흐름">
           <div class="flow-step"><span class="k">write</span><span class="v">Dockerfile</span></div>
           <div class="flow-arrow">→</div>
           <div class="flow-step accent"><span class="k">build</span><span class="v">이미지</span></div>
@@ -384,6 +384,12 @@ footer.pagefoot{
 
         <h3>컨테이너 생명주기</h3>
         <p>생성 → 실행 → 정지 → 삭제. 이 상태를 구분하지 못하면 "왜 안 뜨지?"에서 자주 막힙니다.</p>
+        <div class="learning-viz viz-flow" role="img" aria-label="컨테이너가 생성되고 실행 및 정지를 거쳐 삭제되는 생명주기">
+          <div class="viz-node"><span>create</span><strong>생성</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+          <div class="viz-node is-accent"><span>start</span><strong>실행</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+          <div class="viz-node"><span>stop</span><strong>정지</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+          <div class="viz-node"><span>rm</span><strong>삭제</strong></div>
+        </div>
 
         <div class="previewbox">
           <span class="lbl">복습 포인트</span>
@@ -478,7 +484,7 @@ docker run -d --name mariadb \
 
         <h3>왜 -p 가 필요한가 (자주 나오는 질문)</h3>
         <p>컨테이너 <strong>안에서는</strong> <code>curl localhost:8080</code>이 되지만, 밖(내 PC)에서는 <code>-p 8888:8080</code>으로 길을 뚫어야만 접속됩니다.</p>
-        <div class="flow">
+        <div class="flow learning-viz" role="img" aria-label="호스트의 공개 포트가 Docker 포트 매핑을 통해 컨테이너 내부 포트로 연결되는 흐름">
           <div class="flow-step"><span class="k">내 pc</span><span class="v">localhost:8888</span></div>
           <div class="flow-arrow">⇄</div>
           <div class="flow-step accent"><span class="k">-p 8888:8080</span><span class="v">이 뚫어 준 길</span></div>
@@ -886,7 +892,7 @@ docker pull harbor.skala-gj.com/skala-gj1/skala-webserver:1.0.0   # 다른 곳�
         </table>
 
         <h3>서비스 기동 순서 (healthcheck 기준)</h3>
-        <div class="flow">
+        <div class="flow learning-viz" role="img" aria-label="Docker Compose가 데이터베이스의 healthy 상태를 기다린 뒤 애플리케이션과 웹 서비스를 순서대로 시작하는 흐름">
           <div class="flow-step"><span class="k">1st</span><span class="v">db (Healthy)</span></div>
           <div class="flow-arrow">→</div>
           <div class="flow-step"><span class="k">2nd</span><span class="v">app</span></div>

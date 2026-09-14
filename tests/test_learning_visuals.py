@@ -18,6 +18,8 @@ PAGE_MINIMUMS = {
     "lectures/10-vue-framework/index.html": 4,
     "lectures/11-containerization/index.html": 4,
     "lectures/12-kubernetes/index.html": 4,
+    "lectures/13-ml-fundamentals/index.html": 4,
+    "lectures/14-model-development/index.html": 4,
 }
 
 

@@ -45,7 +45,7 @@
         <span class="eyebrow">Data Analysis · Model lifecycle</span>
         <h1>모델 개발 및 최적화</h1>
         <p class="lead">은행 고객 이탈 예측을 하나의 시나리오로 삼아 문제 정의부터 데이터 준비, 학습·평가·해석, 배포 후 모니터링까지 연결합니다. 핵심은 알고리즘 하나가 아니라 <strong>각 단계가 다음 단계의 신뢰성을 만드는 전체 프로세스</strong>입니다.</p>
-        <div class="flow"><div class="flow-step"><span class="k">business</span><span class="v">문제·목표</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">data</span><span class="v">수집·품질</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">feature</span><span class="v">생성·변환</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">model</span><span class="v">학습·검증</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">explain</span><span class="v">평가·해석</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">operate</span><span class="v">배포·감시</span></div></div>
+        <div class="flow learning-viz" role="img" aria-label="비즈니스 문제 정의부터 데이터와 Feature 준비, 모델 학습과 평가, 배포 후 감시까지의 모델 개발 생명주기"><div class="flow-step"><span class="k">business</span><span class="v">문제·목표</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">data</span><span class="v">수집·품질</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">feature</span><span class="v">생성·변환</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">model</span><span class="v">학습·검증</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">explain</span><span class="v">평가·해석</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">operate</span><span class="v">배포·감시</span></div></div>
       </div>
       <details class="chapter" id="ch1" open>
         <summary><span class="ch-num">01</span><div class="ch-title"><h2>데이터 분석은 프로세스다</h2><span class="sub">기술 하나보다 단계 사이의 연결과 의사결정이 중요하다</span></div><span class="chev">▸</span></summary>
@@ -92,6 +92,13 @@
         <div class="ch-body">
           <table><tr><th>분할</th><th>언제 쓰나</th><th>주의점</th></tr><tr><td>Random</td><td>행들이 독립이고 시간 순서가 중요하지 않을 때</td><td>클래스 비율이 작은 데이터는 흔들릴 수 있음</td></tr><tr><td>Stratified</td><td>분류 Target 비율을 각 세트에 유지할 때</td><td>시간·고객 그룹 문제는 해결하지 못함</td></tr><tr><td>Group</td><td>한 고객·환자·장비가 여러 행일 때</td><td>같은 그룹이 Train과 Test에 함께 들어가면 안 됨</td></tr><tr><td>Time-based</td><td>미래를 예측하는 시계열·운영 모델</td><td>과거로 학습하고 그 이후 기간으로 검증</td></tr></table>
           <div class="stackbox"><div class="row"><div class="tag">Train</div><div class="desc">모델과 전처리 통계가 실제로 학습하는 데이터</div></div><div class="row"><div class="tag">Validation</div><div class="desc">모델·Hyperparameter·Threshold를 선택하는 데이터</div></div><div class="row"><div class="tag">Test</div><div class="desc">모든 선택이 끝난 뒤 일반화 성능을 한 번 확인하는 데이터</div></div></div>
+          <div class="learning-viz viz-flow" role="img" aria-label="데이터를 나눈 뒤 전처리는 Train에만 fit하고 Validation과 Test에는 transform하여 모델을 학습하고 마지막에 Test로 평가하는 흐름">
+            <div class="viz-node"><span>1</span><strong>Split</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+            <div class="viz-node is-accent"><span>TRAIN ONLY</span><strong>전처리 fit</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+            <div class="viz-node"><span>VAL · TEST</span><strong>transform</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+            <div class="viz-node"><span>TRAIN</span><strong>모델 fit</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+            <div class="viz-node"><span>FINAL</span><strong>Test 1회</strong></div>
+          </div>
           <h3>누수의 네 가지 형태</h3>
           <table><tr><th>종류</th><th>예</th><th>막는 방법</th></tr><tr><td>Target Leakage</td><td>이탈 처리 결과를 Feature로 사용</td><td>예측 시점에 알 수 있는 변수만 사용</td></tr><tr><td>Train–Test Contamination</td><td>전체 데이터 평균으로 결측 대체</td><td>전처리는 Train에 <code>fit</code>, 나머지는 <code>transform</code></td></tr><tr><td>Time Leakage</td><td>미래 거래로 과거 이탈을 예측</td><td>기준일과 시간 순서를 명시</td></tr><tr><td>Group Leakage</td><td>같은 고객의 행이 양쪽에 존재</td><td>Group 단위로 분할</td></tr></table>
           <div class="callout"><span class="lbl">Pipeline 원칙</span><p>결측 대체·Scaling·Encoding·Sampling을 모델과 하나의 Pipeline으로 묶으면 각 Fold의 Train에서만 <code>fit</code>되어 누수를 줄일 수 있습니다. Sampling은 검증·Test가 아니라 Train Fold 내부에서만 수행합니다.</p></div>
@@ -140,6 +147,10 @@
         <summary><span class="ch-num">10</span><div class="ch-title"><h2>AUC·Lift·Threshold</h2><span class="sub">순위 성능과 실제 행동 기준을 분리해서 이해</span></div><span class="chev">▸</span></summary>
         <div class="ch-body">
           <table><tr><th>개념</th><th>답하는 질문</th><th>주의점</th></tr><tr><td>ROC-AUC</td><td>임의의 Positive가 Negative보다 높은 점수를 받을 가능성은?</td><td>Threshold와 실제 확률 정확도를 말하지 않음</td></tr><tr><td>PR-AUC</td><td>Positive를 찾을 때 Precision–Recall 품질은?</td><td>클래스 비율에 영향을 받으므로 같은 모집단끼리 비교</td></tr><tr><td>Lift</td><td>상위 점수 고객을 선택하면 무작위보다 몇 배 잘 찾나?</td><td>마케팅 대상 수·구간과 함께 제시</td></tr><tr><td>Calibration</td><td>예측 0.8인 집단이 실제로 약 80% 발생하나?</td><td>좋은 AUC와 좋은 확률 보정은 별개</td></tr></table>
+          <div class="learning-viz viz-compare" role="img" aria-label="AUC가 후보의 순위 품질을 비교하는 지표이고 Threshold가 실제 행동을 결정하는 기준이라는 차이">
+            <div class="viz-panel"><span>MODEL RANKING</span><strong>AUC</strong><p>Positive를 Negative보다 앞에 둘 능력</p></div>
+            <div class="viz-panel is-accent"><span>ACTION RULE</span><strong>Threshold</strong><p>비용·처리 용량에 맞춘 실제 행동 기준</p></div>
+          </div>
           <p><strong>Threshold</strong>는 확률을 최종 클래스나 행동으로 바꾸는 기준입니다. 낮추면 대체로 Recall이 오르고 FP도 늘며, 높이면 Precision이 오를 수 있지만 FN이 늘 수 있습니다.</p>
           <pre><code>기대 비용 = FN 수 × 놓친 이탈 비용 + FP 수 × 불필요 연락 비용
 운영 제약 = 하루 상담 가능한 고객 수, 예산, 규제</code></pre>
@@ -170,6 +181,12 @@
           <table><tr><th>종류</th><th>무엇이 변했나</th><th>은행 예시</th></tr><tr><td>Data Drift</td><td>입력 분포 <code>P(X)</code></td><td>신규 고객의 연령·채널 구성이 달라짐</td></tr><tr><td>Prediction Drift</td><td>예측 점수·등급 분포 <code>P(ŷ)</code></td><td>고위험 판정 고객이 갑자기 급증</td></tr><tr><td>Concept Drift</td><td>입력과 정답 관계 <code>P(y|X)</code></td><td>금리 변화로 잔액과 이탈 관계가 달라짐</td></tr></table>
           <table><tr><th>모니터링 층</th><th>확인 항목</th></tr><tr><td>Data Quality</td><td>Schema, 결측, 범위, 범주, 지연, 중복</td></tr><tr><td>Model Input / Output</td><td>Feature와 점수 분포, PSI·KS·거리 지표</td></tr><tr><td>Performance</td><td>AUC, Recall, Calibration, 집단별 성능</td></tr><tr><td>Business</td><td>유지율, 캠페인 반응, 비용, 상담 용량</td></tr></table>
           <div class="callout"><span class="lbl">정답 지연</span><p>실제 이탈 여부는 6개월 뒤에야 확정될 수 있습니다. 그동안 Data·Prediction Drift를 조기 경보로 보되, Drift만으로 성능 하락을 단정하지 말고 정답이 모이면 실제 성능을 확인합니다.</p></div>
+          <div class="learning-viz viz-timeline" role="img" aria-label="Drift 경보가 발생한 뒤 정답이 도착하면 성능을 확인하고 Threshold 조정, 재학습, 재설계 중 대응을 결정하는 순서">
+            <div class="viz-step"><span>1 · ALERT</span><strong>Data · Prediction Drift 감지</strong></div>
+            <div class="viz-step"><span>2 · LABEL</span><strong>실제 정답 도착</strong></div>
+            <div class="viz-step is-accent"><span>3 · VERIFY</span><strong>성능 저하 확인</strong></div>
+            <div class="viz-step"><span>4 · RESPOND</span><strong>Threshold 조정 · 재학습 · 재설계</strong></div>
+          </div>
         </div>
       </details>
 

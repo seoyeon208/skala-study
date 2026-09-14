@@ -314,6 +314,10 @@
     <h2><span class="num">1.</span> LLM 서빙 파이프라인 개요</h2>
   </div>
   <p class="subtitle">요청 처리 5단계 흐름 · 외부 API 기반 파이프라인 · 내부(자체 호스팅) sLLM 파이프라인 · 선택 기준(비용·보안·지연시간·커스터마이징)</p>
+  <div class="learning-viz viz-compare" role="img" aria-label="외부 LLM API 사용 경로와 자체 호스팅 sLLM 경로의 운영 책임 비교">
+    <div class="viz-panel"><span>EXTERNAL API</span><strong>요청 → 공급자 모델 → 응답</strong><p>빠른 도입, 데이터·비용 정책 확인</p></div>
+    <div class="viz-panel is-accent"><span>SELF-HOSTED sLLM</span><strong>요청 → 내부 서빙 → 응답</strong><p>직접 운영, 보안·지연·커스터마이징 제어</p></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 사용자가 챗봇에 메시지를 보내고 답을 받기까지, 서버 안에서는 <b>"받고 → 다듬고 → 모델에 묻고 → 다시 다듬고 → 돌려주는"</b> 5단계 파이프라인이 돌아가요. 이 파이프라인의 "모델에 묻는" 부분을 OpenAI/Anthropic 같은 <b>외부 API</b>로 채울 수도 있고, 직접 서빙하는 <b>내부 sLLM</b>으로 채울 수도 있어요. 이번 장은 두 구조의 차이와, 어떤 상황에 어느 쪽을 선택해야 하는지를 정리합니다.</div></div>
 
   <h3>1) 요청 처리 전체 흐름 — 5단계</h3>
@@ -557,6 +561,11 @@
     <h2><span class="num">5.</span> Fine-Tuning 전략과 PEFT 기법 개요</h2>
   </div>
   <p class="subtitle">Full Fine-Tuning vs PEFT · LoRA·Prompt Tuning·Prefix Tuning·Adapter 비교 · 시나리오별 기법 선택 기준</p>
+  <div class="learning-viz viz-stack" role="img" aria-label="전체 파라미터를 학습하는 Full Fine-Tuning에서 일부만 학습하는 PEFT와 LoRA로 갈수록 학습 파라미터가 줄어드는 관계">
+    <div class="viz-layer"><span>가장 많음</span><strong>Full Fine-Tuning</strong><p>전체 파라미터 업데이트</p></div>
+    <div class="viz-layer"><span>일부</span><strong>PEFT</strong><p>작은 추가 파라미터만 학습</p></div>
+    <div class="viz-layer is-accent"><span>저랭크</span><strong>LoRA</strong><p>저랭크 행렬 A·B만 학습</p></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: <b>Full Fine-Tuning</b>은 모델의 모든 파라미터를 다시 학습시키는 "풀 리모델링"이고, <b>PEFT</b>(Parameter-Efficient Fine-Tuning)는 일부 파라미터만 학습시키는 "부분 인테리어"예요. PEFT는 훨씬 적은 비용·시간으로 비슷한 효과를 낼 수 있어서, 오늘날 sLLM Fine-Tuning의 사실상 표준 접근법이 됐어요.</div></div>
 
   <h3>1) Full Fine-Tuning — 모델 전체를 재학습</h3>
@@ -1074,6 +1083,14 @@ Q1. 이 요구사항이 다루는 정보가 <b>자주 바뀌는가?</b><br>
     <h2><span class="num">12.</span> sLLM 서비스 구현과 배포</h2>
   </div>
   <p class="subtitle">Fine-Tuning이 꼭 필요한 카테고리 판단 기준 · 전처리/추론/후처리 모듈 분리 이유 · 배포 전 체크리스트</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="sLLM용 데이터셋을 학습하고 평가한 뒤 패키징과 서빙 및 모니터링으로 이어지는 흐름">
+    <div class="viz-node"><span>DATA</span><strong>Dataset</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>LEARN</span><strong>Train</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>CHECK</span><strong>Evaluate</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>BUILD</span><strong>Package</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>RUN</span><strong>Serve</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>WATCH</span><strong>Monitor</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 이 강의의 마지막 장이에요. 지금까지 배운 SFT·PEFT·RAG·아키텍처 설계를 <b>실제로 구현하고 배포</b>하는 단계에서 확인해야 할 것들을 정리해요 — 어떤 기능이 Fine-Tuning까지 필요한지, 코드를 왜 모듈로 나눠야 하는지, 배포 전에 무엇을 점검해야 하는지예요.</div></div>
 
   <h3>1) 어떤 기능이 Fine-Tuning이 꼭 필요한 카테고리인가</h3>

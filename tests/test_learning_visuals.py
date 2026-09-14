@@ -11,6 +11,9 @@ PAGE_MINIMUMS = {
     "lectures/03-basic-statistics/index.html": 3,
     "lectures/04-prompt-engineering/index.html": 3,
     "lectures/05-llm-transformer/index.html": 3,
+    "lectures/06-springboot-restapi/index.html": 3,
+    "lectures/07-agile-msa/index.html": 4,
+    "lectures/08-sllm-finetuning/index.html": 3,
 }
 
 

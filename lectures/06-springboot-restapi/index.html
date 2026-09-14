@@ -412,6 +412,12 @@
     <h2><span class="num">1.</span> Java 실행 구조와 개발 환경</h2>
   </div>
   <p class="subtitle">JVM·JRE·JDK 관계 · 소스코드에서 실행까지 · IDE 세팅 · Gradle·Maven 빌드 도구</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="Java 소스가 javac으로 컴파일되어 바이트코드가 되고 JVM에서 실행되는 흐름">
+    <div class="viz-node"><span>SOURCE</span><strong>.java</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>COMPILE</span><strong>javac</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>BYTECODE</span><strong>.class</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>RUN</span><strong>JVM</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 자바 코드는 컴퓨터가 바로 이해할 수 없어요. <b>.java → 바이트코드(.class) → JVM이 실행</b>이라는 3단계를 거치죠. 이번 장에서는 이 흐름을 만드는 JDK/JRE/JVM이 각각 뭘 하는 도구인지, 그리고 실무에서는 어떤 환경(IDE, 빌드 도구)으로 개발하는지를 정리해요.</div></div>
 
   <h3>1) JVM · JRE · JDK — 셋의 관계</h3>
@@ -1447,6 +1453,13 @@ book-api:
     <h2><span class="num">9.</span> Spring Boot MVC와 Actuator</h2>
   </div>
   <p class="subtitle">DispatcherServlet 기반 요청 처리 흐름(Front Controller 패턴) · MVC 구성요소 · Spring Boot Actuator 모니터링</p>
+  <div class="learning-viz viz-flow" role="img" aria-label="클라이언트 요청이 Controller, Service, Repository를 거쳐 데이터베이스로 전달되는 Spring 계층 흐름">
+    <div class="viz-node"><span>REQUEST</span><strong>Client</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>HTTP</span><strong>Controller</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node is-accent"><span>LOGIC</span><strong>Service</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>DATA</span><strong>Repository</strong></div><div class="viz-arrow" aria-hidden="true">→</div>
+    <div class="viz-node"><span>STORE</span><strong>Database</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 브라우저가 <code>GET /api/books/1</code>을 보내면, 그 요청이 곧바로 내가 만든 컨트롤러로 가는 게 아니에요. <b>DispatcherServlet</b>이라는 "문지기"가 모든 요청을 먼저 받아서, 어느 컨트롤러의 어느 메서드로 보낼지 결정한 다음 전달해줘요. 이렇게 요청을 받는 창구를 하나로 통일하는 설계를 <b>Front Controller 패턴</b>이라고 하고, MVC는 그 뒤에서 "요청 처리(Controller) · 데이터(Model) · 화면(View)"의 역할을 나누는 설계예요.</div></div>
 
   <h3>1) MVC 패턴 — 역할을 나누는 이유</h3>
@@ -2564,6 +2577,12 @@ private BookDetail detail;</code></pre></div>
     <h2><span class="num">17.</span> JPA Repository — 조회와 트랜잭션</h2>
   </div>
   <p class="subtitle">JpaRepository&lt;T,ID&gt; 상속만으로 CRUD가 되는 원리 · 쿼리 메서드 네이밍 규칙 · @Query로 JPQL 작성 · @Transactional</p>
+  <div class="learning-viz viz-timeline" role="img" aria-label="JPA 트랜잭션 시작부터 엔티티 변경 감지와 커밋까지의 시간 순서">
+    <div class="viz-step"><span>1 · BEGIN</span><strong>Transaction 시작</strong></div>
+    <div class="viz-step"><span>2 · MANAGED</span><strong>Entity 조회·변경</strong></div>
+    <div class="viz-step is-accent"><span>3 · CHECK</span><strong>Dirty Checking</strong></div>
+    <div class="viz-step"><span>4 · COMMIT</span><strong>SQL 반영</strong></div>
+  </div>
   <div class="tldr"><span class="icon">💡</span><div class="txt">쉽게 말하면: 지금까지는 <code>BookRepository</code>를 직접 구현했지만, Spring Data JPA를 쓰면 <b>인터페이스 하나만 선언</b>해도 저장·조회·삭제 같은 기본 CRUD가 전부 자동으로 동작해요. 심지어 메서드 이름을 <code>findByTitleContaining</code>처럼 규칙에 맞게 짓기만 해도, Spring이 이름을 해석해서 알맞은 SQL을 자동으로 만들어준다. 정말 복잡한 조회는 <code>@Query</code>로 직접 JPQL을 쓸 수도 있어요.</div></div>
 
   <h3>1) JpaRepository&lt;T, ID&gt; 상속만으로 CRUD가 되는 원리</h3>

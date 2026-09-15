@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AWS Cloud Essentials | 서연의 학습 홈</title>
+  <link rel="stylesheet" href="../../assets/seoyeon-journal.css">
+  <style>
+    :root{--bg:#111419;--bg-alt:#171b22;--card:#1b2028;--card-hi:#222833;--ink:#eef2f7;--ink-dim:#aab3c2;--ink-faint:#778191;--line:#303846;--amber:#e3a53c;--teal:#4cb8ad;--green:#7fbf7f;--red:#e0685a;--mono:"SFMono-Regular",Consolas,monospace;--serif:Georgia,"Noto Serif KR",serif;--sans:-apple-system,BlinkMacSystemFont,"Pretendard","Noto Sans KR",sans-serif}
+    body.light{--bg:#f7f7f5;--bg-alt:#f0f1ee;--card:#fff;--card-hi:#f4f5f2;--ink:#1d232c;--ink-dim:#596270;--ink-faint:#89919b;--line:#dfe2df;--amber:#a76408;--teal:#167e76;--green:#337a3a;--red:#bd3e32}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;transition:.2s}
+    a{color:var(--teal)}.site-topbar{height:58px;border-top:4px solid var(--amber);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(12px)}.site-topbar>a{color:var(--amber);font-weight:700}.crumb-sep{margin:0 9px;color:var(--ink-faint)}.crumb-cur{font-weight:650}.theme-btn{border:1px solid var(--line);background:var(--card-hi);color:var(--ink);border-radius:999px;padding:8px 13px;cursor:pointer;font-weight:650}.top-theme{margin-left:auto}
+    .layout{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1450px;margin:0 auto}.sidebar{height:calc(100vh - 58px);position:sticky;top:58px;overflow:auto;border-right:1px solid var(--line);padding:25px 18px}.sidebar h1{font-family:var(--serif);font-size:18px;margin:0}.sidebar .sub{color:var(--ink-faint);font-size:12px;margin:4px 0 16px}.search{width:100%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);padding:9px 10px;border-radius:7px;margin-bottom:12px}.partbox{margin-bottom:10px}.part-title{font-size:11px;letter-spacing:.06em;color:var(--ink-faint);padding:8px 6px 4px;font-weight:750}.navlink{display:block;padding:6px 8px;border-radius:6px;color:var(--ink-dim);text-decoration:none;font-size:13px}.navlink:hover{background:var(--card-hi);color:var(--ink)}.navlink.active{background:rgba(227,165,60,.13);color:var(--amber);font-weight:700}
+    main{width:min(100%,980px);padding:58px 58px 80px}.hero{margin-bottom:42px}.eyebrow{font-family:var(--mono);color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.hero h1{font-family:var(--serif);font-size:42px;line-height:1.15;margin:8px 0 18px}.lead{font-size:18px;color:var(--ink-dim);max-width:850px}.flow{display:flex;align-items:stretch;gap:6px;margin:22px 0;overflow-x:auto;padding-bottom:4px}.flow-step{min-width:112px;flex:1;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:11px;text-align:center}.flow-step.accent{border-color:var(--teal)}.flow-step .k{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-faint)}.flow-step .v{font-size:13px;font-weight:700}.flow-arrow{align-self:center;color:var(--ink-faint)}
+    details.chapter{border-top:1px solid var(--line);scroll-margin-top:76px}details.chapter:last-of-type{border-bottom:1px solid var(--line)}summary{list-style:none;display:flex;align-items:center;gap:14px;padding:22px 4px;cursor:pointer}summary::-webkit-details-marker{display:none}.ch-num{font-family:var(--mono);color:var(--amber);width:34px}.ch-title{flex:1}.ch-title h2{font-size:22px;margin:0}.ch-title .sub{font-size:13px;color:var(--ink-faint)}.chev{color:var(--ink-faint);transition:.2s}details[open] .chev{transform:rotate(90deg)}.ch-body{padding:0 8px 34px 52px;color:var(--ink-dim)}.ch-body h3{color:var(--ink);margin:25px 0 8px;font-size:17px}.ch-body strong{color:var(--ink)}
+    table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}th{background:var(--card-hi);color:var(--ink);font-weight:700}td:first-child{color:var(--ink);font-weight:650}code,pre{font-family:var(--mono)}code{color:var(--teal)}pre{background:var(--bg-alt);border:1px solid var(--line);border-radius:9px;padding:15px;overflow:auto;color:var(--ink);font-size:12.5px;line-height:1.65}.callout,.previewbox{border-left:3px solid var(--amber);background:rgba(227,165,60,.08);padding:14px 16px;margin:18px 0;border-radius:0 8px 8px 0}.previewbox{border-color:var(--teal);background:rgba(76,184,173,.08)}.lbl{display:block;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-bottom:4px}.previewbox .lbl{color:var(--teal)}.callout p,.previewbox p{margin:0}.stackbox{border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:16px 0}.stackbox .row{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid var(--line)}.stackbox .row:last-child{border-bottom:0}.stackbox .tag{padding:10px 12px;background:var(--card-hi);color:var(--ink);font-family:var(--mono);font-size:12px}.stackbox .desc{padding:10px 12px;font-size:13.5px}
+    .confuse-grid,.pillar-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.confuse-card{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:16px}.confuse-card h4{margin:0 0 6px;color:var(--ink)}.confuse-card p{margin:0;color:var(--ink-dim);font-size:13.5px}#confuse,#quiz{margin-top:58px;scroll-margin-top:76px}.quiz-head{margin-bottom:22px}.quiz-head h2{font-size:27px;margin:8px 0}.quiz-head p{color:var(--ink-dim)}
+    .qcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:14px}.qnum{font-family:var(--mono);color:var(--amber);font-size:12px}.qtext{font-weight:650;margin:7px 0 13px}.opts{display:grid;gap:8px}.opt{display:flex;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--bg-alt);font-size:13.5px;color:var(--ink-dim)}.opt input{accent-color:var(--teal)}.opt.correct{border-color:var(--green);background:rgba(127,191,127,.09);color:var(--ink)}.opt.wrong{border-color:var(--red);background:rgba(224,104,90,.09)}.explain{display:none;margin-top:12px;padding:12px 14px;border-radius:8px;background:var(--bg-alt);font-size:13.3px;color:var(--ink-dim)}.explain.show{display:block}.quiz-footer{text-align:center;margin-top:25px;padding:25px;background:var(--card-hi);border-radius:10px}#scoreText{font-size:22px;color:var(--amber)}#scoreDetail{color:var(--ink-dim);font-size:13.5px;margin:7px 0 15px}.btn{font-family:var(--mono);font-size:13px;background:var(--amber);color:#171006;border:0;padding:11px 22px;border-radius:7px;cursor:pointer;font-weight:700}.btn.secondary{background:transparent;border:1px solid var(--line);color:var(--ink-dim);margin-left:8px}.pagefoot{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12px;font-family:var(--mono)}
+    @media(max-width:820px){.site-topbar{padding:0 14px}.crumb-cur{max-width:45vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.layout{display:block}.sidebar{display:none}main{padding:38px 20px 70px}.hero h1{font-size:34px}.lead{font-size:16px}.ch-body{padding-left:8px}.confuse-grid,.pillar-grid{grid-template-columns:1fr}.stackbox .row{grid-template-columns:120px 1fr}}
+  </style>
+</head>
+<body class="light aws-study">
+  <div class="site-topbar"><a href="../../index.html">학습 홈</a><span class="crumb-sep">/</span><span class="crumb-cur">AWS Cloud Essentials</span><button class="theme-btn top-theme" id="themeBtn" type="button">다크 모드</button></div>
+  <div class="layout">
+    <nav class="sidebar" id="sidebar">
+      <h1>AWS Cloud Essentials</h1>
+      <p class="sub">개념 → 아키텍처 → 안전한 실습</p>
+      <input class="search" id="searchBox" type="text" aria-label="목차 검색" placeholder="검색 (예: Region, IAM, EC2)">
+      <div class="partbox"><div class="part-title">파트 1 — 클라우드 기초</div><a class="navlink" href="#ch1">01. 클라우드와 탄력성</a><a class="navlink" href="#ch2">02. IaaS·PaaS·SaaS</a></div>
+      <div class="partbox"><div class="part-title">파트 2 — 글로벌 인프라</div><a class="navlink" href="#ch3">03. Region·AZ·Multi-AZ</a><a class="navlink" href="#ch4">04. Edge·Hybrid</a></div>
+      <div class="partbox"><div class="part-title">파트 3 — 구축 방식</div><a class="navlink" href="#ch5">05. Console·CLI·SDK·API</a><a class="navlink" href="#ch6">06. CloudFormation·CDK</a></div>
+      <div class="partbox"><div class="part-title">파트 4 — 안전한 운영</div><a class="navlink" href="#ch7">07. 보안 공동 책임</a><a class="navlink" href="#ch8">08. Well-Architected</a></div>
+      <div class="partbox"><div class="part-title">파트 5 — 실습 연결</div><a class="navlink" href="#ch9">09. EC2와 비용 안전</a><a class="navlink" href="#ch10">10. 전체 설계 흐름</a></div>
+      <div class="partbox"><div class="part-title">마무리</div><a class="navlink" href="#confuse">헷갈리는 포인트</a><a class="navlink" href="#quiz">복습 퀴즈 15문항</a></div>
+    </nav>
+    <main>
+      <div class="hero">
+        <span class="eyebrow">Cloud · Architecture · Security</span>
+        <h1>AWS Cloud Essentials</h1>
+        <p class="lead">서비스 이름을 외우는 대신 <strong>왜 클라우드를 쓰고, 어디에 배치하며, 누가 무엇을 책임하고, 어떻게 반복 가능하게 운영하는지</strong> 한 흐름으로 이해합니다.</p>
+        <div class="flow learning-viz" role="img" aria-label="필요한 자원을 API로 생성하고 사용량에 따라 비용을 지불한 뒤 필요 없으면 반환하는 클라우드 사용 흐름"><div class="flow-step"><span class="k">need</span><span class="v">필요 정의</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">provision</span><span class="v">API로 생성</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">use</span><span class="v">탄력적 사용</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">meter</span><span class="v">사용량 과금</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">release</span><span class="v">반환·종료</span></div></div>
+      </div>
+
+      <details class="chapter" id="ch1" open>
+        <summary><span class="ch-num">01</span><div class="ch-title"><h2>클라우드와 탄력성</h2><span class="sub">서버 구매가 아니라 필요할 때 자원을 빌리고 되돌리는 운영 방식</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <table><tr><th>관점</th><th>온프레미스</th><th>클라우드</th></tr><tr><td>비용</td><td>장비를 미리 구매하는 CapEx 중심</td><td>사용량 기반 OpEx, 다만 방치하면 계속 과금</td></tr><tr><td>용량</td><td>최대 수요를 예측해 선구매</td><td>수요에 맞춰 확장·축소</td></tr><tr><td>속도</td><td>조달·설치에 시간이 필요</td><td>분 단위로 자원 생성 가능</td></tr><tr><td>운영</td><td>시설·하드웨어까지 직접 관리</td><td>서비스에 따라 AWS와 책임을 나눔</td></tr></table>
+          <h3>Elastic과 Scalable의 차이</h3>
+          <p><strong>Scalability</strong>는 더 큰 부하를 감당할 수 있는 능력이고, <strong>Elasticity</strong>는 실제 수요에 맞춰 자원이 늘고 줄어드는 성질입니다. 클라우드의 핵심은 큰 서버가 아니라 <strong>필요한 만큼 빠르게 조정하고 사용한 만큼 지불</strong>하는 것입니다.</p>
+          <div class="callout"><span class="lbl">비용 함정</span><p>종량제는 자동 절약이 아닙니다. 사용하지 않는 인스턴스·디스크·공인 IPv4·스냅샷도 자원별 과금 규칙에 따라 비용이 생길 수 있으므로 생성과 삭제를 한 쌍으로 관리합니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch2">
+        <summary><span class="ch-num">02</span><div class="ch-title"><h2>IaaS·PaaS·SaaS</h2><span class="sub">서비스 이름보다 누가 어느 계층을 운영하는지로 구분</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-stack" role="img" aria-label="온프레미스에서 IaaS, 관리형 플랫폼, SaaS로 갈수록 공급자가 관리하는 계층이 늘고 사용자가 관리하는 계층이 줄어드는 구조">
+            <div class="viz-layer is-user"><span>사용자 책임이 큼</span><strong>On-premises</strong><p>앱 · 데이터 · 런타임 · OS · 가상화 · 서버 · 네트워크 · 시설</p></div>
+            <div class="viz-layer"><span>Infrastructure</span><strong>IaaS · EC2</strong><p>AWS는 물리 인프라, 사용자는 게스트 OS부터 앱까지</p></div>
+            <div class="viz-layer is-accent"><span>Managed platform</span><strong>RDS · Lambda · EKS</strong><p>관리 범위가 서비스마다 다름—설정·데이터·권한 책임은 남음</p></div>
+            <div class="viz-layer"><span>Software</span><strong>SaaS</strong><p>완성된 애플리케이션을 사용하되 계정·데이터 사용 책임은 남음</p></div>
+          </div>
+          <table><tr><th>모델</th><th>핵심 질문</th><th>예시</th></tr><tr><td>IaaS</td><td>OS와 애플리케이션을 내가 운영하는가?</td><td>Amazon EC2</td></tr><tr><td>PaaS/관리형</td><td>인프라·런타임 일부를 공급자가 운영하는가?</td><td>AWS Lambda, Amazon RDS</td></tr><tr><td>SaaS</td><td>완성된 소프트웨어 기능을 바로 사용하는가?</td><td>웹 메일, 협업 도구 등</td></tr></table>
+          <div class="previewbox"><span class="lbl">EKS 바로잡기</span><p>Amazon EKS는 AWS가 Kubernetes 제어 영역 등을 관리하는 <strong>관리형 Kubernetes 서비스</strong>입니다. SaaS로 단정하는 것보다 EKS Standard·Auto Mode 등 선택에 따라 AWS와 사용자의 운영 범위가 달라진다고 이해해야 정확합니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch3">
+        <summary><span class="ch-num">03</span><div class="ch-title"><h2>Region·AZ·Multi-AZ</h2><span class="sub">지리적 범위와 장애 격리 단위를 구분해 배치</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-stack" role="img" aria-label="하나의 지리적 Region 안에 물리적으로 분리된 여러 Availability Zone이 있고 각 Zone은 하나 이상의 데이터 센터로 구성되는 계층">
+            <div class="viz-layer is-accent"><span>Geographic area</span><strong>Region · ap-northeast-2</strong><p>데이터 위치 · 서비스 제공 여부 · 지연 · 가격을 고려해 선택</p></div>
+            <div class="viz-layer"><span>Failure isolation</span><strong>AZ A ↔ AZ B ↔ AZ C</strong><p>독립 전력·네트워크를 갖춘 물리적으로 분리된 장애 격리 단위</p></div>
+            <div class="viz-layer"><span>Physical facilities</span><strong>Data centers</strong><p>컴퓨팅·스토리지·네트워크 장비가 실제로 위치</p></div>
+          </div>
+          <p><strong>Region은 국가와 같은 말이 아닙니다.</strong> AWS가 정의한 별도의 지리적 영역이며 한 국가에 여러 Region이 있을 수도 있습니다. 2026년 공식 문서 기준 각 Region은 최소 3개의 AZ를 제공하지만, 전체 Region·AZ 수는 계속 변하므로 암기보다 구조를 이해합니다.</p>
+          <h3>Multi-AZ가 필요한 이유</h3>
+          <p>한 AZ 장애가 전체 서비스 장애로 번지지 않도록 애플리케이션과 데이터를 여러 AZ에 분산합니다. 단, 서버를 두 개 만든 것만으로는 부족합니다. 요청 분산, 상태 복제, 자동 장애 조치, 복구 시험이 함께 있어야 합니다.</p>
+          <div class="callout"><span class="lbl">RDS 예시</span><p>Multi-AZ 구성은 다른 AZ에 대기 복제본을 두고 장애 시 전환해 가용성을 높입니다. 읽기 확장을 위한 Read Replica와 목적이 다릅니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch4">
+        <summary><span class="ch-num">04</span><div class="ch-title"><h2>Edge·Hybrid</h2><span class="sub">사용자 가까이 보내거나 기존 데이터센터와 연결하는 선택지</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="flow learning-viz" role="img" aria-label="사용자 요청이 가까운 CloudFront Edge 위치에 도착하고 캐시 적중이면 즉시 응답하며 실패하면 원본에서 가져와 캐시에 저장하는 흐름"><div class="flow-step"><span class="k">client</span><span class="v">사용자</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">edge</span><span class="v">CloudFront</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">hit</span><span class="v">즉시 응답</span></div><div class="flow-arrow">↘</div><div class="flow-step"><span class="k">miss</span><span class="v">Origin 요청</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">cache</span><span class="v">저장·응답</span></div></div>
+          <table><tr><th>서비스</th><th>가까이 두는 것</th><th>대표 목적</th></tr><tr><td>CloudFront</td><td>콘텐츠 캐시와 전송 지점</td><td>웹·이미지·영상·소프트웨어 배포 지연 감소</td></tr><tr><td>Local Zones</td><td>선택한 컴퓨팅·스토리지 서비스</td><td>대도시 사용자에게 한 자릿수 ms 수준 지연이 필요한 워크로드</td></tr><tr><td>Outposts</td><td>AWS 하드웨어와 서비스</td><td>고객 데이터센터에서 일관된 AWS 운영 경험</td></tr><tr><td>Wavelength</td><td>AWS 컴퓨팅·스토리지</td><td>5G 통신망 가장자리의 초저지연 앱</td></tr><tr><td>Direct Connect</td><td>전용 네트워크 연결</td><td>온프레미스와 AWS 사이의 일관된 사설 연결</td></tr></table>
+          <p><strong>Origin</strong>은 원본 콘텐츠가 있는 곳이며 S3·EC2뿐 아니라 외부 서버도 될 수 있습니다. 자주 바뀌는 동적 응답을 무조건 캐시하면 오래된 데이터와 불필요한 전송 비용이 생길 수 있으므로 TTL과 캐시 키를 업무 특성에 맞춥니다.</p>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch5">
+        <summary><span class="ch-num">05</span><div class="ch-title"><h2>Console·CLI·SDK·API</h2><span class="sub">입력 방식은 달라도 최종적으로 AWS API를 호출</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-compare" role="img" aria-label="사람이 사용하는 Console, 터미널 자동화에 쓰는 CLI, 애플리케이션 코드의 SDK가 모두 AWS API를 통해 같은 리소스를 제어하는 구조">
+            <div class="viz-panel"><span>HUMAN</span><strong>Console</strong><p>탐색과 일회성 확인에 편리</p></div>
+            <div class="viz-panel"><span>AUTOMATION</span><strong>CLI</strong><p>스크립트와 반복 작업에 적합</p></div>
+            <div class="viz-panel"><span>APPLICATION</span><strong>SDK</strong><p>코드에서 서비스 기능 호출</p></div>
+            <div class="viz-panel is-accent"><span>COMMON GATE</span><strong>AWS API</strong><p>인증 · 권한 검사 · 리소스 변경</p></div>
+          </div>
+          <table><tr><th>도구</th><th>언제 쓰나</th><th>주의점</th></tr><tr><td>Console</td><td>처음 구조를 익히거나 상태 확인</td><td>클릭 절차가 기록되지 않으면 재현하기 어려움</td></tr><tr><td>CLI</td><td>반복 명령·셸 자동화·CI/CD</td><td>프로필·Region·계정과 반환 코드를 확인</td></tr><tr><td>SDK</td><td>애플리케이션 내부에서 AWS 기능 사용</td><td>재시도·오류·최소 권한·자격 증명 체인을 고려</td></tr></table>
+          <div class="callout"><span class="lbl">API가 핵심인 이유</span><p>인프라도 API로 만들고 바꿀 수 있기 때문에 코드 리뷰·버전 관리·자동화가 가능합니다. Console에서 한 번 성공한 뒤 반복 작업은 CLI나 IaC로 옮기는 습관이 좋습니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch6">
+        <summary><span class="ch-num">06</span><div class="ch-title"><h2>CloudFormation·CDK</h2><span class="sub">원하는 인프라 상태를 코드로 기록하고 반복 배포</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="flow learning-viz" role="img" aria-label="Git에 저장한 CloudFormation 템플릿 또는 CDK 코드가 CloudFormation 템플릿과 변경 계획을 거쳐 Stack 리소스로 배포되는 흐름"><div class="flow-step"><span class="k">source</span><span class="v">Git</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">author</span><span class="v">YAML/JSON<br>또는 CDK</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">plan</span><span class="v">Template<br>Change Set</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">deploy</span><span class="v">Stack</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">state</span><span class="v">AWS Resources</span></div></div>
+          <table><tr><th>구분</th><th>CloudFormation</th><th>AWS CDK</th></tr><tr><td>작성</td><td>YAML/JSON으로 리소스 선언</td><td>TypeScript·Python 등 일반 언어 사용</td></tr><tr><td>결과</td><td>Template을 Stack으로 배포</td><td>CloudFormation Template으로 synth 후 배포</td></tr><tr><td>장점</td><td>최종 선언이 직접 보이고 AWS 기본 기능</td><td>반복·조건·재사용을 언어 기능으로 표현</td></tr><tr><td>주의</td><td>큰 템플릿이 장황할 수 있음</td><td>추상화가 실제 리소스와 권한을 숨기지 않게 검토</td></tr></table>
+          <p>IaC의 핵심은 “명령을 많이 자동화”하는 것이 아니라 <strong>원하는 상태를 버전 관리하고 같은 환경을 반복해서 만들 수 있게 하는 것</strong>입니다. 배포 전 Change Set을 검토하고, 수동 변경으로 생긴 Drift도 확인합니다.</p>
+          <div class="previewbox"><span class="lbl">Stack 삭제</span><p>실습 리소스를 한 Stack으로 관리하면 정리 범위를 알기 쉽습니다. 다만 보존 정책, 외부에서 만든 리소스, S3 버킷 내부 객체처럼 삭제를 막는 조건은 별도로 확인해야 합니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch7">
+        <summary><span class="ch-num">07</span><div class="ch-title"><h2>보안 공동 책임</h2><span class="sub">AWS가 클라우드 자체를, 고객이 클라우드 안의 사용을 보호</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-compare" role="img" aria-label="AWS는 시설, 하드웨어, 네트워크와 가상화 계층 등 클라우드 자체 보안을 책임지고 고객은 데이터, IAM, 설정, 애플리케이션과 EC2 게스트 운영체제 보안을 책임지는 비교">
+            <div class="viz-panel is-accent"><span>SECURITY OF THE CLOUD</span><strong>AWS</strong><p>시설 · 물리 장비 · 기반 네트워크 · 하이퍼바이저</p></div>
+            <div class="viz-panel"><span>SECURITY IN THE CLOUD</span><strong>고객</strong><p>데이터 · IAM · 암호화 선택 · 서비스 설정 · 앱</p></div>
+          </div>
+          <p>책임 경계는 서비스에 따라 달라집니다. EC2에서는 고객이 게스트 OS 패치, 애플리케이션, 보안 그룹 설정을 담당합니다. S3·DynamoDB처럼 더 추상화된 서비스에서도 데이터 분류, 접근 권한, 암호화 옵션 설정은 고객 책임입니다.</p>
+          <div class="stackbox"><div class="row"><div class="tag">Identity</div><div class="desc">루트 사용자는 계정·결제 등 꼭 필요한 경우로 제한하고 MFA 활성화</div></div><div class="row"><div class="tag">Permission</div><div class="desc">IAM 사용자·역할에는 업무에 필요한 최소 권한만 부여</div></div><div class="row"><div class="tag">Secret</div><div class="desc">Access Key와 Secret Key를 코드·저장소·이미지에 넣지 않음</div></div><div class="row"><div class="tag">Exposure</div><div class="desc">노출되면 즉시 비활성화·삭제하고 새 키 발급, 로그와 비용 확인</div></div></div>
+          <div class="callout"><span class="lbl">GitHub 사고 예방</span><p><code>.env</code>를 <code>.gitignore</code>에 넣는 것만으로 이미 커밋된 비밀은 사라지지 않습니다. 비밀이 한 번이라도 공개 저장소에 올라갔다면 삭제 커밋만 하지 말고 <strong>먼저 키를 폐기·교체</strong>해야 합니다. 가능하면 장기 Access Key 대신 IAM Role과 임시 자격 증명을 사용합니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch8">
+        <summary><span class="ch-num">08</span><div class="ch-title"><h2>Well-Architected 6개 원칙</h2><span class="sub">정답 설계가 아니라 균형과 근거를 점검하는 질문 모음</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="pillar-grid learning-viz" role="img" aria-label="AWS Well-Architected Framework의 운영 우수성, 보안, 안정성, 성능 효율성, 비용 최적화, 지속 가능성 여섯 원칙">
+            <div class="confuse-card"><h4>Operational Excellence</h4><p>운영을 관찰하고 절차를 작게 자주 개선</p></div><div class="confuse-card"><h4>Security</h4><p>신원·데이터·시스템을 위험에 맞게 보호</p></div><div class="confuse-card"><h4>Reliability</h4><p>장애에서 복구하고 기대한 기능을 지속 제공</p></div><div class="confuse-card"><h4>Performance Efficiency</h4><p>요구에 맞는 자원을 효율적으로 선택·사용</p></div><div class="confuse-card"><h4>Cost Optimization</h4><p>비용을 측정하고 낭비를 지속적으로 제거</p></div><div class="confuse-card"><h4>Sustainability</h4><p>에너지와 자원 사용을 줄여 환경 영향을 최소화</p></div>
+          </div>
+          <p>여섯 원칙은 서로 독립된 점수가 아닙니다. 예를 들어 Multi-AZ는 안정성을 높이지만 비용도 늘 수 있습니다. 요구사항과 위험을 먼저 정하고 <strong>왜 그 균형을 선택했는지</strong> 기록하는 것이 리뷰의 핵심입니다.</p>
+          <div class="previewbox"><span class="lbl">헷갈림 교정</span><p>“지속 가능성”은 단순한 지속적 개선이 아니라 워크로드의 에너지·자원 효율을 높여 환경 영향을 줄이는 관점입니다. 지속적인 운영 개선은 주로 운영 우수성과 연결됩니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch9">
+        <summary><span class="ch-num">09</span><div class="ch-title"><h2>EC2 실습과 비용 안전</h2><span class="sub">생성보다 계정·네트워크·삭제 확인이 더 중요</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-timeline" role="img" aria-label="EC2 실습에서 계정과 Region 확인, AMI와 인스턴스 유형 선택, 키와 보안 그룹 최소 개방, 접속 확인, 자원 종료와 비용 확인 순서">
+            <div class="viz-step"><span>1 · SCOPE</span><strong>계정 · Region · 예산 확인</strong></div><div class="viz-step"><span>2 · BUILD</span><strong>AMI · Type · Storage 선택</strong></div><div class="viz-step is-accent"><span>3 · SECURE</span><strong>Key · Security Group 최소 개방</strong></div><div class="viz-step"><span>4 · VERIFY</span><strong>접속 · 로그 · 동작 확인</strong></div><div class="viz-step"><span>5 · CLEAN</span><strong>종료 · 잔여 자원 · 비용 확인</strong></div>
+          </div>
+          <table><tr><th>항목</th><th>확인할 것</th></tr><tr><td>AMI</td><td>운영체제·아키텍처·기본 사용자명·패치 방식</td></tr><tr><td>Instance type</td><td>vCPU·메모리·네트워크 조합과 시간당 가격</td></tr><tr><td>Key pair</td><td>개인 키를 안전하게 보관하고 저장소에 넣지 않기</td></tr><tr><td>Security group</td><td>SSH/HTTP 포트를 필요한 출발지에만 허용</td></tr><tr><td>Storage</td><td>루트 EBS 용량·유형·인스턴스 종료 시 삭제 여부</td></tr><tr><td>Network</td><td>VPC·Subnet·AZ·공인 IP 필요 여부</td></tr></table>
+          <h3>IP 주소의 변화</h3>
+          <p>기본 공인 IPv4는 인스턴스를 중지하면 반환되고 다시 시작할 때 새 주소를 받습니다. 기본 네트워크 인터페이스의 사설 IPv4는 중지·시작 후에도 유지됩니다. 고정 공인 주소가 필요하면 Elastic IP 같은 방법을 검토하되 <strong>공인 IPv4 자체에도 비용</strong>이 생길 수 있습니다.</p>
+          <h3>2026년 9월 기준 AWS Free Tier</h3>
+          <p>신규 고객은 가입 시 100달러 크레딧을 받고 활동으로 최대 100달러를 추가 획득할 수 있습니다. Free plan은 최대 6개월 또는 크레딧 소진 시까지이며 일부 서비스만 사용할 수 있습니다. 기존 계정과 Paid plan의 조건은 다를 수 있으므로 <strong>강의의 750시간 예시를 그대로 가정하지 말고</strong> 생성 직전 Billing·Free Tier 화면과 해당 서비스 가격을 확인합니다.</p>
+          <div class="callout"><span class="lbl">종료와 삭제는 다르다</span><p>EC2를 중지해도 연결된 EBS·스냅샷·Elastic IP 등은 남을 수 있습니다. 실습 후 인스턴스 상태만 보지 말고 각 리소스와 Billing 대시보드, 예산 알림까지 확인합니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch10">
+        <summary><span class="ch-num">10</span><div class="ch-title"><h2>전체 설계 흐름</h2><span class="sub">서비스 목록을 요구사항·배치·책임·운영 결정으로 연결</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="stackbox"><div class="row"><div class="tag">1. Requirement</div><div class="desc">사용자 위치, 지연, 가용성, 데이터 규제, 복구 목표, 예산을 수치로 정의</div></div><div class="row"><div class="tag">2. Region</div><div class="desc">지연·서비스 지원·규제·가격을 보고 Region 선택</div></div><div class="row"><div class="tag">3. Placement</div><div class="desc">Multi-AZ, Edge, Hybrid 연결 필요 여부 결정</div></div><div class="row"><div class="tag">4. Service</div><div class="desc">필요한 제어 수준과 운영 부담에 맞춰 EC2·관리형 서비스 선택</div></div><div class="row"><div class="tag">5. Security</div><div class="desc">공동 책임 경계, IAM 최소 권한, 네트워크와 데이터 보호 설계</div></div><div class="row"><div class="tag">6. Automation</div><div class="desc">IaC·배포·관찰·복구·삭제 절차를 코드와 실행 기록으로 남김</div></div><div class="row"><div class="tag">7. Review</div><div class="desc">Well-Architected 관점과 실제 비용·장애 시험 결과로 반복 개선</div></div></div>
+          <h3>예시: 글로벌 학습 사이트</h3>
+          <p>정적 파일은 S3 같은 Origin에 두고 CloudFront로 전송 지연을 줄일 수 있습니다. 동적 API와 데이터베이스는 주 사용자가 가까운 Region에 배치하고, 가용성 요구가 높다면 여러 AZ에 분산합니다. 모든 리소스는 IaC로 만들고, 운영 접근은 IAM Role과 MFA를 사용하며, 예산 알림과 로그를 함께 구성합니다.</p>
+          <div class="previewbox"><span class="lbl">최종 질문</span><p>“어떤 AWS 서비스를 썼나?”보다 “어떤 요구 때문에 이 배치와 책임 경계를 선택했고, 장애·보안·비용을 어떻게 검증할 것인가?”를 설명할 수 있으면 핵심을 이해한 것입니다.</p></div>
+          <h3>공식 문서로 다시 확인하기</h3>
+          <p><a href="https://aws.amazon.com/about-aws/global-infrastructure/">Global Infrastructure</a> · <a href="https://aws.amazon.com/compliance/shared-responsibility-model/">Shared Responsibility Model</a> · <a href="https://docs.aws.amazon.com/wellarchitected/latest/framework/the-pillars-of-the-framework.html">Well-Architected</a> · <a href="https://aws.amazon.com/free/">AWS Free Tier</a> · <a href="https://docs.aws.amazon.com/eks/latest/userguide/">Amazon EKS</a></p>
+        </div>
+      </details>
+
+      <section id="confuse">
+        <span class="eyebrow">Review map</span><h2>자주 헷갈리는 포인트</h2>
+        <div class="confuse-grid">
+          <div class="confuse-card"><h4>Region vs 국가</h4><p>Region은 AWS의 지리적 영역입니다. 국가 경계와 항상 일치하지 않습니다.</p></div><div class="confuse-card"><h4>AZ vs 데이터센터</h4><p>AZ는 장애 격리 단위이며 하나 이상의 물리 데이터센터로 구성될 수 있습니다.</p></div><div class="confuse-card"><h4>Multi-AZ vs Backup</h4><p>Multi-AZ는 가용성, Backup은 시점 복구가 중심입니다. 서로 대체하지 않습니다.</p></div><div class="confuse-card"><h4>CloudFront vs Local Zone</h4><p>CloudFront는 콘텐츠 전송·캐시, Local Zone은 선택한 컴퓨팅·스토리지를 사용자 가까이 둡니다.</p></div><div class="confuse-card"><h4>Outposts vs Direct Connect</h4><p>Outposts는 AWS 장비를 현장에 두고, Direct Connect는 현장과 AWS를 전용 연결합니다.</p></div><div class="confuse-card"><h4>CDK vs CloudFormation</h4><p>CDK는 CloudFormation의 대체 엔진이 아니라 코드를 Template으로 변환해 배포하는 작성 방식입니다.</p></div><div class="confuse-card"><h4>AWS 책임 vs 고객 책임</h4><p>AWS가 모든 보안을 대신하지 않습니다. 데이터·권한·설정은 계속 고객 책임입니다.</p></div><div class="confuse-card"><h4>무료 한도 vs 무료 보장</h4><p>계정·시점·서비스별 조건이 다릅니다. 항상 현재 Billing과 가격표를 확인합니다.</p></div>
+        </div>
+      </section>
+
+      <section id="quiz">
+        <div class="quiz-head"><span class="eyebrow">Self check</span><h2>복습 퀴즈 15문항</h2><p>용어 암기보다 상황에 맞는 선택과 책임 경계를 확인합니다.</p></div>
+        <div id="quizContainer"></div>
+        <div class="quiz-footer"><div id="scoreText">아직 채점하지 않았습니다.</div><div id="scoreDetail">15문항을 모두 풀고 결과를 확인하세요.</div><button class="btn" id="gradeBtn" type="button">채점하기</button><button class="btn secondary" id="resetBtn" type="button">다시 풀기</button></div>
+      </section>
+      <div class="pagefoot">AWS Cloud Essentials · 개념 → 배치 → 자동화 → 보안 → 비용</div>
+    </main>
+  </div>
+  <script>
+  const themeBtn=document.getElementById('themeBtn');
+  themeBtn.addEventListener('click',()=>{document.body.classList.toggle('light');themeBtn.textContent=document.body.classList.contains('light')?'다크 모드':'라이트 모드'});
+  const navLinks=[...document.querySelectorAll('.navlink')];
+  const searchable=[...document.querySelectorAll('details.chapter,#confuse,#quiz')];
+  navLinks.forEach(link=>link.addEventListener('click',()=>{const target=document.querySelector(link.getAttribute('href'));if(target?.matches('details'))target.open=true}));
+  document.getElementById('searchBox').addEventListener('input',event=>{const query=event.target.value.trim().toLowerCase();searchable.forEach(target=>{const match=!query||target.textContent.toLowerCase().includes(query);target.style.display=match?'':'none';if(query&&match&&target.matches('details'))target.open=true})});
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;navLinks.forEach(link=>link.classList.toggle('active',link.hash==='#'+entry.target.id))}),{rootMargin:'-10% 0px -70% 0px'});
+  searchable.forEach(target=>observer.observe(target));
+
+  const QUESTIONS=[{
+    q: "트래픽이 평소의 10배로 늘었다가 줄었다. 수요에 맞춰 자원을 자동으로 늘리고 줄이는 성질은?",
+    opts: ["Durability", "Elasticity", "Portability", "Data residency"], correct: 1,
+    explain: "Elasticity는 실제 수요 변화에 맞춰 자원을 확장·축소하는 성질입니다."
+  },{
+    q: "EC2를 사용할 때 게스트 운영체제 보안 패치는 누가 담당하는가?",
+    opts: ["AWS만", "고객", "인터넷 제공자", "CloudFront"], correct: 1,
+    explain: "EC2는 IaaS이므로 고객이 게스트 OS, 애플리케이션, 보안 그룹 설정을 관리합니다."
+  },{
+    q: "Region과 AZ에 대한 가장 정확한 설명은?",
+    opts: ["Region은 항상 국가 하나와 같다", "AZ는 가상 서버 한 대다", "Region 안에 물리적으로 분리된 여러 AZ가 있다", "AZ는 CloudFront 캐시다"], correct: 2,
+    explain: "Region은 별도의 지리적 영역이고 그 안에 물리적으로 분리된 여러 AZ가 있습니다."
+  },{
+    q: "한 AZ 장애에도 서비스를 계속 제공하려면 가장 먼저 검토할 설계는?",
+    opts: ["한 AZ에 더 큰 서버 한 대", "여러 AZ에 분산하고 장애 조치 구성", "백업 파일명 변경", "모든 포트 개방"], correct: 1,
+    explain: "Multi-AZ 배치와 요청 분산·복제·자동 장애 조치를 함께 설계해야 합니다."
+  },{
+    q: "전 세계 사용자에게 이미지 파일을 빠르게 전달하는 데 가장 직접적인 서비스는?",
+    opts: ["CloudFront", "IAM", "CloudFormation", "Direct Connect"], correct: 0,
+    explain: "CloudFront는 가까운 Edge 위치에서 콘텐츠를 캐시·전송해 지연을 줄입니다."
+  },{
+    q: "고객 데이터센터에 AWS 하드웨어를 설치해 선택한 AWS 서비스를 실행하려면?",
+    opts: ["Outposts", "Wavelength", "CloudFront", "Route 53"], correct: 0,
+    explain: "AWS Outposts는 AWS 인프라와 서비스를 고객 현장으로 확장합니다."
+  },{
+    q: "Console, CLI, SDK의 공통점은?",
+    opts: ["항상 브라우저가 필요하다", "모두 무료 사용을 보장한다", "최종적으로 AWS API를 호출한다", "IAM 권한을 무시한다"], correct: 2,
+    explain: "입력 인터페이스는 달라도 AWS API를 통해 인증·권한 검사를 거쳐 리소스를 제어합니다."
+  },{
+    q: "AWS CDK의 배포 흐름으로 가장 알맞은 것은?",
+    opts: ["CDK 코드 → CloudFormation Template → Stack", "CDK 코드 → SaaS → 데이터센터", "CDK 코드 → Access Key 공개", "CDK 코드 → CloudFront 캐시만 생성"], correct: 0,
+    explain: "CDK는 일반 언어로 작성한 구성을 CloudFormation Template으로 합성해 Stack으로 배포합니다."
+  },{
+    q: "Access Key를 실수로 공개 GitHub 저장소에 올렸다. 가장 먼저 할 일은?",
+    opts: ["README에서만 지운다", "저장소를 새로고침한다", "키를 즉시 폐기·교체한다", "인스턴스를 재부팅한다"], correct: 2,
+    explain: "공개된 비밀은 이미 복제됐다고 보고 먼저 폐기·교체한 뒤 로그와 비용을 조사해야 합니다."
+  },{
+    q: "S3를 사용할 때도 고객에게 남는 책임은?",
+    opts: ["데이터 분류와 접근 권한 설정", "AWS 데이터센터 출입 통제", "물리 디스크 폐기", "하이퍼바이저 패치"], correct: 0,
+    explain: "관리형 서비스에서도 고객은 데이터와 IAM, 암호화·공개 범위 같은 설정을 책임집니다."
+  },{
+    q: "Well-Architected의 Sustainability가 주로 묻는 것은?",
+    opts: ["회의를 계속하는가", "에너지·자원 효율로 환경 영향을 줄이는가", "서버 이름이 일정한가", "모든 서비스를 한 Region에 두는가"], correct: 1,
+    explain: "Sustainability는 워크로드의 자원·에너지 효율과 환경 영향 최소화에 초점을 둡니다."
+  },{
+    q: "EC2를 중지했다가 시작했을 때 일반적으로 바뀌는 것은?",
+    opts: ["기본 사설 IPv4", "기본 공인 IPv4", "AMI 이름", "IAM 계정"], correct: 1,
+    explain: "기본 공인 IPv4는 중지 시 반환되고 시작할 때 새 주소를 받습니다. 사설 IPv4는 네트워크 인터페이스에 유지됩니다."
+  },{
+    q: "EC2 인스턴스를 중지했는데 비용이 계속 발생할 수 있는 이유는?",
+    opts: ["중지하면 모든 리소스가 자동 삭제되지 않기 때문", "Console을 열었기 때문", "AZ 이름이 길기 때문", "MFA를 사용했기 때문"], correct: 0,
+    explain: "EBS, 스냅샷, 공인 IPv4 등 연결·잔여 리소스는 별도 과금될 수 있습니다."
+  },{
+    q: "현재 AWS Free Tier를 안전하게 사용하는 방법은?",
+    opts: ["옛 강의의 750시간만 믿는다", "여러 인스턴스를 만들면 한도가 늘어난다고 본다", "생성 전 계정의 Free Tier·Billing·가격표를 확인한다", "비용 알림을 끈다"], correct: 2,
+    explain: "Free Tier 조건은 계정·시점·서비스에 따라 달라지므로 현재 콘솔과 공식 가격을 확인해야 합니다."
+  },{
+    q: "글로벌 서비스를 설계할 때 올바른 의사결정 순서는?",
+    opts: ["서비스 이름 선택 → 나중에 요구사항 확인", "요구사항 정의 → Region·배치 → 책임·자동화·운영 검토", "모든 포트 개방 → 비용 확인 생략", "한 AZ에 배치 → 장애 시험 생략"], correct: 1,
+    explain: "요구사항을 먼저 수치화한 뒤 배치와 서비스, 보안 책임, 자동화·운영을 연결해야 합니다."
+  }];
+
+  const quizContainer=document.getElementById('quizContainer');
+  function renderQuiz(){quizContainer.innerHTML=QUESTIONS.map((item,index)=>`<article class="qcard"><div class="qnum">Q${String(index+1).padStart(2,'0')}</div><div class="qtext">${item.q}</div><div class="opts">${item.opts.map((opt,optIndex)=>`<label class="opt"><input type="radio" name="q${index}" value="${optIndex}"><span>${opt}</span></label>`).join('')}</div><div class="explain" id="explain${index}">${item.explain}</div></article>`).join('')}
+  renderQuiz();
+  document.getElementById('gradeBtn').addEventListener('click',()=>{let score=0;QUESTIONS.forEach((item,index)=>{const selected=document.querySelector(`input[name="q${index}"]:checked`);document.querySelectorAll(`input[name="q${index}"]`).forEach(input=>{const label=input.closest('.opt');label.classList.remove('correct','wrong');if(Number(input.value)===item.correct)label.classList.add('correct');else if(input.checked)label.classList.add('wrong')});if(selected&&Number(selected.value)===item.correct)score++;document.getElementById(`explain${index}`).classList.add('show')});document.getElementById('scoreText').textContent=`${score} / ${QUESTIONS.length}`;document.getElementById('scoreDetail').textContent=score===QUESTIONS.length?'핵심 연결을 정확히 이해했습니다.':`틀린 ${QUESTIONS.length-score}문항의 설명을 다시 확인하세요.`});
+  document.getElementById('resetBtn').addEventListener('click',()=>{renderQuiz();document.getElementById('scoreText').textContent='아직 채점하지 않았습니다.';document.getElementById('scoreDetail').textContent='15문항을 모두 풀고 결과를 확인하세요.';document.getElementById('quiz').scrollIntoView({behavior:'smooth'})});
+  </script>
+</body>
+</html>

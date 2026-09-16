@@ -30,7 +30,9 @@
       <div class="partbox"><div class="part-title">파트 2 — 글로벌 인프라</div><a class="navlink" href="#ch3">03. Region·AZ·Multi-AZ</a><a class="navlink" href="#ch4">04. Edge·Hybrid</a></div>
       <div class="partbox"><div class="part-title">파트 3 — 구축 방식</div><a class="navlink" href="#ch5">05. Console·CLI·SDK·API</a><a class="navlink" href="#ch6">06. CloudFormation·CDK</a></div>
       <div class="partbox"><div class="part-title">파트 4 — 안전한 운영</div><a class="navlink" href="#ch7">07. 보안 공동 책임</a><a class="navlink" href="#ch8">08. Well-Architected</a></div>
-      <div class="partbox"><div class="part-title">파트 5 — 실습 연결</div><a class="navlink" href="#ch9">09. EC2와 비용 안전</a><a class="navlink" href="#ch10">10. 전체 설계 흐름</a></div>
+      <div class="partbox"><div class="part-title">파트 5 — 컴퓨팅</div><a class="navlink" href="#ch9">09. EC2 구조와 실습</a></div>
+      <div class="partbox"><div class="part-title">파트 6 — 네트워크·스토리지</div><a class="navlink" href="#ch10">10. VPC 트래픽 경로</a><a class="navlink" href="#ch11">11. 스토리지 선택</a></div>
+      <div class="partbox"><div class="part-title">파트 7 — 설계 연결</div><a class="navlink" href="#ch12">12. 전체 설계 흐름</a></div>
       <div class="partbox"><div class="part-title">마무리</div><a class="navlink" href="#confuse">헷갈리는 포인트</a><a class="navlink" href="#quiz">복습 퀴즈 15문항</a></div>
     </nav>
     <main>
@@ -138,12 +140,15 @@
       </details>
 
       <details class="chapter" id="ch9">
-        <summary><span class="ch-num">09</span><div class="ch-title"><h2>EC2 실습과 비용 안전</h2><span class="sub">생성보다 계정·네트워크·삭제 확인이 더 중요</span></div><span class="chev">▸</span></summary>
+        <summary><span class="ch-num">09</span><div class="ch-title"><h2>EC2 구조와 실습</h2><span class="sub">AMI·인스턴스 유형·부팅 자동화·비용을 한 흐름으로 이해</span></div><span class="chev">▸</span></summary>
         <div class="ch-body">
           <div class="learning-viz viz-timeline" role="img" aria-label="EC2 실습에서 계정과 Region 확인, AMI와 인스턴스 유형 선택, 키와 보안 그룹 최소 개방, 접속 확인, 자원 종료와 비용 확인 순서">
             <div class="viz-step"><span>1 · SCOPE</span><strong>계정 · Region · 예산 확인</strong></div><div class="viz-step"><span>2 · BUILD</span><strong>AMI · Type · Storage 선택</strong></div><div class="viz-step is-accent"><span>3 · SECURE</span><strong>Key · Security Group 최소 개방</strong></div><div class="viz-step"><span>4 · VERIFY</span><strong>접속 · 로그 · 동작 확인</strong></div><div class="viz-step"><span>5 · CLEAN</span><strong>종료 · 잔여 자원 · 비용 확인</strong></div>
           </div>
-          <table><tr><th>항목</th><th>확인할 것</th></tr><tr><td>AMI</td><td>운영체제·아키텍처·기본 사용자명·패치 방식</td></tr><tr><td>Instance type</td><td>vCPU·메모리·네트워크 조합과 시간당 가격</td></tr><tr><td>Key pair</td><td>개인 키를 안전하게 보관하고 저장소에 넣지 않기</td></tr><tr><td>Security group</td><td>SSH/HTTP 포트를 필요한 출발지에만 허용</td></tr><tr><td>Storage</td><td>루트 EBS 용량·유형·인스턴스 종료 시 삭제 여부</td></tr><tr><td>Network</td><td>VPC·Subnet·AZ·공인 IP 필요 여부</td></tr></table>
+          <table><tr><th>구성</th><th>핵심</th></tr><tr><td>AMI</td><td>운영체제와 기본 소프트웨어가 담긴 서버 시작 이미지. AWS·마켓플레이스·직접 만든 AMI를 선택할 수 있음</td></tr><tr><td>Instance type</td><td>vCPU·메모리·네트워크의 고정 조합. T는 버스트형, M은 범용, C는 연산, R은 메모리, G/P는 가속기 중심</td></tr><tr><td>User data</td><td>최초 부팅 시 패키지 설치·웹 서버 구성 등을 자동화. 비밀값은 넣지 않음</td></tr><tr><td>Metadata</td><td>인스턴스 ID·네트워크 등 자기 정보를 조회. 토큰 기반 IMDSv2를 사용</td></tr><tr><td>Access</td><td>키 페어의 개인 키는 사용자가 보호. 가능하면 Session Manager 같은 관리형 접속으로 키 확산을 줄임</td></tr></table>
+          <p>인스턴스 유형의 세부 사양을 모두 외우기보다 <strong>워크로드가 연산·메모리·스토리지·GPU 중 무엇을 많이 쓰는지</strong> 판단하는 것이 중요합니다. EKS의 워커 노드도 EC2를 사용할 수 있으므로 유형 선택이 클러스터 용량으로 이어지고, 컨테이너 이미지는 ECR 같은 레지스트리에 저장합니다.</p>
+          <h3>Scale up과 Scale out</h3>
+          <p><strong>Scale up/down</strong>은 한 인스턴스의 유형을 바꾸는 방식이라 보통 중지와 재시작이 필요합니다. <strong>Scale out/in</strong>은 인스턴스 수를 늘리고 줄이는 방식이며, 가용성과 탄력성을 높이려면 로드 밸런서·자동 확장과 함께 설계합니다.</p>
           <h3>IP 주소의 변화</h3>
           <p>기본 공인 IPv4는 인스턴스를 중지하면 반환되고 다시 시작할 때 새 주소를 받습니다. 기본 네트워크 인터페이스의 사설 IPv4는 중지·시작 후에도 유지됩니다. 고정 공인 주소가 필요하면 Elastic IP 같은 방법을 검토하되 <strong>공인 IPv4 자체에도 비용</strong>이 생길 수 있습니다.</p>
           <h3>2026년 9월 기준 AWS Free Tier</h3>
@@ -153,21 +158,49 @@
       </details>
 
       <details class="chapter" id="ch10">
-        <summary><span class="ch-num">10</span><div class="ch-title"><h2>전체 설계 흐름</h2><span class="sub">서비스 목록을 요구사항·배치·책임·운영 결정으로 연결</span></div><span class="chev">▸</span></summary>
+        <summary><span class="ch-num">10</span><div class="ch-title"><h2>VPC 트래픽 경로</h2><span class="sub">서브넷 이름보다 라우팅 테이블과 보안 경계를 따라가기</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="flow learning-viz" role="img" aria-label="인터넷 요청이 인터넷 게이트웨이와 퍼블릭 서브넷의 로드 밸런서를 거쳐 프라이빗 서브넷의 애플리케이션과 데이터베이스로 이동하는 VPC 경로">
+            <div class="flow-step"><span class="k">internet</span><span class="v">사용자</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">gateway</span><span class="v">IGW</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">public</span><span class="v">ALB</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">private</span><span class="v">App</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">private</span><span class="v">DB</span></div>
+          </div>
+          <div class="callout"><span class="lbl">가장 중요한 기준</span><p>퍼블릭 서브넷은 이름으로 정해지지 않습니다. 연결된 <strong>라우팅 테이블에 Internet Gateway로 향하는 경로가 있어야</strong> 퍼블릭 서브넷입니다. IPv4 인터넷 통신에는 인스턴스의 공인 IPv4 또는 Elastic IP도 필요합니다.</p></div>
+          <table><tr><th>구성</th><th>역할과 판단 기준</th></tr><tr><td>Route table</td><td>목적지별 다음 경로를 결정. 서브넷의 실제 트래픽 흐름을 좌우</td></tr><tr><td>Internet Gateway</td><td>VPC에 연결해 퍼블릭 IPv4 인터넷 경로를 제공</td></tr><tr><td>NAT Gateway</td><td>프라이빗 서브넷의 외부 방향 통신에 사용. 시간·데이터 처리 비용이 있으므로 실습 후 삭제</td></tr><tr><td>VPC endpoint</td><td>S3·DynamoDB 등 지원 서비스는 NAT를 거치지 않고 사설 경로로 접근 가능</td></tr></table>
+          <h3>Security Group과 Network ACL</h3>
+          <table><tr><th>구분</th><th>Security Group</th><th>Network ACL</th></tr><tr><td>적용 범위</td><td>인스턴스의 네트워크 인터페이스</td><td>서브넷</td></tr><tr><td>상태</td><td>Stateful: 응답 트래픽 자동 허용</td><td>Stateless: 왕복 규칙을 각각 작성</td></tr><tr><td>규칙</td><td>허용 규칙만 지원</td><td>허용·거부 규칙을 번호 순서대로 평가</td></tr></table>
+          <p>CIDR는 나중에 쉽게 늘리기 어려우므로 주소 수요를 먼저 계산합니다. AWS는 각 서브넷의 IPv4 주소 중 <strong>5개를 예약</strong>합니다. DB·내부 API는 프라이빗 서브넷에 두고, 공개 진입점만 퍼블릭 서브넷에 두는 것이 기본입니다.</p>
+          <h3>최소 실습 체크리스트</h3>
+          <p>① VPC CIDR 결정 → ② 두 AZ에 퍼블릭·프라이빗 서브넷 구성 → ③ IGW와 라우팅 연결 → ④ Security Group 최소 포트 허용 → ⑤ User data로 EC2 웹 서버 구성 → ⑥ HTTP와 경로 검증 → ⑦ EC2·EBS·NAT Gateway·Elastic IP 잔여 자원 삭제</p>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch11">
+        <summary><span class="ch-num">11</span><div class="ch-title"><h2>스토리지 선택</h2><span class="sub">블록·파일·객체·임시 디스크의 사용 목적과 수명 구분</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-compare" role="img" aria-label="EC2 워크로드가 운영체제와 데이터 디스크에는 EBS, 여러 서버의 공유 파일에는 EFS, 정적 파일과 백업에는 S3, 임시 고속 작업에는 인스턴스 스토어를 선택하는 구조">
+            <div class="viz-panel is-accent"><span>BLOCK</span><strong>EBS</strong><p>한 서버의 OS · 데이터 디스크</p></div><div class="viz-panel"><span>FILE</span><strong>EFS</strong><p>여러 서버가 함께 쓰는 파일</p></div><div class="viz-panel"><span>OBJECT</span><strong>S3</strong><p>정적 파일 · 백업 · 로그</p></div><div class="viz-panel"><span>EPHEMERAL</span><strong>Instance store</strong><p>캐시 · 임시 고속 작업</p></div>
+          </div>
+          <table><tr><th>서비스</th><th>핵심 성질</th><th>적합한 용도</th></tr><tr><td>EBS</td><td>AZ에 속하는 네트워크 블록 스토리지. 일반적으로 한 EC2에 연결</td><td>부팅 볼륨, 데이터베이스 디스크</td></tr><tr><td>EFS</td><td>여러 AZ의 여러 인스턴스가 공유하는 관리형 파일 시스템</td><td>공유 콘텐츠, 여러 서버의 공통 파일</td></tr><tr><td>S3</td><td>Region 단위 객체 스토리지. 디스크와 달리 객체 API로 접근</td><td>정적 자산, 로그, 백업, 데이터 레이크</td></tr><tr><td>Instance store</td><td>호스트에 직접 붙은 임시 스토리지. 재부팅에는 유지되지만 중지·최대 절전·종료·호스트 장애 시 손실</td><td>재생성 가능한 캐시·임시 데이터</td></tr></table>
+          <div class="previewbox"><span class="lbl">EBS Snapshot</span><p>스냅샷은 EBS 볼륨의 시점 복구본입니다. AWS가 내부적으로 S3에 저장하지만 사용자가 일반 S3 버킷 객체처럼 직접 관리하지는 않습니다. 중요한 데이터는 스냅샷 주기와 실제 복원 시험까지 함께 설계합니다.</p></div>
+          <div class="callout"><span class="lbl">비용 확인</span><p>EC2 중지는 컴퓨팅 실행만 멈춥니다. 연결된 EBS와 스냅샷, NAT Gateway, Elastic IP 등은 계속 남아 과금될 수 있으므로 실습 종료는 <strong>리소스별 삭제와 Billing 확인</strong>까지입니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch12">
+        <summary><span class="ch-num">12</span><div class="ch-title"><h2>전체 설계 흐름</h2><span class="sub">서비스 목록을 요구사항·배치·책임·운영 결정으로 연결</span></div><span class="chev">▸</span></summary>
         <div class="ch-body">
           <div class="stackbox"><div class="row"><div class="tag">1. Requirement</div><div class="desc">사용자 위치, 지연, 가용성, 데이터 규제, 복구 목표, 예산을 수치로 정의</div></div><div class="row"><div class="tag">2. Region</div><div class="desc">지연·서비스 지원·규제·가격을 보고 Region 선택</div></div><div class="row"><div class="tag">3. Placement</div><div class="desc">Multi-AZ, Edge, Hybrid 연결 필요 여부 결정</div></div><div class="row"><div class="tag">4. Service</div><div class="desc">필요한 제어 수준과 운영 부담에 맞춰 EC2·관리형 서비스 선택</div></div><div class="row"><div class="tag">5. Security</div><div class="desc">공동 책임 경계, IAM 최소 권한, 네트워크와 데이터 보호 설계</div></div><div class="row"><div class="tag">6. Automation</div><div class="desc">IaC·배포·관찰·복구·삭제 절차를 코드와 실행 기록으로 남김</div></div><div class="row"><div class="tag">7. Review</div><div class="desc">Well-Architected 관점과 실제 비용·장애 시험 결과로 반복 개선</div></div></div>
           <h3>예시: 글로벌 학습 사이트</h3>
           <p>정적 파일은 S3 같은 Origin에 두고 CloudFront로 전송 지연을 줄일 수 있습니다. 동적 API와 데이터베이스는 주 사용자가 가까운 Region에 배치하고, 가용성 요구가 높다면 여러 AZ에 분산합니다. 모든 리소스는 IaC로 만들고, 운영 접근은 IAM Role과 MFA를 사용하며, 예산 알림과 로그를 함께 구성합니다.</p>
           <div class="previewbox"><span class="lbl">최종 질문</span><p>“어떤 AWS 서비스를 썼나?”보다 “어떤 요구 때문에 이 배치와 책임 경계를 선택했고, 장애·보안·비용을 어떻게 검증할 것인가?”를 설명할 수 있으면 핵심을 이해한 것입니다.</p></div>
           <h3>공식 문서로 다시 확인하기</h3>
-          <p><a href="https://aws.amazon.com/about-aws/global-infrastructure/">Global Infrastructure</a> · <a href="https://aws.amazon.com/compliance/shared-responsibility-model/">Shared Responsibility Model</a> · <a href="https://docs.aws.amazon.com/wellarchitected/latest/framework/the-pillars-of-the-framework.html">Well-Architected</a> · <a href="https://aws.amazon.com/free/">AWS Free Tier</a> · <a href="https://docs.aws.amazon.com/eks/latest/userguide/">Amazon EKS</a></p>
+          <p><a href="https://aws.amazon.com/about-aws/global-infrastructure/">Global Infrastructure</a> · <a href="https://aws.amazon.com/compliance/shared-responsibility-model/">Shared Responsibility Model</a> · <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html">VPC와 Internet Gateway</a> · <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Storage.html">EC2 Storage</a> · <a href="https://aws.amazon.com/free/">AWS Free Tier</a></p>
         </div>
       </details>
 
       <section id="confuse">
         <span class="eyebrow">Review map</span><h2>자주 헷갈리는 포인트</h2>
         <div class="confuse-grid">
-          <div class="confuse-card"><h4>Region vs 국가</h4><p>Region은 AWS의 지리적 영역입니다. 국가 경계와 항상 일치하지 않습니다.</p></div><div class="confuse-card"><h4>AZ vs 데이터센터</h4><p>AZ는 장애 격리 단위이며 하나 이상의 물리 데이터센터로 구성될 수 있습니다.</p></div><div class="confuse-card"><h4>Multi-AZ vs Backup</h4><p>Multi-AZ는 가용성, Backup은 시점 복구가 중심입니다. 서로 대체하지 않습니다.</p></div><div class="confuse-card"><h4>CloudFront vs Local Zone</h4><p>CloudFront는 콘텐츠 전송·캐시, Local Zone은 선택한 컴퓨팅·스토리지를 사용자 가까이 둡니다.</p></div><div class="confuse-card"><h4>Outposts vs Direct Connect</h4><p>Outposts는 AWS 장비를 현장에 두고, Direct Connect는 현장과 AWS를 전용 연결합니다.</p></div><div class="confuse-card"><h4>CDK vs CloudFormation</h4><p>CDK는 CloudFormation의 대체 엔진이 아니라 코드를 Template으로 변환해 배포하는 작성 방식입니다.</p></div><div class="confuse-card"><h4>AWS 책임 vs 고객 책임</h4><p>AWS가 모든 보안을 대신하지 않습니다. 데이터·권한·설정은 계속 고객 책임입니다.</p></div><div class="confuse-card"><h4>무료 한도 vs 무료 보장</h4><p>계정·시점·서비스별 조건이 다릅니다. 항상 현재 Billing과 가격표를 확인합니다.</p></div>
+          <div class="confuse-card"><h4>Region vs 국가</h4><p>Region은 AWS의 지리적 영역입니다. 국가 경계와 항상 일치하지 않습니다.</p></div><div class="confuse-card"><h4>AZ vs 데이터센터</h4><p>AZ는 장애 격리 단위이며 하나 이상의 물리 데이터센터로 구성될 수 있습니다.</p></div><div class="confuse-card"><h4>Multi-AZ vs Backup</h4><p>Multi-AZ는 가용성, Backup은 시점 복구가 중심입니다. 서로 대체하지 않습니다.</p></div><div class="confuse-card"><h4>Public vs Private Subnet</h4><p>이름이 아니라 연결된 라우팅 테이블에 IGW 경로가 있는지로 구분합니다.</p></div><div class="confuse-card"><h4>Security Group vs NACL</h4><p>Security Group은 인스턴스 단위·상태 유지, NACL은 서브넷 단위·상태 비유지입니다.</p></div><div class="confuse-card"><h4>EBS vs Instance Store</h4><p>EBS는 영속 블록 스토리지, Instance Store는 중지·종료 시 사라질 수 있는 임시 스토리지입니다.</p></div><div class="confuse-card"><h4>AWS 책임 vs 고객 책임</h4><p>AWS가 모든 보안을 대신하지 않습니다. 데이터·권한·설정은 계속 고객 책임입니다.</p></div><div class="confuse-card"><h4>중지 vs 삭제</h4><p>EC2를 중지해도 EBS·스냅샷·NAT Gateway 같은 별도 자원은 남을 수 있습니다.</p></div>
         </div>
       </section>
 
@@ -210,17 +243,17 @@
     opts: ["CloudFront", "IAM", "CloudFormation", "Direct Connect"], correct: 0,
     explain: "CloudFront는 가까운 Edge 위치에서 콘텐츠를 캐시·전송해 지연을 줄입니다."
   },{
-    q: "고객 데이터센터에 AWS 하드웨어를 설치해 선택한 AWS 서비스를 실행하려면?",
-    opts: ["Outposts", "Wavelength", "CloudFront", "Route 53"], correct: 0,
-    explain: "AWS Outposts는 AWS 인프라와 서비스를 고객 현장으로 확장합니다."
+    q: "VPC에서 서브넷이 퍼블릭 서브넷이 되는 결정적 조건은?",
+    opts: ["이름에 public을 넣는다", "라우팅 테이블에 Internet Gateway 경로가 있다", "CIDR을 /24로 만든다", "Security Group을 삭제한다"], correct: 1,
+    explain: "서브넷에 연결된 라우팅 테이블이 Internet Gateway로 가는 경로를 가질 때 퍼블릭 서브넷입니다."
   },{
     q: "Console, CLI, SDK의 공통점은?",
     opts: ["항상 브라우저가 필요하다", "모두 무료 사용을 보장한다", "최종적으로 AWS API를 호출한다", "IAM 권한을 무시한다"], correct: 2,
     explain: "입력 인터페이스는 달라도 AWS API를 통해 인증·권한 검사를 거쳐 리소스를 제어합니다."
   },{
-    q: "AWS CDK의 배포 흐름으로 가장 알맞은 것은?",
-    opts: ["CDK 코드 → CloudFormation Template → Stack", "CDK 코드 → SaaS → 데이터센터", "CDK 코드 → Access Key 공개", "CDK 코드 → CloudFront 캐시만 생성"], correct: 0,
-    explain: "CDK는 일반 언어로 작성한 구성을 CloudFormation Template으로 합성해 Stack으로 배포합니다."
+    q: "Security Group과 Network ACL의 차이로 가장 정확한 것은?",
+    opts: ["둘 다 거부 규칙만 지원한다", "Security Group은 상태 유지·허용 전용이고 NACL은 상태 비유지·허용과 거부를 지원한다", "NACL은 IAM 사용자에게 적용된다", "Security Group은 VPC 전체에만 적용된다"], correct: 1,
+    explain: "Security Group은 인스턴스 네트워크 인터페이스에 적용되는 stateful 허용 규칙이고, NACL은 서브넷에 적용되는 stateless 허용·거부 규칙입니다."
   },{
     q: "Access Key를 실수로 공개 GitHub 저장소에 올렸다. 가장 먼저 할 일은?",
     opts: ["README에서만 지운다", "저장소를 새로고침한다", "키를 즉시 폐기·교체한다", "인스턴스를 재부팅한다"], correct: 2,
@@ -230,9 +263,9 @@
     opts: ["데이터 분류와 접근 권한 설정", "AWS 데이터센터 출입 통제", "물리 디스크 폐기", "하이퍼바이저 패치"], correct: 0,
     explain: "관리형 서비스에서도 고객은 데이터와 IAM, 암호화·공개 범위 같은 설정을 책임집니다."
   },{
-    q: "Well-Architected의 Sustainability가 주로 묻는 것은?",
-    opts: ["회의를 계속하는가", "에너지·자원 효율로 환경 영향을 줄이는가", "서버 이름이 일정한가", "모든 서비스를 한 Region에 두는가"], correct: 1,
-    explain: "Sustainability는 워크로드의 자원·에너지 효율과 환경 영향 최소화에 초점을 둡니다."
+    q: "EC2 User data와 Instance metadata에 대한 설명으로 옳은 것은?",
+    opts: ["둘 다 비밀 저장소다", "User data는 부팅 자동화, metadata는 인스턴스 자기 정보 조회에 사용한다", "metadata는 소스 코드 배포 전용이다", "User data는 인스턴스 유형을 바꾼다"], correct: 1,
+    explain: "User data는 초기 구성을 자동화하고, metadata는 인스턴스 ID·네트워크 같은 정보를 조회합니다. 비밀값은 User data에 넣지 않고 metadata는 IMDSv2를 사용합니다."
   },{
     q: "EC2를 중지했다가 시작했을 때 일반적으로 바뀌는 것은?",
     opts: ["기본 사설 IPv4", "기본 공인 IPv4", "AMI 이름", "IAM 계정"], correct: 1,
@@ -246,9 +279,9 @@
     opts: ["옛 강의의 750시간만 믿는다", "여러 인스턴스를 만들면 한도가 늘어난다고 본다", "생성 전 계정의 Free Tier·Billing·가격표를 확인한다", "비용 알림을 끈다"], correct: 2,
     explain: "Free Tier 조건은 계정·시점·서비스에 따라 달라지므로 현재 콘솔과 공식 가격을 확인해야 합니다."
   },{
-    q: "글로벌 서비스를 설계할 때 올바른 의사결정 순서는?",
-    opts: ["서비스 이름 선택 → 나중에 요구사항 확인", "요구사항 정의 → Region·배치 → 책임·자동화·운영 검토", "모든 포트 개방 → 비용 확인 생략", "한 AZ에 배치 → 장애 시험 생략"], correct: 1,
-    explain: "요구사항을 먼저 수치화한 뒤 배치와 서비스, 보안 책임, 자동화·운영을 연결해야 합니다."
+    q: "Instance Store의 데이터 수명에 대한 설명으로 옳은 것은?",
+    opts: ["재부팅만 해도 항상 사라진다", "재부팅에는 유지되지만 중지·종료·호스트 장애 시 사라질 수 있다", "EBS Snapshot과 완전히 같다", "다른 AZ에서 자동 공유된다"], correct: 1,
+    explain: "Instance Store 데이터는 재부팅에는 유지되지만 중지·최대 절전·종료 또는 호스트 장애 때 손실됩니다. 재생성 가능한 임시 데이터에 사용합니다."
   }];
 
   const quizContainer=document.getElementById('quizContainer');

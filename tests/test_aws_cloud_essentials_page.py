@@ -38,8 +38,8 @@ parser.feed(html)
 
 assert len(parser.ids) == len(set(parser.ids)), "중복된 HTML id가 있습니다"
 assert parser.nav_targets and all(target in parser.ids for target in parser.nav_targets)
-assert parser.chapters == 10, "AWS 핵심 흐름을 설명하는 10개 단원이 필요합니다"
-assert parser.visuals >= 6, "관계를 보여 주는 시각화가 6개 이상 필요합니다"
+assert parser.chapters == 12, "AWS 핵심 흐름과 오늘 실습을 설명하는 12개 단원이 필요합니다"
+assert parser.visuals >= 8, "핵심 관계를 보여 주는 시각화가 8개 이상 필요합니다"
 assert parser.unlabelled_visuals == 0, "시각화에는 role과 aria-label이 필요합니다"
 assert html.count('    q: "') == 15, "복습 퀴즈는 15문항이어야 합니다"
 assert 'href="lectures/15-aws-cloud-essentials/index.html"' in (ROOT / "index.html").read_text(encoding="utf-8")

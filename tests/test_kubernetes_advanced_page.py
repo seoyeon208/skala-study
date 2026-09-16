@@ -41,7 +41,7 @@ assert parser.nav_targets and all(target in parser.ids for target in parser.nav_
 assert parser.chapters == 12, "Kubernetes 심화 학습 흐름을 설명하는 12개 단원이 필요합니다"
 assert parser.visuals >= 8, "핵심 관계를 보여 주는 시각화가 8개 이상 필요합니다"
 assert parser.unlabelled_visuals == 0, "시각화에는 role과 aria-label이 필요합니다"
-assert html.count('    q: "') == 20, "상황형 복습 퀴즈는 20문항이어야 합니다"
+assert html.count('    q: "') == 10, "핵심 상황형 복습 퀴즈는 10문항이어야 합니다"
 assert 'href="lectures/16-kubernetes-advanced/index.html"' in (ROOT / "index.html").read_text(encoding="utf-8")
 
 for forbidden in ("녹취", "녹음본"):

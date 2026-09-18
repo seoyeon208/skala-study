@@ -22,6 +22,7 @@ PAGE_MINIMUMS = {
     "lectures/14-model-development/index.html": 4,
     "lectures/15-aws-cloud-essentials/index.html": 8,
     "lectures/16-kubernetes-advanced/index.html": 8,
+    "lectures/17-semiconductor-special/index.html": 8,
 }
 
 

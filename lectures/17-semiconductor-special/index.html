@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>반도체 특강 | 서연의 학습 홈</title>
+  <link rel="stylesheet" href="../../assets/seoyeon-journal.css">
+  <style>
+    :root{--bg:#111419;--bg-alt:#171b22;--card:#1b2028;--card-hi:#222833;--ink:#eef2f7;--ink-dim:#aab3c2;--ink-faint:#778191;--line:#303846;--amber:#e3a53c;--teal:#4cb8ad;--green:#7fbf7f;--red:#e0685a;--mono:"SFMono-Regular",Consolas,monospace;--serif:Georgia,"Noto Serif KR",serif;--sans:-apple-system,BlinkMacSystemFont,"Pretendard","Noto Sans KR",sans-serif}
+    body.light{--bg:#f7f7f5;--bg-alt:#f0f1ee;--card:#fff;--card-hi:#f4f5f2;--ink:#1d232c;--ink-dim:#596270;--ink-faint:#89919b;--line:#dfe2df;--amber:#a76408;--teal:#167e76;--green:#337a3a;--red:#bd3e32}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;transition:.2s}a{color:var(--teal)}
+    .site-topbar{height:58px;border-top:4px solid var(--amber);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(12px)}.site-topbar>a{color:var(--amber);font-weight:700}.crumb-sep{margin:0 9px;color:var(--ink-faint)}.crumb-cur{font-weight:650}.theme-btn{border:1px solid var(--line);background:var(--card-hi);color:var(--ink);border-radius:999px;padding:8px 13px;cursor:pointer;font-weight:650}.top-theme{margin-left:auto}
+    .layout{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1450px;margin:0 auto}.sidebar{height:calc(100vh - 58px);position:sticky;top:58px;overflow:auto;border-right:1px solid var(--line);padding:25px 18px}.sidebar h1{font-family:var(--serif);font-size:18px;margin:0}.sidebar .sub{color:var(--ink-faint);font-size:12px;margin:4px 0 16px}.search{width:100%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);padding:9px 10px;border-radius:7px;margin-bottom:12px}.partbox{margin-bottom:10px}.part-title{font-size:11px;letter-spacing:.06em;color:var(--ink-faint);padding:8px 6px 4px;font-weight:750}.navlink{display:block;padding:6px 8px;border-radius:6px;color:var(--ink-dim);text-decoration:none;font-size:13px}.navlink:hover{background:var(--card-hi);color:var(--ink)}.navlink.active{background:rgba(227,165,60,.13);color:var(--amber);font-weight:700}
+    main{width:min(100%,980px);padding:58px 58px 80px}.hero{margin-bottom:42px}.eyebrow{font-family:var(--mono);color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.hero h1{font-family:var(--serif);font-size:42px;line-height:1.15;margin:8px 0 18px}.lead{font-size:18px;color:var(--ink-dim);max-width:850px}.flow{display:flex;align-items:stretch;gap:6px;margin:22px 0;overflow-x:auto;padding-bottom:4px}.flow-step{min-width:112px;flex:1;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:11px;text-align:center}.flow-step.accent{border-color:var(--teal)}.flow-step .k{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-faint)}.flow-step .v{font-size:13px;font-weight:700}.flow-arrow{align-self:center;color:var(--ink-faint)}
+    details.chapter{border-top:1px solid var(--line);scroll-margin-top:76px}details.chapter:last-of-type{border-bottom:1px solid var(--line)}summary{list-style:none;display:flex;align-items:center;gap:14px;padding:22px 4px;cursor:pointer}summary::-webkit-details-marker{display:none}.ch-num{font-family:var(--mono);color:var(--amber);width:34px}.ch-title{flex:1}.ch-title h2{font-size:22px;margin:0}.ch-title .sub{font-size:13px;color:var(--ink-faint)}.chev{color:var(--ink-faint);transition:.2s}details[open] .chev{transform:rotate(90deg)}.ch-body{padding:0 8px 34px 52px;color:var(--ink-dim)}.ch-body h3{color:var(--ink);margin:25px 0 8px;font-size:17px}.ch-body strong{color:var(--ink)}
+    table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}th{background:var(--card-hi);color:var(--ink);font-weight:700}td:first-child{color:var(--ink);font-weight:650}.callout,.previewbox{border-left:3px solid var(--amber);background:rgba(227,165,60,.08);padding:14px 16px;margin:18px 0;border-radius:0 8px 8px 0}.previewbox{border-color:var(--teal);background:rgba(76,184,173,.08)}.lbl{display:block;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-bottom:4px}.previewbox .lbl{color:var(--teal)}.callout p,.previewbox p{margin:0}.stackbox{border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:16px 0}.stackbox .row{display:grid;grid-template-columns:170px 1fr;border-bottom:1px solid var(--line)}.stackbox .row:last-child{border-bottom:0}.stackbox .tag{padding:10px 12px;background:var(--card-hi);color:var(--ink);font-family:var(--mono);font-size:12px}.stackbox .desc{padding:10px 12px;font-size:13.5px}
+    .confuse-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.confuse-card{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:16px}.confuse-card h4{margin:0 0 6px;color:var(--ink)}.confuse-card p{margin:0;color:var(--ink-dim);font-size:13.5px}#confuse,#quiz{margin-top:58px;scroll-margin-top:76px}.quiz-head{margin-bottom:22px}.quiz-head h2{font-size:27px;margin:8px 0}.quiz-head p{color:var(--ink-dim)}
+    .qcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:14px}.qnum{font-family:var(--mono);color:var(--amber);font-size:12px}.qtext{font-weight:650;margin:7px 0 13px}.opts{display:grid;gap:8px}.opt{display:flex;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--bg-alt);font-size:13.5px;color:var(--ink-dim)}.opt input{accent-color:var(--teal)}.opt.correct{border-color:var(--green);background:rgba(127,191,127,.09);color:var(--ink)}.opt.wrong{border-color:var(--red);background:rgba(224,104,90,.09)}.explain{display:none;margin-top:12px;padding:12px 14px;border-radius:8px;background:var(--bg-alt);font-size:13.3px;color:var(--ink-dim)}.explain.show{display:block}.quiz-footer{text-align:center;margin-top:25px;padding:25px;background:var(--card-hi);border-radius:10px}#scoreText{font-size:22px;color:var(--amber)}#scoreDetail{color:var(--ink-dim);font-size:13.5px;margin:7px 0 15px}.btn{font-family:var(--mono);font-size:13px;background:var(--amber);color:#171006;border:0;padding:11px 22px;border-radius:7px;cursor:pointer;font-weight:700}.btn.secondary{background:transparent;border:1px solid var(--line);color:var(--ink-dim);margin-left:8px}.pagefoot{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12px;font-family:var(--mono)}
+    @media(max-width:820px){.site-topbar{padding:0 14px}.crumb-cur{max-width:45vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.layout{display:block}.sidebar{display:none}main{padding:38px 20px 70px}.hero h1{font-size:34px}.lead{font-size:16px}.ch-body{padding-left:8px}.confuse-grid{grid-template-columns:1fr}.stackbox .row{grid-template-columns:120px 1fr}}
+  </style>
+</head>
+<body class="light semiconductor-study">
+  <div class="site-topbar"><a href="../../index.html">학습 홈</a><span class="crumb-sep">/</span><span class="crumb-cur">반도체 특강</span><button class="theme-btn top-theme" id="themeBtn" type="button">다크 모드</button></div>
+  <div class="layout">
+    <nav class="sidebar" id="sidebar">
+      <h1>반도체 특강</h1>
+      <p class="sub">칩의 원리 → 제조 → 데이터·AI</p>
+      <input class="search" id="searchBox" type="text" aria-label="목차 검색" placeholder="검색 (예: 수율, HBM, EUV)">
+      <div class="partbox"><div class="part-title">파트 1 — 구조와 산업</div><a class="navlink" href="#ch1">01. 반도체와 트랜지스터</a><a class="navlink" href="#ch2">02. 산업 생태계</a></div>
+      <div class="partbox"><div class="part-title">파트 2 — 제조</div><a class="navlink" href="#ch3">03. 웨이퍼에서 패키지까지</a><a class="navlink" href="#ch4">04. 8대 공정 지도</a></div>
+      <div class="partbox"><div class="part-title">파트 3 — 제품과 품질</div><a class="navlink" href="#ch5">05. DRAM과 Flash</a><a class="navlink" href="#ch6">06. 수율과 SPC</a></div>
+      <div class="partbox"><div class="part-title">파트 4 — 개선과 자동화</div><a class="navlink" href="#ch7">07. 샘플링과 PDCA</a><a class="navlink" href="#ch8">08. 스마트 팩토리와 AI</a></div>
+      <div class="partbox"><div class="part-title">파트 5 — 최신 기술</div><a class="navlink" href="#ch9">09. HBM과 첨단 패키징</a><a class="navlink" href="#ch10">10. EUV·디지털 트윈·IT</a></div>
+      <div class="partbox"><div class="part-title">마무리</div><a class="navlink" href="#confuse">헷갈리는 포인트</a><a class="navlink" href="#quiz">복습 퀴즈 15문항</a></div>
+    </nav>
+    <main>
+      <div class="hero">
+        <span class="eyebrow">Semiconductor · Manufacturing · Data</span>
+        <h1>반도체 특강 복습 노트</h1>
+        <p class="lead">반도체를 부품 이름으로 외우지 않고 <strong>전기적 성질을 만드는 원리, 웨이퍼를 칩으로 바꾸는 공정, 수율을 높이는 데이터·IT의 역할</strong>로 연결합니다.</p>
+        <div class="flow learning-viz" role="img" aria-label="원재료와 설계가 웨이퍼 전공정, 테스트와 후공정, 완제품, 공정 데이터 피드백으로 이어지는 반도체 전체 흐름"><div class="flow-step"><span class="k">material</span><span class="v">소재·장비</span></div><div class="flow-arrow">＋</div><div class="flow-step"><span class="k">design</span><span class="v">회로 설계</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">front-end</span><span class="v">웨이퍼 공정</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">back-end</span><span class="v">검사·패키징</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">feedback</span><span class="v">수율·데이터</span></div></div>
+      </div>
+
+      <details class="chapter" id="ch1" open>
+        <summary><span class="ch-num">01</span><div class="ch-title"><h2>반도체와 트랜지스터</h2><span class="sub">불순물과 전기장으로 전류를 제어해 0과 1을 만든다</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-compare" role="img" aria-label="도체는 전류가 잘 흐르고 부도체는 거의 흐르지 않으며 반도체는 도핑과 전기장으로 전류 흐름을 제어할 수 있다는 비교"><div class="viz-panel"><span>CONDUCTOR</span><strong>도체</strong><p>전류가 쉽게 흐름</p></div><div class="viz-panel"><span>INSULATOR</span><strong>부도체</strong><p>전류 흐름을 차단</p></div><div class="viz-panel is-accent"><span>SEMICONDUCTOR</span><strong>반도체</strong><p>조건에 따라 흐름을 제어</p></div></div>
+          <p>순수 실리콘에 특정 불순물을 넣는 <strong>도핑</strong>으로 n형과 p형 영역을 만들고, 이 영역을 조합해 전류를 켜고 끄는 <strong>트랜지스터</strong>를 만듭니다. 트랜지스터는 스위치, 커패시터는 전하 저장소라고 이해하면 DRAM 셀의 기본 구조를 잡을 수 있습니다.</p>
+          <table><tr><th>핵심 부품</th><th>역할</th><th>IT 비유</th></tr><tr><td>Transistor</td><td>전류 흐름을 제어</td><td>조건에 따라 열리고 닫히는 스위치</td></tr><tr><td>Capacitor</td><td>전하를 저장</td><td>아주 작은 임시 저장 공간</td></tr><tr><td>Interconnect</td><td>소자 사이 신호 전달</td><td>데이터가 지나는 네트워크</td></tr></table>
+          <div class="callout"><span class="lbl">용어 교정</span><p><strong>나노미터 공정명은 실제 선 하나의 정확한 폭과 항상 같지 않습니다.</strong> 세대와 집적도·성능을 나타내는 기술 노드 이름으로 이해합니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch2">
+        <summary><span class="ch-num">02</span><div class="ch-title"><h2>반도체 산업 생태계</h2><span class="sub">한 회사가 아니라 설계·생산·패키징·소재·장비가 연결된 공급망</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="flow learning-viz" role="img" aria-label="팹리스의 설계가 파운드리의 웨이퍼 생산과 OSAT의 조립 테스트를 거쳐 제품이 되고 소재 부품 장비 기업이 전 과정을 지원하는 산업 구조"><div class="flow-step"><span class="k">fabless</span><span class="v">설계</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">foundry</span><span class="v">웨이퍼 생산</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">osat</span><span class="v">조립·테스트</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">customer</span><span class="v">완제품</span></div><div class="flow-arrow">＋</div><div class="flow-step accent"><span class="k">supplier</span><span class="v">소재·부품·장비</span></div></div>
+          <table><tr><th>구분</th><th>핵심 역할</th><th>대표적인 사업 형태</th></tr><tr><td>Fabless</td><td>칩 구조와 회로를 설계하고 생산은 위탁</td><td>설계 자산과 소프트웨어 중심</td></tr><tr><td>Foundry</td><td>고객 설계를 실제 웨이퍼 위에 제조</td><td>공정 기술·수율·생산 능력 중심</td></tr><tr><td>IDM</td><td>설계와 제조를 함께 수행</td><td>메모리와 일부 종합 반도체 기업</td></tr><tr><td>OSAT</td><td>웨이퍼 테스트, 조립, 패키징, 최종 검사</td><td>후공정 전문</td></tr><tr><td>소부장</td><td>웨이퍼·가스·감광액·장비·부품 공급</td><td>공정별 전문 기술</td></tr></table>
+          <div class="previewbox"><span class="lbl">공급망 관점</span><p>좋은 설계만으로 칩이 완성되지 않습니다. 특정 소재·장비·생산·패키징 중 하나가 막히면 전체 납기와 생산량이 영향을 받으므로 <strong>병목과 대체 가능성</strong>을 함께 봅니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch3">
+        <summary><span class="ch-num">03</span><div class="ch-title"><h2>웨이퍼에서 패키지까지</h2><span class="sub">전공정은 회로 형성, 후공정은 분리·연결·보호·검사</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-stack" role="img" aria-label="실리콘 웨이퍼 위에 반복 공정으로 여러 다이를 만든 뒤 웨이퍼 테스트와 절단을 거쳐 각 다이를 기판에 연결하고 보호해 패키지로 완성하는 계층"><div class="viz-layer is-accent"><span>WAFER FAB</span><strong>웨이퍼에 소자·배선 반복 형성</strong><p>한 장에 같은 다이를 여러 개 제작</p></div><div class="viz-layer"><span>WAFER TEST</span><strong>전기적 특성 검사</strong><p>불량 다이를 조기에 식별</p></div><div class="viz-layer"><span>ASSEMBLY</span><strong>절단 · 접합 · 연결 · 봉지</strong><p>다이를 외부 회로와 연결하고 보호</p></div><div class="viz-layer"><span>FINAL TEST</span><strong>기능 · 성능 · 신뢰성 확인</strong><p>고객이 사용할 패키지 완성</p></div></div>
+          <p><strong>웨이퍼</strong>는 회로를 만드는 원판, <strong>다이</strong>는 웨이퍼에서 잘라낸 개별 칩 조각, <strong>패키지</strong>는 다이를 외부와 연결하고 보호한 제품입니다. 전공정과 후공정은 난이도를 겨루는 관계가 아니라 목적이 다릅니다.</p>
+          <div class="callout"><span class="lbl">꼭 기억</span><p>첨단 패키징에서는 칩을 단순히 감싸는 것을 넘어 여러 다이와 메모리를 짧은 거리로 연결합니다. 그래서 시스템 성능·전력·수율을 좌우하는 설계 영역이 됩니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch4">
+        <summary><span class="ch-num">04</span><div class="ch-title"><h2>8대 공정 지도</h2><span class="sub">외울 순서가 아니라 막을 만들고, 그려서, 깎고, 연결하는 반복</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-timeline" role="img" aria-label="웨이퍼 준비 후 산화와 박막 형성, 포토로 패턴 전사, 식각, 이온 주입, 금속 배선, 검사와 패키징을 반복하는 공정 흐름"><div class="viz-step"><span>1 · BASE</span><strong>웨이퍼 준비</strong></div><div class="viz-step"><span>2 · LAYER</span><strong>산화·증착</strong></div><div class="viz-step is-accent"><span>3 · PATTERN</span><strong>포토·식각</strong></div><div class="viz-step"><span>4 · PROPERTY</span><strong>이온 주입</strong></div><div class="viz-step"><span>5 · CONNECT</span><strong>금속 배선</strong></div><div class="viz-step"><span>6 · VERIFY</span><strong>검사·패키징</strong></div></div>
+          <table><tr><th>공정</th><th>한 문장 이해</th></tr><tr><td>웨이퍼</td><td>고순도 단결정 실리콘 원판 준비</td></tr><tr><td>산화·확산</td><td>절연막을 만들거나 열로 물질을 확산</td></tr><tr><td>포토</td><td>감광액과 빛으로 회로 패턴을 전사</td></tr><tr><td>식각</td><td>패턴에서 필요 없는 부분을 선택적으로 제거</td></tr><tr><td>증착</td><td>CVD·PVD 등으로 얇고 균일한 막을 형성</td></tr><tr><td>이온 주입</td><td>불순물을 넣어 원하는 전기적 성질을 부여</td></tr><tr><td>금속 배선</td><td>소자들을 전기적으로 연결</td></tr><tr><td>EDS·패키징</td><td>다이를 검사하고 절단·연결·보호한 뒤 최종 검사</td></tr></table>
+          <div class="previewbox"><span class="lbl">공정 지도 읽기</span><p>“8대 공정”은 학습을 위한 큰 분류입니다. 실제 제조는 수백 단계에서 포토·식각·증착·세정·계측을 여러 번 반복하며, 제품과 회사에 따라 분류도 조금씩 다릅니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch5">
+        <summary><span class="ch-num">05</span><div class="ch-title"><h2>DRAM과 Flash Memory</h2><span class="sub">빠른 작업 메모리와 전원이 꺼져도 남는 저장장치를 구분</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-compare" role="img" aria-label="DRAM은 빠르지만 전원이 끊기면 데이터가 사라지고 주기적 갱신이 필요하며 NAND Flash는 느리지만 전원이 없어도 데이터를 유지한다는 비교"><div class="viz-panel is-accent"><span>VOLATILE</span><strong>DRAM</strong><p>빠른 읽기·쓰기 · 주기적 Refresh · 작업 메모리</p></div><div class="viz-panel"><span>NON-VOLATILE</span><strong>NAND Flash</strong><p>전원 없이 보존 · 대용량 · SSD와 저장장치</p></div><div class="viz-panel"><span>CONTROLLER</span><strong>Firmware</strong><p>Flash의 위치·수명·오류를 관리</p></div></div>
+          <table><tr><th>질문</th><th>DRAM</th><th>NAND Flash</th></tr><tr><td>전원이 꺼지면?</td><td>데이터 소실</td><td>데이터 유지</td></tr><tr><td>강점</td><td>낮은 지연과 빠른 임의 접근</td><td>높은 집적도와 대용량 저장</td></tr><tr><td>대표 사용</td><td>시스템 메모리, HBM</td><td>SSD, 모바일·서버 저장장치</td></tr><tr><td>소프트웨어</td><td>메모리 제어와 신뢰성 관리</td><td>FTL·Wear Leveling·Garbage Collection</td></tr></table>
+          <p>Flash는 덮어쓰기 제약과 셀 수명이 있어 컨트롤러 알고리즘이 논리 주소를 물리 위치에 매핑하고, 쓰기 분산과 정리를 수행합니다. 하드웨어와 소프트웨어를 함께 이해해야 하는 이유입니다.</p>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch6">
+        <summary><span class="ch-num">06</span><div class="ch-title"><h2>수율과 SPC</h2><span class="sub">평균 하나보다 분포·변동·관리 한계를 함께 본다</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-compare" role="img" aria-label="웨이퍼의 전체 다이 중 정상 다이 비율인 수율과 공정 분포가 규격 안에서 안정적인지 감시하는 SPC의 관계"><div class="viz-panel is-accent"><span>OUTPUT</span><strong>수율</strong><p>정상 다이 ÷ 전체 다이</p></div><div class="viz-panel"><span>PROCESS</span><strong>SPC</strong><p>시간에 따른 변동과 이상 신호 감시</p></div><div class="viz-panel"><span>CAPABILITY</span><strong>공정 능력</strong><p>규격을 안정적으로 만족할 여유</p></div></div>
+          <p><strong>수율</strong>은 생산 결과, <strong>SPC(통계적 공정 관리)</strong>는 공정이 안정적으로 유지되는지 보는 방법입니다. 평균이 규격 중앙에 있어도 분산이 크면 불량이 늘 수 있으므로 중심과 산포를 함께 봅니다.</p>
+          <table><tr><th>구분</th><th>의미</th></tr><tr><td>규격 한계</td><td>고객·설계가 허용하는 제품 범위</td></tr><tr><td>관리 한계</td><td>현재 공정 데이터로 계산한 통계적 변동 범위</td></tr><tr><td>이상 원인</td><td>평소 변동으로 설명하기 어려운 설비·소재·조건 변화</td></tr></table>
+          <div class="callout"><span class="lbl">헷갈림 방지</span><p><strong>3σ·6σ를 단순 합격선으로 외우지 않습니다.</strong> 시그마 수준은 공정 변동과 규격 사이의 여유를 설명하는 관점이며, 이상값 하나는 원인 분석의 출발점이지 자동 폐기 판정이 아닙니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch7">
+        <summary><span class="ch-num">07</span><div class="ch-title"><h2>샘플링·추정·PDCA</h2><span class="sub">측정하지 않은 값을 추정하되 검증 없이 사실로 만들지 않는다</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-timeline" role="img" aria-label="공정 문제를 정의하고 표본 데이터를 수집한 뒤 규칙을 추정하고 조건을 변경해 실제 결과를 확인하며 다시 개선하는 PDCA 흐름"><div class="viz-step"><span>PLAN</span><strong>문제·가설·지표 정의</strong></div><div class="viz-step"><span>DO</span><strong>표본 수집·조건 변경</strong></div><div class="viz-step is-accent"><span>CHECK</span><strong>예측과 실제 비교</strong></div><div class="viz-step"><span>ACT</span><strong>표준화 또는 재설계</strong></div></div>
+          <p>모든 웨이퍼를 모든 지점에서 측정하면 시간과 비용이 너무 커지므로 표본을 측정합니다. 이때 중간값을 보간하거나 전체 분포를 추정할 수 있지만, <strong>추정값에는 가정과 불확실성</strong>이 따라옵니다.</p>
+          <div class="stackbox"><div class="row"><div class="tag">Sampling</div><div class="desc">대표성을 갖도록 위치·시간·설비·Lot을 고려해 측정</div></div><div class="row"><div class="tag">Estimation</div><div class="desc">관측하지 못한 영역을 모델로 추정하고 신뢰 구간을 표시</div></div><div class="row"><div class="tag">Experiment</div><div class="desc">한 번에 바꾸는 요인을 통제하고 실제 결과로 검증</div></div><div class="row"><div class="tag">Feedback</div><div class="desc">맞으면 표준화하고 틀리면 가정·데이터·공정 조건을 수정</div></div></div>
+          <div class="previewbox"><span class="lbl">IT와 제조의 공통점</span><p>PDCA는 소프트웨어의 관측 → 가설 → 변경 → 검증 루프와 같습니다. 다만 제조 실험은 실제 웨이퍼와 설비 비용이 크므로 변경 이력·재현성·안전 조건이 더 중요합니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch8">
+        <summary><span class="ch-num">08</span><div class="ch-title"><h2>스마트 팩토리와 AI</h2><span class="sub">센서 데이터를 모으는 것보다 판단과 공정 조치로 닫힌 루프가 중요</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="flow learning-viz" role="img" aria-label="설비 센서와 계측 및 전자현미경 이미지가 수집 정제되고 이상 탐지와 분류 및 예측 모델을 거쳐 엔지니어 판단과 공정 조건 조정으로 이어지는 스마트 팩토리 흐름"><div class="flow-step"><span class="k">sense</span><span class="v">설비·계측·SEM</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">prepare</span><span class="v">수집·정합·품질</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">analyze</span><span class="v">이상·분류·예측</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">decide</span><span class="v">원인·위험 판단</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">control</span><span class="v">조건 조정·검증</span></div></div>
+          <table><tr><th>분석</th><th>묻는 질문</th><th>예시</th></tr><tr><td>이상 탐지</td><td>평소 패턴에서 벗어난 것은 무엇인가?</td><td>압력·온도·선폭의 급격한 변화</td></tr><tr><td>분류</td><td>이 결함은 어떤 유형인가?</td><td>SEM 이미지의 결함 종류 판별</td></tr><tr><td>군집화</td><td>비슷한 현상이 어떤 그룹을 이루는가?</td><td>공통 원인을 가진 웨이퍼 맵 묶기</td></tr><tr><td>예측</td><td>앞으로 어떤 결과가 발생할 가능성이 큰가?</td><td>수율·장비 고장·품질 위험 예측</td></tr></table>
+          <div class="callout"><span class="lbl">현업의 핵심</span><p>데이터가 많다고 바로 자동화되지 않습니다. 설비 시간·Lot·Recipe·웨이퍼 위치를 정확히 연결하고, 모델 결과를 엔지니어가 이해할 수 있어야 하며, 조치 후 효과까지 다시 측정해야 합니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch9">
+        <summary><span class="ch-num">09</span><div class="ch-title"><h2>HBM과 첨단 패키징</h2><span class="sub">DRAM을 수직 적층하고 넓은 데이터 통로로 연산 장치 가까이 연결</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="learning-viz viz-stack" role="img" aria-label="여러 DRAM 다이가 TSV로 수직 연결되고 아래의 베이스 또는 로직 다이와 인터포저를 통해 GPU 같은 연산 장치에 짧고 넓은 경로로 연결되는 HBM 구조"><div class="viz-layer"><span>MEMORY STACK</span><strong>DRAM Die × 여러 층</strong><p>용량을 높이고 많은 데이터 경로 확보</p></div><div class="viz-layer is-accent"><span>VERTICAL LINK</span><strong>TSV · 미세 접합</strong><p>실리콘을 관통하는 수직 전기 통로</p></div><div class="viz-layer"><span>CONTROL</span><strong>Base / Logic Die</strong><p>메모리 인터페이스와 제어</p></div><div class="viz-layer"><span>PACKAGE</span><strong>Interposer ↔ GPU</strong><p>짧고 고밀도인 데이터 연결</p></div></div>
+          <p><strong>Bandwidth</strong>는 한 번에 데이터를 옮길 수 있는 통로의 폭입니다. HBM은 단순히 DRAM 한 개를 빠르게 만든 것이 아니라 여러 DRAM 다이를 쌓고 넓은 I/O를 제공해 GPU·가속기가 데이터를 기다리는 시간을 줄입니다.</p>
+          <table><tr><th>구성</th><th>역할</th></tr><tr><td>TSV</td><td>다이를 관통해 층 사이를 수직으로 연결하는 전극</td></tr><tr><td>Micro-bump / Bonding</td><td>위아래 다이의 접점을 미세하게 연결</td></tr><tr><td>Base·Logic die</td><td>메모리 신호와 인터페이스를 관리</td></tr><tr><td>Interposer</td><td>GPU와 HBM 사이에 고밀도 배선을 제공</td></tr></table>
+          <div class="previewbox"><span class="lbl">성능만 보면 안 되는 이유</span><p>적층 수가 늘면 열·접합·뒤틀림·검사·수율 문제가 함께 어려워집니다. HBM 경쟁력은 메모리 셀뿐 아니라 <strong>패키징 공정과 전체 수율</strong>의 결과입니다.</p></div>
+        </div>
+      </details>
+
+      <details class="chapter" id="ch10">
+        <summary><span class="ch-num">10</span><div class="ch-title"><h2>EUV·디지털 트윈·IT의 역할</h2><span class="sub">미세 공정의 물리적 제약을 데이터와 소프트웨어로 운영</span></div><span class="chev">▸</span></summary>
+        <div class="ch-body">
+          <div class="flow learning-viz" role="img" aria-label="EUV 광원이 진공 속 다층 거울과 반사형 마스크를 지나 웨이퍼에 미세 패턴을 전사하고 계측 데이터가 디지털 트윈과 공정 제어로 피드백되는 흐름"><div class="flow-step"><span class="k">source</span><span class="v">EUV 광원</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">vacuum</span><span class="v">다층 거울</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">pattern</span><span class="v">반사형 Mask</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">wafer</span><span class="v">미세 패턴</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">feedback</span><span class="v">계측·제어</span></div></div>
+          <p>EUV는 공기와 대부분의 재료에 쉽게 흡수되므로 빛의 전체 경로를 고진공으로 유지하고 렌즈 대신 다층 거울을 사용합니다. 미세 패턴을 만들 수 있는 대신 광원·광학·진공·오염 제어가 복잡하고 전력·냉각·초순수 같은 Fab 인프라도 중요해집니다.</p>
+          <h3>디지털 트윈과 IT 개발자</h3>
+          <p><strong>디지털 트윈</strong>은 현실 설비·공정의 상태를 가상 모델에 연결해 현재를 관찰하고 변경 결과를 미리 검토하는 방식입니다. 실제 설비를 무작정 조정하는 대신 시뮬레이션과 데이터를 통해 위험을 줄입니다.</p>
+          <div class="stackbox"><div class="row"><div class="tag">Data Platform</div><div class="desc">설비·계측·물류 데이터를 시간과 Lot 기준으로 연결</div></div><div class="row"><div class="tag">Automation</div><div class="desc">OHT·Recipe·작업 흐름과 이상 대응을 안전하게 자동화</div></div><div class="row"><div class="tag">AI / Analytics</div><div class="desc">결함 분류, 이상 탐지, 수율·고장 예측을 지원</div></div><div class="row"><div class="tag">Simulation</div><div class="desc">디지털 트윈으로 조건 변화와 생산 영향을 검토</div></div></div>
+          <div class="callout"><span class="lbl">최종 연결</span><p>IT의 목표는 현장 지식을 대체하는 것이 아니라 <strong>센서 → 데이터 → 분석 → 판단 → 공정 조치 → 검증</strong>의 루프를 더 빠르고 재현 가능하게 만드는 것입니다.</p></div>
+          <h3>공식 자료로 다시 확인하기</h3>
+          <p><a href="https://semiconductor.samsung.com/kr/support/tools-resources/fabrication-process/eight-essential-semiconductor-fabrication-processes-part-6-deposition-and-ion-implantation-for-the-electrical-properties/">증착·이온주입 공정</a> · <a href="https://semiconductor.samsung.com/support/tools-resources/dictionary/semiconductor-glossary-yield/">반도체 수율</a> · <a href="https://news.skhynix.com/en/become-a-semiconductor-expert-with-sk-hynix-hbm/">HBM과 TSV</a> · <a href="https://www.asml.com/en/products/euv-lithography-systems">EUV 시스템</a></p>
+        </div>
+      </details>
+
+      <section id="confuse">
+        <span class="eyebrow">Review map</span><h2>자주 헷갈리는 포인트</h2>
+        <div class="confuse-grid">
+          <div class="confuse-card"><h4>Wafer vs Die vs Package</h4><p>웨이퍼는 원판, Die는 잘라낸 칩 조각, Package는 연결·보호를 마친 제품입니다.</p></div><div class="confuse-card"><h4>Fabless vs Foundry</h4><p>Fabless는 설계, Foundry는 고객 설계를 웨이퍼에 제조합니다.</p></div><div class="confuse-card"><h4>전공정 vs 후공정</h4><p>전공정은 웨이퍼 회로 형성, 후공정은 검사·절단·접합·패키징입니다.</p></div><div class="confuse-card"><h4>DRAM vs NAND</h4><p>DRAM은 빠른 휘발성 작업 메모리, NAND는 비휘발성 대용량 저장 매체입니다.</p></div><div class="confuse-card"><h4>수율 vs SPC</h4><p>수율은 결과 비율, SPC는 공정 변동을 감시하고 이상 원인을 찾는 방법입니다.</p></div><div class="confuse-card"><h4>규격 한계 vs 관리 한계</h4><p>규격은 제품 요구 범위, 관리 한계는 현재 공정의 통계적 변동 범위입니다.</p></div><div class="confuse-card"><h4>HBM vs GPU</h4><p>GPU는 계산하고 HBM은 계산에 필요한 데이터를 넓은 통로로 공급합니다.</p></div><div class="confuse-card"><h4>디지털 트윈 vs 대시보드</h4><p>대시보드는 상태를 보여주고, 디지털 트윈은 현실과 연결된 모델로 변화까지 검토합니다.</p></div>
+        </div>
+      </section>
+
+      <section id="quiz">
+        <div class="quiz-head"><span class="eyebrow">Self check</span><h2>복습 퀴즈 15문항</h2><p>용어 암기보다 제조 흐름과 데이터의 역할을 연결해 봅니다.</p></div>
+        <div id="quizContainer"></div>
+        <div class="quiz-footer"><div id="scoreText">아직 채점하지 않았습니다.</div><div id="scoreDetail">15문항을 모두 풀고 결과를 확인하세요.</div><button class="btn" id="gradeBtn" type="button">채점하기</button><button class="btn secondary" id="resetBtn" type="button">다시 풀기</button></div>
+      </section>
+      <div class="pagefoot">반도체 특강 · 원리 → 공정 → 수율 → 데이터 → 첨단 기술</div>
+    </main>
+  </div>
+  <script>
+  const themeBtn=document.getElementById('themeBtn');
+  themeBtn.addEventListener('click',()=>{document.body.classList.toggle('light');themeBtn.textContent=document.body.classList.contains('light')?'다크 모드':'라이트 모드'});
+  const navLinks=[...document.querySelectorAll('.navlink')];
+  const searchable=[...document.querySelectorAll('details.chapter,#confuse,#quiz')];
+  navLinks.forEach(link=>link.addEventListener('click',()=>{const target=document.querySelector(link.getAttribute('href'));if(target?.matches('details'))target.open=true}));
+  document.getElementById('searchBox').addEventListener('input',event=>{const query=event.target.value.trim().toLowerCase();searchable.forEach(target=>{const match=!query||target.textContent.toLowerCase().includes(query);target.style.display=match?'':'none';if(query&&match&&target.matches('details'))target.open=true})});
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;navLinks.forEach(link=>link.classList.toggle('active',link.hash==='#'+entry.target.id))}),{rootMargin:'-10% 0px -70% 0px'});
+  searchable.forEach(target=>observer.observe(target));
+
+  const QUESTIONS=[{
+    q: "반도체가 도체·부도체와 구별되는 핵심 특성은?",
+    opts: ["항상 전류가 흐른다", "항상 전류를 막는다", "도핑과 전기장으로 전류 흐름을 제어할 수 있다", "빛을 사용하지 않는다"], correct: 2,
+    explain: "반도체는 조건에 따라 전도성을 제어할 수 있어 스위치 역할의 소자를 만들 수 있습니다."
+  },{
+    q: "웨이퍼, 다이, 패키지의 순서로 알맞은 것은?",
+    opts: ["Package → Wafer → Die", "Wafer → Die → Package", "Die → Package → Wafer", "Wafer → Package → Die"], correct: 1,
+    explain: "웨이퍼에 여러 다이를 만든 뒤 잘라내고, 각 다이를 연결·보호해 패키지로 만듭니다."
+  },{
+    q: "설계 전문 기업의 회로를 위탁받아 웨이퍼에 제조하는 사업은?",
+    opts: ["Fabless", "Foundry", "OSAT", "Cloud Provider"], correct: 1,
+    explain: "Foundry는 고객이 설계한 칩을 제조합니다. Fabless는 생산 설비 없이 설계에 집중합니다."
+  },{
+    q: "포토 공정과 식각 공정의 관계로 가장 정확한 것은?",
+    opts: ["포토는 패턴을 전사하고 식각은 불필요한 부분을 제거한다", "둘 다 패키지를 봉지한다", "포토는 다이를 자르고 식각은 검사한다", "둘 다 데이터만 수집한다"], correct: 0,
+    explain: "포토로 감광막에 패턴을 만들고, 식각으로 노출된 불필요한 막을 제거합니다."
+  },{
+    q: "이온 주입 공정의 주된 목적은?",
+    opts: ["칩을 검은 수지로 감싼다", "실리콘에 불순물을 넣어 전기적 성질을 만든다", "웨이퍼를 운반한다", "완제품을 출하한다"], correct: 1,
+    explain: "이온 주입은 실리콘에 도펀트를 넣어 n형·p형 같은 전기적 특성을 형성합니다."
+  },{
+    q: "DRAM과 NAND Flash의 차이로 옳은 것은?",
+    opts: ["DRAM은 비휘발성이고 NAND는 휘발성이다", "둘 다 전원이 꺼져도 항상 유지된다", "DRAM은 빠른 휘발성 메모리, NAND는 비휘발성 저장 매체다", "NAND는 Refresh가 필수다"], correct: 2,
+    explain: "DRAM은 전원이 끊기면 사라지고 Refresh가 필요하며, NAND는 전원 없이 데이터를 유지합니다."
+  },{
+    q: "웨이퍼 다이 100개 중 정상 다이가 92개라면 단순 수율은?",
+    opts: ["8%", "46%", "92%", "108%"], correct: 2,
+    explain: "수율은 정상 다이 수를 전체 다이 수로 나눈 비율이므로 92%입니다."
+  },{
+    q: "SPC의 주된 목적은?",
+    opts: ["제품 이름을 정한다", "시간에 따른 공정 변동과 이상 신호를 감시한다", "웨이퍼를 절단한다", "GPU를 설계한다"], correct: 1,
+    explain: "SPC는 통계로 공정 변동을 관찰하고 평소와 다른 이상 원인을 조기에 찾습니다."
+  },{
+    q: "규격 한계와 관리 한계에 대한 설명으로 옳은 것은?",
+    opts: ["둘은 항상 같은 값이다", "규격은 요구 범위이고 관리 한계는 공정 데이터의 통계적 범위다", "관리 한계는 고객이 정한다", "규격 한계는 평균값 하나다"], correct: 1,
+    explain: "규격은 제품 요구사항, 관리 한계는 실제 공정의 자연 변동을 바탕으로 계산합니다."
+  },{
+    q: "표본으로 측정하지 않은 웨이퍼 값을 추정할 때 필요한 태도는?",
+    opts: ["추정값을 사실로 확정한다", "가정과 불확실성을 표시하고 실제 결과로 검증한다", "가장 큰 값만 사용한다", "측정을 모두 중단한다"], correct: 1,
+    explain: "보간과 예측에는 가정이 있으므로 불확실성을 표시하고 실제 공정 결과로 검증해야 합니다."
+  },{
+    q: "PDCA에서 예측과 실제 결과를 비교하는 단계는?",
+    opts: ["Plan", "Do", "Check", "Act"], correct: 2,
+    explain: "Check에서 실행 결과가 가설과 목표에 맞는지 확인합니다."
+  },{
+    q: "스마트 팩토리 분석이 닫힌 루프가 되려면 마지막에 필요한 것은?",
+    opts: ["데이터를 모으기만 한다", "모델 점수만 저장한다", "공정 조치 후 효과를 다시 측정한다", "센서를 제거한다"], correct: 2,
+    explain: "분석 결과로 조치하고 그 효과를 다시 측정해야 다음 개선으로 이어집니다."
+  },{
+    q: "HBM이 높은 대역폭을 제공하는 핵심 방식은?",
+    opts: ["DRAM을 멀리 배치한다", "DRAM을 수직 적층하고 TSV와 넓은 I/O로 연결한다", "모든 데이터를 NAND에 둔다", "GPU를 제거한다"], correct: 1,
+    explain: "HBM은 여러 DRAM 다이를 적층하고 TSV로 연결해 짧고 넓은 데이터 경로를 제공합니다."
+  },{
+    q: "EUV 장비가 빛의 경로를 고진공으로 유지하고 거울을 사용하는 이유는?",
+    opts: ["EUV가 공기와 대부분의 재료에 쉽게 흡수되기 때문", "웨이퍼가 물에 녹기 때문", "트랜지스터가 너무 크기 때문", "NAND만 만들기 때문"], correct: 0,
+    explain: "EUV는 공기와 렌즈 재료에 흡수되므로 진공과 다층 반사 거울이 필요합니다."
+  },{
+    q: "반도체 제조에서 IT 개발자의 역할을 가장 잘 설명한 것은?",
+    opts: ["현장 지식을 모두 제거한다", "센서·데이터·분석·조치·검증 흐름을 연결하고 자동화한다", "패키지 색상만 결정한다", "공정 데이터는 사용하지 않는다"], correct: 1,
+    explain: "IT는 현장 전문가와 함께 데이터를 연결하고 분석과 공정 조치의 피드백 루프를 자동화합니다."
+  }];
+
+  const quizContainer=document.getElementById('quizContainer');
+  function renderQuiz(){quizContainer.innerHTML=QUESTIONS.map((item,index)=>`<article class="qcard"><div class="qnum">Q${String(index+1).padStart(2,'0')}</div><div class="qtext">${item.q}</div><div class="opts">${item.opts.map((opt,optIndex)=>`<label class="opt"><input type="radio" name="q${index}" value="${optIndex}"><span>${opt}</span></label>`).join('')}</div><div class="explain" id="explain${index}">${item.explain}</div></article>`).join('')}
+  renderQuiz();
+  document.getElementById('gradeBtn').addEventListener('click',()=>{let score=0;QUESTIONS.forEach((item,index)=>{const selected=document.querySelector(`input[name="q${index}"]:checked`);document.querySelectorAll(`input[name="q${index}"]`).forEach(input=>{const label=input.closest('.opt');label.classList.remove('correct','wrong');if(Number(input.value)===item.correct)label.classList.add('correct');else if(input.checked)label.classList.add('wrong')});if(selected&&Number(selected.value)===item.correct)score++;document.getElementById(`explain${index}`).classList.add('show')});document.getElementById('scoreText').textContent=`${score} / ${QUESTIONS.length}`;document.getElementById('scoreDetail').textContent=score===QUESTIONS.length?'핵심 연결을 정확히 이해했습니다.':`틀린 ${QUESTIONS.length-score}문항의 설명을 다시 확인하세요.`});
+  document.getElementById('resetBtn').addEventListener('click',()=>{renderQuiz();document.getElementById('scoreText').textContent='아직 채점하지 않았습니다.';document.getElementById('scoreDetail').textContent='15문항을 모두 풀고 결과를 확인하세요.';document.getElementById('quiz').scrollIntoView({behavior:'smooth'})});
+  </script>
+</body>
+</html>

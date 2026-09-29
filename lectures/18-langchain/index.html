@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LangChain 복습 노트 | 서연의 학습 홈</title>
+  <link rel="stylesheet" href="../../assets/seoyeon-journal.css">
+  <style>
+    :root{--bg:#111419;--bg-alt:#171b22;--card:#1b2028;--card-hi:#222833;--ink:#eef2f7;--ink-dim:#aab3c2;--ink-faint:#778191;--line:#303846;--amber:#e3a53c;--teal:#4cb8ad;--green:#7fbf7f;--red:#e0685a;--mono:"SFMono-Regular",Consolas,monospace;--serif:Georgia,"Noto Serif KR",serif;--sans:-apple-system,BlinkMacSystemFont,"Pretendard","Noto Sans KR",sans-serif}
+    body.light{--bg:#f7f7f5;--bg-alt:#f0f1ee;--card:#fff;--card-hi:#f4f5f2;--ink:#1d232c;--ink-dim:#596270;--ink-faint:#89919b;--line:#dfe2df;--amber:#a76408;--teal:#167e76;--green:#337a3a;--red:#bd3e32}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;transition:.2s}a{color:var(--teal)}
+    .site-topbar{height:58px;border-top:4px solid var(--amber);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(12px)}.site-topbar>a{color:var(--amber);font-weight:700}.crumb-sep{margin:0 9px;color:var(--ink-faint)}.crumb-cur{font-weight:650}.theme-btn{border:1px solid var(--line);background:var(--card-hi);color:var(--ink);border-radius:999px;padding:8px 13px;cursor:pointer;font-weight:650}.top-theme{margin-left:auto}
+    .layout{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1450px;margin:0 auto}.sidebar{height:calc(100vh - 58px);position:sticky;top:58px;overflow:auto;border-right:1px solid var(--line);padding:25px 18px}.sidebar h1{font-family:var(--serif);font-size:18px;margin:0}.sidebar .sub{color:var(--ink-faint);font-size:12px;margin:4px 0 16px}.search{width:100%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);padding:9px 10px;border-radius:7px;margin-bottom:12px}.partbox{margin-bottom:10px}.part-title{font-size:11px;letter-spacing:.06em;color:var(--ink-faint);padding:8px 6px 4px;font-weight:750}.navlink{display:block;padding:6px 8px;border-radius:6px;color:var(--ink-dim);text-decoration:none;font-size:13px}.navlink:hover{background:var(--card-hi);color:var(--ink)}.navlink.active{background:rgba(227,165,60,.13);color:var(--amber);font-weight:700}
+    main{width:min(100%,980px);padding:58px 58px 80px}.hero{margin-bottom:42px}.eyebrow{font-family:var(--mono);color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.hero h1{font-family:var(--serif);font-size:42px;line-height:1.15;margin:8px 0 18px}.lead{font-size:18px;color:var(--ink-dim);max-width:850px}.flow{display:flex;align-items:stretch;gap:6px;margin:22px 0;overflow-x:auto;padding-bottom:4px}.flow-step{min-width:112px;flex:1;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:11px;text-align:center}.flow-step.accent{border-color:var(--teal)}.flow-step .k{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-faint)}.flow-step .v{font-size:13px;font-weight:700}.flow-arrow{align-self:center;color:var(--ink-faint)}
+    details.chapter{border-top:1px solid var(--line);scroll-margin-top:76px}details.chapter:last-of-type{border-bottom:1px solid var(--line)}summary{list-style:none;display:flex;align-items:center;gap:14px;padding:22px 4px;cursor:pointer}summary::-webkit-details-marker{display:none}.ch-num{font-family:var(--mono);color:var(--amber);width:34px}.ch-title{flex:1}.ch-title h2{font-size:22px;margin:0}.ch-title .sub{font-size:13px;color:var(--ink-faint)}.chev{color:var(--ink-faint);transition:.2s}details[open] .chev{transform:rotate(90deg)}.ch-body{padding:0 8px 34px 52px;color:var(--ink-dim)}.ch-body h3{color:var(--ink);margin:25px 0 8px;font-size:17px}.ch-body strong{color:var(--ink)}
+    table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}th{background:var(--card-hi);color:var(--ink);font-weight:700}td:first-child{color:var(--ink);font-weight:650}.callout,.previewbox{border-left:3px solid var(--amber);background:rgba(227,165,60,.08);padding:14px 16px;margin:18px 0;border-radius:0 8px 8px 0}.previewbox{border-color:var(--teal);background:rgba(76,184,173,.08)}.lbl{display:block;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-bottom:4px}.previewbox .lbl{color:var(--teal)}.callout p,.previewbox p{margin:0}.stackbox{border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:16px 0}.stackbox .row{display:grid;grid-template-columns:170px 1fr;border-bottom:1px solid var(--line)}.stackbox .row:last-child{border-bottom:0}.stackbox .tag{padding:10px 12px;background:var(--card-hi);color:var(--ink);font-family:var(--mono);font-size:12px}.stackbox .desc{padding:10px 12px;font-size:13.5px}
+    .confuse-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.confuse-card{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:16px}.confuse-card h4{margin:0 0 6px;color:var(--ink)}.confuse-card p{margin:0;color:var(--ink-dim);font-size:13.5px}#confuse,#quiz{margin-top:58px;scroll-margin-top:76px}.quiz-head{margin-bottom:22px}.quiz-head h2{font-size:27px;margin:8px 0}.quiz-head p{color:var(--ink-dim)}
+    .qcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:14px}.qnum{font-family:var(--mono);color:var(--amber);font-size:12px}.qtext{font-weight:650;margin:7px 0 13px}.opts{display:grid;gap:8px}.opt{display:flex;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--bg-alt);font-size:13.5px;color:var(--ink-dim)}.opt input{accent-color:var(--teal)}.opt.correct{border-color:var(--green);background:rgba(127,191,127,.09);color:var(--ink)}.opt.wrong{border-color:var(--red);background:rgba(224,104,90,.09)}.explain{display:none;margin-top:12px;padding:12px 14px;border-radius:8px;background:var(--bg-alt);font-size:13.3px;color:var(--ink-dim)}.explain.show{display:block}.quiz-footer{text-align:center;margin-top:25px;padding:25px;background:var(--card-hi);border-radius:10px}#scoreText{font-size:22px;color:var(--amber)}#scoreDetail{color:var(--ink-dim);font-size:13.5px;margin:7px 0 15px}.btn{font-family:var(--mono);font-size:13px;background:var(--amber);color:#171006;border:0;padding:11px 22px;border-radius:7px;cursor:pointer;font-weight:700}.btn.secondary{background:transparent;border:1px solid var(--line);color:var(--ink-dim);margin-left:8px}.pagefoot{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12px;font-family:var(--mono)}
+    @media(max-width:820px){.site-topbar{padding:0 14px}.crumb-cur{max-width:45vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.layout{display:block}.sidebar{display:none}main{padding:38px 20px 70px}.hero h1{font-size:34px}.lead{font-size:16px}.ch-body{padding-left:8px}.confuse-grid{grid-template-columns:1fr}.stackbox .row{grid-template-columns:120px 1fr}}
+    pre{max-width:100%;overflow-x:auto;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--bg-alt);color:var(--ink);line-height:1.65}pre code{font-family:var(--mono);font-size:15px;white-space:pre}.ch-body{min-width:0}.table-scroll{overflow-x:auto;margin:16px 0}.table-scroll table{margin:0;min-width:470px}.source-note{color:var(--ink-dim);font-size:14px}.chapter:focus-within{scroll-margin-top:90px}.quiz-footer [role="status"]{margin-bottom:10px}a:focus-visible,button:focus-visible,summary:focus-visible,pre:focus-visible,.table-scroll:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+  </style>
+</head>
+
+<body class="light langchain-study">
+<div class="site-topbar"><a href="../../index.html">학습 홈</a><span class="crumb-sep">/</span><span class="crumb-cur">LangChain</span><button class="theme-btn top-theme" id="themeBtn" type="button">다크 모드</button></div>
+<div class="layout">
+<nav class="sidebar" aria-label="LangChain 목차">
+<h1>LangChain</h1><p class="sub">개념 → 데이터 흐름 → 서비스 연결</p>
+<input class="search" id="searchBox" type="search" aria-label="본문 검색" placeholder="검색 (예: 병렬, 메모리, RAG)">
+<div class="part-title">핵심 개념과 실습</div><a class="navlink" href="#ch1">01. LangChain은 무엇을 연결할까?</a>
+<a class="navlink" href="#ch2">02. 모델·메시지·프롬프트를 한 번에 연결하기</a>
+<a class="navlink" href="#ch3">03. Runnable과 LCEL</a>
+<a class="navlink" href="#ch4">04. 순차·병렬·원본 유지</a>
+<a class="navlink" href="#ch5">05. 분기와 전처리</a>
+<a class="navlink" href="#ch6">06. 구조화된 출력</a>
+<a class="navlink" href="#ch7">07. 대화 기억과 Checkpointer</a>
+<a class="navlink" href="#ch8">08. 스트리밍</a>
+<a class="navlink" href="#ch9">09. Tool과 Agent</a>
+<a class="navlink" href="#ch10">10. RAG</a>
+<a class="navlink" href="#ch11">11. Gradio</a>
+<a class="navlink" href="#ch12">12. 실습 오류와 운영 체크리스트</a>
+<div class="part-title">복습</div><a class="navlink" href="#confuse">헷갈리는 포인트</a><a class="navlink" href="#quiz">복습 퀴즈 20문항</a>
+</nav>
+<main>
+<header class="hero"><span class="eyebrow">LangChain · LCEL · Runnable</span>
+<h1>LangChain 복습 노트</h1>
+<p class="lead">함수 이름을 외우기보다 <strong>무슨 데이터가 들어오고, 어디서 변환되며, 누가 실제 작업을 실행하는지</strong>를 따라갑니다. 기본 체인부터 대화 기억·도구·검색·화면 연결까지 수업의 핵심을 한 흐름으로 정리했습니다.</p>
+<div class="previewbox"><span class="lbl">먼저 볼 핵심</span><p><strong>Runnable의 공통 규약 → LCEL의 입출력 → 순차·병렬의 의존성</strong>을 먼저 잡으세요. 기억·구조화 출력·도구 호출의 차이를 확인한 뒤 RAG와 Gradio를 연결하면 됩니다. RAG·에이전트는 이번 수업에서 다룬 기본 범위에 집중했습니다.</p></div>
+<p><a href="#ch3">Runnable부터 보기</a> · <a href="#ch4">순차·병렬 비교</a> · <a href="#quiz">퀴즈 풀기</a></p>
+</header>
+<details class="chapter" id="ch1" open>
+<summary><span class="ch-num">01</span><div class="ch-title"><h2>LangChain은 무엇을 연결할까?</h2><span class="sub">모델을 만드는 기술이 아니라, 모델을 서비스에 연결하는 도구</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<p>LangChain은 <strong>프롬프트·모델·출력 처리·검색·도구를 연결</strong>해 LLM 애플리케이션을 만드는 프레임워크입니다. LLM 자체도, 벡터 DB도 아닙니다. 비유하면 모델은 문장을 만드는 엔진이고, LangChain은 입력부터 결과 처리까지 연결하는 배선입니다.</p>
+<div class="flow learning-viz" role="img" aria-label="사용자 입력이 프롬프트, 모델 호출, 응답 검증을 거쳐 서비스 결과가 되는 과정"><div class="flow-step"><span class="k">1</span><span class="v">사용자 입력</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">2</span><span class="v">프롬프트 구성</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">3</span><span class="v">모델 호출</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">4</span><span class="v">응답 검증</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">5</span><span class="v">서비스 결과</span></div></div>
+<div class="callout"><span class="lbl">교수님 강조 · 9/18</span><p>먼저 해결할 문제를 정하고 기술을 고릅니다. 계산·권한 검사처럼 결과가 정확해야 하는 일은 코드로 처리하고, 자연어 해석·요약처럼 LLM이 잘하는 부분을 연결합니다. 특정 공급자만 쓴다면 전용 SDK도 좋은 선택입니다.</p></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="구성 · 무엇을 담당하나?"><table><thead><tr><th scope="col">구성</th><th scope="col">무엇을 담당하나?</th></tr></thead><tbody><tr><td>langchain-core</td><td>메시지, 프롬프트, 출력 파서, Runnable 등 공통 규약</td></tr><tr><td>langchain</td><td>create_agent 등 애플리케이션·에이전트 구성</td></tr><tr><td>langchain-openai 등 통합 패키지</td><td>각 공급자의 API와 LangChain 인터페이스를 연결</td></tr><tr><td>LangGraph</td><td>상태·분기·반복·중단과 재개 등 실행 흐름 관리</td></tr><tr><td>LangSmith</td><td>실행 경로 추적, 디버깅, 평가에 사용하는 별도 도구</td></tr></tbody></table></div>
+<p><code>init_chat_model()</code>은 모델을 직접 학습시키지 않습니다. 공급자와 모델 이름을 해석해 대응하는 모델 객체를 만듭니다. 따라서 OpenAI를 쓴다면 API 키뿐 아니라 <code>langchain-openai</code>도 필요합니다.</p>
+<div class="callout"><span class="lbl">헷갈림 방지</span><p>표준 인터페이스는 모델 교체에 따른 수정을 줄여줄 뿐, 모든 모델의 기능·가격·출력 형태까지 같게 만들지는 않습니다. 도구 호출, 구조화 출력, 이미지 입력, 지원 파라미터를 바꿀 때마다 확인합니다.</p></div>
+<p class="source-note">교재 PDF 4–28쪽, 83–90쪽 · <a href="https://docs.langchain.com/oss/python/langchain/overview">공식 개요</a></p></div></details>
+<details class="chapter" id="ch2">
+<summary><span class="ch-num">02</span><div class="ch-title"><h2>모델·메시지·프롬프트를 한 번에 연결하기</h2><span class="sub">기본 예제를 기준으로 이후 코드를 읽는다</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<p><strong>Chat Model은 메시지를 받아 AIMessage를 반환</strong>합니다. 메시지는 “누가 한 말인가”를 함께 담습니다. 프롬프트 템플릿은 고정 지시와 바뀌는 입력을 분리하는 틀입니다.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="메시지 · 의미 · 예시"><table><thead><tr><th scope="col">메시지</th><th scope="col">의미</th><th scope="col">예시</th></tr></thead><tbody><tr><td>SystemMessage</td><td>역할·말투·지침</td><td>모르는 내용은 모른다고 답하세요.</td></tr><tr><td>HumanMessage</td><td>사용자의 입력</td><td>LCEL을 설명해줘.</td></tr><tr><td>AIMessage</td><td>모델의 응답 또는 도구 호출 요청</td><td>설명 문장 또는 tool_calls</td></tr><tr><td>ToolMessage</td><td>실제로 실행한 도구의 결과</td><td>계산 도구가 반환한 42</td></tr></tbody></table></div>
+<h3>실습 준비</h3>
+<p>아래는 <strong>LangChain 1.x 방식</strong>의 학습용 예제입니다. 예제 모델명은 교재의 <code>gpt-4o-mini</code>를 사용합니다. 계정에서 사용 가능한 모델인지 확인하고, 실행 환경에서 동작한 패키지 버전을 기록하세요. Colab에서는 설치 명령 앞에 <code>%pip</code>를 사용합니다.</p>
+<pre tabindex="0"><code class="language-bash">python -m pip install "langchain&gt;=1,&lt;2" langchain-openai python-dotenv</code></pre>
+<p>작업 폴더의 <code>.env</code>에 키를 저장하고 <code>.gitignore</code>에 <code>.env</code>를 추가합니다. 키가 있는 셀 출력·화면 캡처도 공유하지 않습니다. 실제 키는 아래 예제 문자열 대신 본인의 환경에만 입력하세요.</p>
+<pre tabindex="0"><code class="language-text">OPENAI_API_KEY=본인의_API_키
+OPENAI_MODEL=gpt-4o-mini</code></pre>
+<pre tabindex="0"><code class="language-python">import os
+from dotenv import load_dotenv
+from langchain.chat_models import init_chat_model
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+load_dotenv()
+if not os.getenv("OPENAI_API_KEY"):
+    raise RuntimeError(".env의 OPENAI_API_KEY를 확인하세요.")
+
+model = init_chat_model(
+    os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+    model_provider="openai",
+)
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "처음 배우는 사람에게 핵심과 짧은 예시로 설명하세요."),
+    ("human", "{topic}을 설명해줘."),
+])
+parser = StrOutputParser()
+chain = prompt | model | parser
+print(chain.invoke({"topic": "LangChain"}))</code></pre>
+<p>이후 예제는 별도 안내가 없으면 이 셀의 <code>model</code>, <code>prompt</code>, <code>parser</code>, <code>chain</code>을 사용합니다. 모델을 호출하는 셀은 비용이 발생합니다. 이 정적 블로그 자체에서 API를 호출하지는 않습니다.</p>
+<div class="callout"><span class="lbl">교수님 강조 · 실습에서 막힌 지점</span><p>템플릿의 <code>{topic}</code>과 입력 딕셔너리의 <code>topic</code>이 같아야 합니다. Colab 런타임이 초기화되면 설치·키 로딩·객체 생성부터 다시 실행합니다. 앞에서 만든 변수 이름을 다른 예제에 덮어쓰지 않도록 주의하세요.</p></div>
+<p><code>temperature</code>는 출력의 무작위성, <code>top_p</code>는 후보 토큰 확률의 범위를 조절하는 설정입니다. 지원 범위는 모델마다 다릅니다. 낮은 temperature도 사실 정확성이나 완전한 재현성을 보장하지 않습니다. 출력 토큰 제한은 답변 길이를 제한하지만 <strong>입력 토큰·반복 호출 비용까지 제한하는 전체 예산은 아닙니다.</strong></p>
+<p class="source-note">교재 PDF 25–38쪽 · <a href="https://docs.langchain.com/oss/python/langchain/models">모델·파라미터 공식 문서</a></p></div></details>
+<details class="chapter" id="ch3">
+<summary><span class="ch-num">03</span><div class="ch-title"><h2>Runnable과 LCEL: 데이터가 어떻게 흐를까?</h2><span class="sub">invoke라는 이름은 같아도 각 단계가 하는 일은 다르다</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<div class="callout"><span class="lbl">교수님 반복 강조 · 9/18, 9/21</span><p>왜 프롬프트·모델·파서를 모두 <code>invoke()</code>로 실행할 수 있을까요? 공통 인터페이스인 Runnable을 따르기 때문입니다. 실행 방법을 통일한 것이지, 각 컴포넌트의 내부 기능이 같은 것은 아닙니다.</p></div>
+<div class="flow learning-viz" role="img" aria-label="입력 딕셔너리가 ChatPromptValue로 변환되고 모델의 AIMessage를 거쳐 파서에서 문자열이 되는 LCEL 타입 흐름"><div class="flow-step"><span class="k">1</span><span class="v">dict<br>{topic: …}</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">2</span><span class="v">ChatPromptValue<br>완성된 메시지</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">3</span><span class="v">AIMessage<br>모델 응답</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">4</span><span class="v">str<br>추출한 텍스트</span></div></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="단계 · invoke의 역할 · 외부 LLM 호출?"><table><thead><tr><th scope="col">단계</th><th scope="col">invoke의 역할</th><th scope="col">외부 LLM 호출?</th></tr></thead><tbody><tr><td>prompt.invoke({...})</td><td>변수를 채워 프롬프트 생성</td><td>아니요</td></tr><tr><td>model.invoke(완성된 프롬프트)</td><td>응답 생성</td><td>API 모델이라면 예</td></tr><tr><td>parser.invoke(AIMessage)</td><td>응답에서 텍스트 추출</td><td>StrOutputParser는 아니요</td></tr><tr><td>chain.invoke({...})</td><td>연결된 전체 단계를 실행</td><td>체인 안의 모델 단계에서 호출</td></tr></tbody></table></div>
+<p><strong>LCEL</strong>은 LangChain Expression Language의 약자입니다. <code>A | B | C</code>는 A의 출력을 B에, B의 출력을 C에 전달하는 선언식 표현입니다. 체인을 만드는 것과 실행하는 것은 다릅니다. <code>chain = ...</code>으로 조립한 뒤 <code>invoke()</code> 등으로 실행합니다.</p>
+<pre tabindex="0"><code class="language-python"># 아래는 같은 데이터 흐름을 단계별로 펼친 형태입니다.
+formatted = prompt.invoke({"topic": "LangChain"})
+response = model.invoke(formatted)
+answer = parser.invoke(response)
+print(answer)
+
+# 실행 결과 문장 자체는 호출마다 달라질 수 있습니다.
+# chain = prompt | model | parser</code></pre>
+<div class="table-scroll" tabindex="0" role="region" aria-label="실행 방식 · 입력과 출력 · 언제 사용?"><table><thead><tr><th scope="col">실행 방식</th><th scope="col">입력과 출력</th><th scope="col">언제 사용?</th></tr></thead><tbody><tr><td>invoke / ainvoke</td><td>입력 하나 → 최종 결과 하나</td><td>단일 요청 / 비동기 요청</td></tr><tr><td>batch / abatch</td><td>입력 여러 개 → 결과 목록</td><td>서로 다른 문서나 질문을 같은 체인으로 처리</td></tr><tr><td>stream / astream</td><td>입력 하나 → 결과 조각을 순차 전달</td><td>긴 답변을 기다리지 않고 표시</td></tr></tbody></table></div>
+<h3>교수님이 소스까지 따라간 이유</h3>
+<p>교재의 상속 관계를 압축하면 <code>PromptTemplate → StringPromptTemplate → BasePromptTemplate → RunnableSerializable → Runnable</code>입니다. 모든 상속 단계를 암기하기보다, <strong>공통 실행 규약은 기반 클래스에 있고 실제 처리는 각 컴포넌트가 구현한다</strong>는 구조를 이해하면 됩니다. 문서의 “소스 보기”와 함수의 docstring을 함께 보면 설명과 실제 구현을 연결할 수 있습니다.</p>
+<div class="callout"><span class="lbl">디버깅 기준</span><p>파이프가 입력 타입을 마법처럼 고쳐주지는 않습니다. 프롬프트가 딕셔너리를 기대하는지, 다음 단계가 문자열을 기대하는지 확인하세요. 오류가 나면 전체 체인을 반복 호출하지 말고 단계별 입력·출력을 먼저 봅니다.</p></div>
+<p class="source-note">교재 PDF 69–71쪽, 137–149쪽 · <a href="https://reference.langchain.com/python/langchain-core/runnables">Runnable API</a></p></div></details>
+<details class="chapter" id="ch4">
+<summary><span class="ch-num">04</span><div class="ch-title"><h2>순차·병렬·원본 유지</h2><span class="sub">빠르게 만들기 전에 작업 사이의 의존성을 확인한다</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<div class="learning-viz viz-compare" role="img" aria-label="순차 실행은 원문 요약 결과를 번역에 전달하고, 병렬 실행은 같은 원문에서 요약과 키워드를 독립적으로 구한 뒤 합친다"><div class="viz-panel"><span>SEQUENCE</span><strong>원문 → 요약 → 요약문 번역</strong><p>번역이 요약 결과를 기다려야 함</p></div><div class="viz-panel is-accent"><span>PARALLEL</span><strong>원문 → [요약 ∥ 키워드] → 결과 묶음</strong><p>각 작업이 원문만으로 실행 가능</p></div></div>
+<div class="callout"><span class="lbl">교수님 반복 강조 · 9/21</span><p>병렬 처리의 조건은 서로 의존하지 않는 작업이라는 점입니다. 같은 입력을 쓴다는 이유만으로 무조건 병렬화하지 말고, 다른 작업의 결과나 공유 상태 변경을 기다려야 하는지 확인합니다.</p></div>
+<pre tabindex="0"><code class="language-python">from langchain_core.runnables import (
+    RunnableParallel, RunnablePassthrough, RunnableLambda,
+)
+
+summarize = (
+    ChatPromptTemplate.from_template("다음 글의 핵심을 요약해줘: {text}")
+    | model | parser
+)
+translate = (
+    ChatPromptTemplate.from_template("이 요약문을 영어로 번역해줘: {summary}")
+    | model | parser
+)
+keywords = (
+    ChatPromptTemplate.from_template("다음 글의 핵심어 3개를 골라줘: {text}")
+    | model | parser
+)
+
+# 요약 결과를 다음 프롬프트의 summary라는 키에 연결
+sequential = RunnableParallel(summary=summarize) | translate
+
+# 두 작업 모두 같은 {"text": ...}를 받아 독립적으로 실행
+parallel = RunnableParallel(summary=summarize, keywords=keywords)
+
+sample = {"text": "LCEL은 컴포넌트를 연결한다. Runnable은 실행 규약이다."}
+print(sequential.invoke(sample))
+print(parallel.invoke(sample))</code></pre>
+<p>병렬 결과는 <code>{"summary": "...", "keywords": "..."}</code> 형태입니다. 두 요청이 각각 3초·5초라면 이상적인 병렬 소요 시간은 약 5초에 부가 시간이 더해집니다. <strong>호출 두 번의 비용은 그대로</strong>이며 동시 요청이 늘면 rate limit에 걸릴 수 있습니다.</p>
+<h3>batch와 Parallel은 무엇이 다를까?</h3>
+<p><code>summarize.batch([입력1, 입력2])</code>는 같은 요약 작업에 여러 입력을 넣습니다. <code>RunnableParallel</code>은 같은 입력을 여러 갈래의 작업에 전달합니다.</p>
+<h3>원문을 잃지 않으려면</h3>
+<pre tabindex="0"><code class="language-python"># 입력 딕셔너리의 text를 유지하면서 summary를 추가합니다.
+with_original = RunnablePassthrough.assign(summary=summarize)
+# with_original.invoke(sample)
+# → {"text": 원문, "summary": 요약문}
+
+# 일반 함수를 체인의 한 단계로 사용
+uppercase = chain | RunnableLambda(str.upper)</code></pre>
+<p><code>RunnablePassthrough()</code>는 입력을 그대로 넘기고, <code>assign()</code>은 딕셔너리 입력에 새 키를 더합니다. <code>str.upper</code>는 문자만 변환하며 LLM 호출을 추가하지 않습니다. 단순 함수를 연결하는 데 별도 클래스를 만들 필요는 없습니다.</p>
+<p class="source-note">교재 PDF 141–156쪽 · 9/21 순차·병렬 실습</p></div></details>
+<details class="chapter" id="ch5">
+<summary><span class="ch-num">05</span><div class="ch-title"><h2>분기와 전처리: 연결 위치가 결과를 바꾼다</h2><span class="sub">고객 피드백 라우팅과 개인정보 마스킹</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<p>수업에서는 피드백을 <strong>긍정·부정·중립·상담원 이관</strong>으로 분류하고 결과에 따라 다른 체인으로 보내는 예제를 다뤘습니다. 분류는 모델이 하더라도, 실제 경로 선택은 미리 정한 조건으로 제한할 수 있습니다.</p>
+<div class="flow learning-viz" role="img" aria-label="사용자의 피드백이 먼저 분류된 뒤 긍정, 부정, 중립 조건에 따라 응답하고 분류하지 못한 경우 상담원 이관 경로를 선택하는 흐름"><div class="flow-step"><span class="k">1</span><span class="v">원본 피드백</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">2</span><span class="v">분류 결과 검증</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">3</span><span class="v">조건별 체인 선택</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">4</span><span class="v">응답 또는 이관 안내</span></div></div>
+<pre tabindex="0"><code class="language-python"># LLM 없이 분기 원리만 확인하는 예제
+from langchain_core.runnables import RunnableBranch, RunnableLambda
+
+router = RunnableBranch(
+    (lambda x: x["label"] == "positive",
+     RunnableLambda(lambda x: "감사 답변 경로")),
+    (lambda x: x["label"] == "negative",
+     RunnableLambda(lambda x: "문제 확인 경로")),
+    (lambda x: x["label"] == "neutral",
+     RunnableLambda(lambda x: "추가 질문 경로")),
+    RunnableLambda(lambda x: "상담원 이관 경로"),
+)
+assert router.invoke({"label": "negative"}) == "문제 확인 경로"
+assert router.invoke({"label": "unknown"}) == "상담원 이관 경로"</code></pre>
+<p><code>RunnableBranch</code>는 위에서부터 조건을 검사해 <strong>처음 참인 경로 하나</strong>를 실행합니다. 마지막 항목은 어떤 조건에도 맞지 않을 때의 기본 경로입니다. 위 코드는 안내 문자열만 반환하며 실제 상담 티켓을 만들지는 않습니다. 실제 서비스에서는 원문도 함께 유지하고 분류값을 스키마로 검증하세요.</p>
+<h3>마스킹은 언제 해야 할까?</h3>
+<div class="learning-viz viz-compare" role="img" aria-label="모델 전 마스킹은 원문 개인정보가 외부 모델에 전달되는 것을 줄이고 모델 후 마스킹은 화면 노출만 줄인다는 비교"><div class="viz-panel is-accent"><span>BEFORE MODEL</span><strong>입력 → 마스킹 → 모델</strong><p>외부 전송 전 보호</p></div><div class="viz-panel"><span>AFTER MODEL</span><strong>입력 → 모델 → 마스킹</strong><p>출력 보호. 입력은 이미 전송됨</p></div></div>
+<pre tabindex="0"><code class="language-python">import re
+from langchain_core.runnables import RunnableLambda
+
+def mask_phone(text: str) -&gt; str:
+    # 학습용: 국내 010 번호의 두 가지 표기만 처리합니다.
+    return re.sub(r"(?&lt;!\d)010-?\d{4}-?\d{4}(?!\d)",
+                  "[전화번호]", text)
+
+assert mask_phone("연락처 010-1234-5678") == "연락처 [전화번호]"
+assert mask_phone("01012345678") == "[전화번호]"
+
+protected = (
+    RunnableLambda(lambda x: {"topic": mask_phone(x["topic"])})
+    | prompt | model | parser
+    | RunnableLambda(mask_phone)
+)</code></pre>
+<div class="callout"><span class="lbl">수업 예제 보완</span><p>9/21 후처리 예제는 화면에서 번호가 가려지는 원리를 보여줍니다. 외부 전송까지 보호하려면 입력 단계에서도 처리해야 합니다. 이 정규식은 이메일·이름·다른 전화번호 형식 등을 잡지 못하므로 완전한 개인정보 필터가 아닙니다. 로그와 검색 문서도 별도로 점검해야 합니다.</p></div>
+<p class="source-note">9/21 피드백 분기·RunnableLambda·마스킹 실습 · 교재 PDF 141–142쪽의 확장</p></div></details>
+<details class="chapter" id="ch6">
+<summary><span class="ch-num">06</span><div class="ch-title"><h2>구조화된 출력: 문장을 데이터로 받기</h2><span class="sub">JSON 형식, 스키마 검증, 사실 검증은 서로 다르다</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<p>“제목은 무엇이고 평점은 몇 점”이라는 자유로운 문장을 DB나 API에 넣으려면 다시 해석해야 합니다. <strong>Structured Output</strong>은 필요한 필드와 타입을 먼저 정해 결과를 데이터 구조로 받는 방법입니다.</p>
+<div class="flow learning-viz" role="img" aria-label="스키마를 정의하고 구조화 출력 모델에 연결한 뒤 결과의 타입과 범위를 검증하고 별도로 사실과 근거를 확인하는 과정"><div class="flow-step"><span class="k">1</span><span class="v">스키마 정의</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">2</span><span class="v">구조화 출력 요청</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">3</span><span class="v">타입·범위 검사</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">4</span><span class="v">내용·근거 검사</span></div></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="도구·개념 · 보장하거나 처리하는 것 · 보장하지 않는 것"><table><thead><tr><th scope="col">도구·개념</th><th scope="col">보장하거나 처리하는 것</th><th scope="col">보장하지 않는 것</th></tr></thead><tbody><tr><td>StrOutputParser</td><td>AI 응답에서 텍스트 추출</td><td>사실 확인·JSON 구조 검증</td></tr><tr><td>JSON / JsonOutputParser</td><td>데이터 표현 형식 / JSON 파싱</td><td>필수 필드·평점 범위·의미의 정확성</td></tr><tr><td>Schema</td><td>필드·타입·필수 여부에 대한 설계</td><td>실제 입력이 참이라는 것</td></tr><tr><td>Pydantic</td><td>설계에 따른 Python 객체와 값 검증</td><td>모델이 지어낸 내용의 사실 여부</td></tr><tr><td>with_structured_output</td><td>스키마에 맞는 응답을 요청하고 처리</td><td>모든 모델에서 같은 방식으로 지원되는 것</td></tr></tbody></table></div>
+<pre tabindex="0"><code class="language-python">from pydantic import BaseModel, Field
+
+class Review(BaseModel):
+    """입력 리뷰에 명시된 정보만 추출합니다."""
+    title: str = Field(description="작품 제목")
+    rating: int | None = Field(
+        default=None, ge=1, le=5,
+        description="명시된 1~5점 평점. 없으면 null",
+    )
+    summary: str = Field(description="입력에 근거한 한 줄 감상")
+
+structured = model.with_structured_output(Review)
+review = structured.invoke(
+    "입력에 없는 내용을 추가하지 말고 추출해줘. "
+    "리뷰: 인사이드 아웃은 감정 표현이 좋았다. 5점 만점에 4점."
+)
+print(review.title, review.rating, review.summary)
+
+# API 호출 없이 검증 범위 확인
+assert Review(title="예시", rating=4, summary="좋았다").rating == 4
+# rating=9를 넣으면 범위를 벗어나 ValidationError가 납니다.</code></pre>
+<div class="callout"><span class="lbl">교수님 강조 + 보완</span><p><code>description="1~5점"</code>은 설명이고, <code>ge=1, le=5</code>는 실행되는 제약입니다. 리뷰가 “감동적”이라고만 했는데 모델이 줄거리까지 덧붙이면 형식 검증은 통과해도 근거 없는 답변입니다. 선택 필드는 기본값을 두고 없는 정보를 억지로 채우지 않게 합니다.</p></div>
+<p>구조화 출력의 내부 방식은 공급자의 네이티브 기능, 도구 호출 등으로 달라질 수 있습니다. 거절 응답·길이 제한·지원하지 않는 스키마·파싱 실패도 처리해야 합니다. “JSON으로 답해”라는 문장 하나만으로 신뢰 가능한 구조가 보장되지는 않습니다.</p>
+<p class="source-note">교재 PDF 49–68쪽 · <a href="https://docs.langchain.com/oss/python/langchain/models#structured-output">공식 구조화 출력</a></p></div></details>
+<details class="chapter" id="ch7">
+<summary><span class="ch-num">07</span><div class="ch-title"><h2>대화 기억과 Checkpointer</h2><span class="sub">모델이 자동으로 기억하는 것이 아니라 이전 문맥을 다시 전달한다</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<p>“김치찌개 레시피 알려줘” 다음에 “더 맵게 하려면?”이라고 물으면 앞선 대화가 필요합니다. 독립적인 모델 호출은 이전 호출을 자동으로 이어받지 않습니다. <strong>메시지를 누적해 전달하거나 상태 저장 기능을 연결</strong>해야 합니다.</p>
+<div class="learning-viz viz-stack" role="img" aria-label="대화 A의 김치찌개 질문과 응답은 A의 다음 질문에만 전달하고 대화 B의 여행 질문은 별도 상태에 저장한다"><div class="viz-layer is-accent"><span>THREAD A</span><strong>김치찌개 질문 → 응답 → “더 맵게?”</strong><p>A의 이전 메시지와 새 입력으로 응답</p></div><div class="viz-layer"><span>THREAD B</span><strong>제주 여행 질문 → 여행 답변</strong><p>B만의 상태 사용. A의 대화와 분리</p></div><div class="viz-layer"><span>CHECKPOINTER</span><strong>thread_id별 실행 상태 저장·복원</strong><p>같은 대화를 이어갈 때 같은 식별자 사용</p></div></div>
+<pre tabindex="0"><code class="language-python">from langchain.agents import create_agent
+from langgraph.checkpoint.memory import InMemorySaver
+
+memory_agent = create_agent(
+    model=model, tools=[], checkpointer=InMemorySaver(),
+)
+config = {"configurable": {"thread_id": "study-demo-1"}}
+memory_agent.invoke(
+    {"messages": [{"role": "user", "content": "내 이름은 서연이야."}]},
+    config,
+)
+result = memory_agent.invoke(
+    {"messages": [{"role": "user", "content": "내 이름이 뭐라고 했지?"}]},
+    config,
+)
+print(result["messages"][-1].content)</code></pre>
+<div class="table-scroll" tabindex="0" role="region" aria-label="구분 · 기억의 범위 · 저장 방식과의 관계"><table><thead><tr><th scope="col">구분</th><th scope="col">기억의 범위</th><th scope="col">저장 방식과의 관계</th></tr></thead><tbody><tr><td>단기 기억</td><td>하나의 대화 thread에서 이어지는 문맥</td><td>DB에 저장해 재개해도 단기 기억일 수 있음</td></tr><tr><td>장기 기억</td><td>대화를 넘어 재사용하는 선호·정보</td><td>별도 Store 등과 조회·갱신 정책 필요</td></tr><tr><td>InMemorySaver</td><td>현재 프로세스의 메모리에 체크포인트 저장</td><td>프로세스 재시작 시 소실. 실습용</td></tr><tr><td>DB 기반 Checkpointer</td><td>체크포인트를 영속 저장</td><td>DB에 넣는 것만으로 모든 내용을 프롬프트에 넣지는 않음</td></tr></tbody></table></div>
+<div class="callout"><span class="lbl">교수님 강조 · 9/18</span><p>세션을 잘못 구분하면 다른 사람의 대화가 섞일 수 있습니다. <code>thread_id</code>는 대화 식별자이지 로그인·접근 권한 검사를 대신하는 값이 아닙니다. 서버에서 소유자를 확인하고 대화별로 구분하세요.</p></div>
+<p>대화가 길어지면 비용과 지연이 늘고 컨텍스트 한도에 걸립니다. 오래된 메시지 요약·삭제·필요 부분 조회 정책을 두되, 도구 호출과 결과 메시지의 짝을 깨뜨리지 않아야 합니다. <strong>저장된 기록 전체와 이번 모델 호출에 넣을 문맥은 다를 수 있습니다.</strong></p>
+<p class="source-note">교재 PDF 39–44쪽, 105–112쪽 · <a href="https://docs.langchain.com/oss/python/langchain/short-term-memory">공식 단기 기억 문서</a></p></div></details>
+<details class="chapter" id="ch8">
+<summary><span class="ch-num">08</span><div class="ch-title"><h2>스트리밍: 완성을 기다리지 않고 보여주기</h2><span class="sub">전체 계산량을 줄이는 기능이 아니라 체감 대기를 줄이는 방식</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<div class="learning-viz viz-compare" role="img" aria-label="일반 호출은 생성 완료 후 전체 답변을 표시하지만 스트리밍은 생성 중 받은 조각부터 차례로 표시한다"><div class="viz-panel"><span>INVOKE</span><strong>요청 → 기다림 → 완성 답변</strong><p>호출이 끝나야 최종 결과 반환</p></div><div class="viz-panel is-accent"><span>STREAM</span><strong>요청 → 첫 조각 → 다음 조각 → 완료</strong><p>생성 중에도 읽기 시작</p></div></div>
+<pre tabindex="0"><code class="language-python"># 2장의 텍스트 출력 체인을 사용합니다.
+for piece in chain.stream({"topic": "LangChain의 스트리밍"}):
+    print(piece, end="", flush=True)
+print()</code></pre>
+<p><code>model.stream()</code>은 보통 메시지 청크를, 위처럼 <code>StrOutputParser</code>까지 붙인 체인은 텍스트 조각을 줍니다. 조각 하나가 반드시 한 글자·한 단어·한 토큰과 일치하지는 않습니다.</p>
+<div class="callout"><span class="lbl">꼭 구분</span><p>스트리밍을 켠다고 토큰 비용이 자동으로 감소하거나 모델의 전체 생성 시간이 반드시 짧아지는 것은 아닙니다. 사용자가 첫 내용을 보기까지의 시간을 줄이는 효과가 핵심입니다.</p></div>
+<p>중간에 네트워크가 끊기면 화면에 일부만 남을 수 있습니다. 로딩·완료·실패 상태를 구분하고 재시도 시 답변이 중복되지 않게 처리합니다. 미완성 JSON 조각은 그대로 최종 데이터로 저장하지 말고 완성·검증 여부를 확인하세요. 중간 단계가 전체 결과를 기다리면 체인 전체의 스트리밍도 지연될 수 있습니다.</p>
+<p class="source-note">교재 PDF 45–48쪽</p></div></details>
+<details class="chapter" id="ch9">
+<summary><span class="ch-num">09</span><div class="ch-title"><h2>Tool과 Agent: 요청과 실행의 차이</h2><span class="sub">모델이 도구를 골라도 실제 함수는 애플리케이션이 실행한다</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<div class="flow learning-viz" role="img" aria-label="사용자 질문 뒤 모델이 tool_calls를 만들고 애플리케이션이 허용된 도구를 실행해 ToolMessage를 반환하면 모델이 최종 답변을 만드는 과정"><div class="flow-step"><span class="k">1</span><span class="v">사용자 질문</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">2</span><span class="v">AIMessage<br>tool_calls</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">3</span><span class="v">도구 실행</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">4</span><span class="v">ToolMessage<br>실행 결과</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">5</span><span class="v">최종 AIMessage</span></div></div>
+<div class="callout"><span class="lbl">교수님 반복 강조 · 9/18</span><p><code>bind_tools()</code>는 모델에게 도구를 소개합니다. 호출 결과의 <code>tool_calls</code>는 “어떤 도구에 어떤 인자를 넣을지”라는 요청이지 실행 완료 결과가 아닙니다. 직접 호출할 때는 실행 루프를 구현하고, <code>create_agent()</code>를 쓰면 에이전트 실행기가 그 연결을 맡습니다.</p></div>
+<p>도구를 고르는 데 전달되는 것은 주로 <strong>도구 이름·설명(docstring)·입력 스키마</strong>입니다. 함수의 내부 소스 코드 전체를 모델이 자동으로 읽는다고 생각하면 안 됩니다. 명확한 이름·타입·설명이 중요한 이유입니다.</p>
+<pre tabindex="0"><code class="language-python">from langchain_core.tools import tool
+from langchain.agents import create_agent
+
+@tool
+def add_numbers(a: int, b: int) -&gt; int:
+    """두 정수를 정확하게 더해 합계를 반환합니다."""
+    return a + b
+
+# 연결만 하고 모델에 질의: 아직 add_numbers 실행 결과가 아닙니다.
+bound = model.bind_tools([add_numbers])
+request = bound.invoke("add_numbers 도구로 12와 30을 더해줘.")
+print(request.tool_calls)  # name, args, id 등을 확인
+print(add_numbers.invoke({"a": 12, "b": 30}))  # 직접 실행: 42
+
+# 모델 판단 → 도구 실행 → 결과 전달 루프를 에이전트에 맡기기
+calculator = create_agent(
+    model=model, tools=[add_numbers],
+    system_prompt="덧셈 요청은 add_numbers 도구를 사용하세요.",
+)
+result = calculator.invoke(
+    {"messages": [{"role": "user", "content": "12와 30의 합은?"}]},
+    config={"recursion_limit": 10},
+)
+print(result["messages"][-1].content)</code></pre>
+<p>모델은 계산 답변을 생성할 수도 있지만 항상 정확하다고 보장하기 어렵습니다. 계산 도구를 쓰면 실제 연산을 코드로 수행할 수 있습니다. 위의 호출은 도구 사용을 요청하지만, 실제 선택 여부는 반환된 메시지로 확인해야 합니다.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="구분 · 다음 작업을 정하는 주체 · 예시"><table><thead><tr><th scope="col">구분</th><th scope="col">다음 작업을 정하는 주체</th><th scope="col">예시</th></tr></thead><tbody><tr><td>Chain / Workflow</td><td>개발자가 정한 순서·조건</td><td>요약 → 번역</td></tr><tr><td>Agent</td><td>정해진 도구·규칙 안에서 모델이 다음 행동 선택</td><td>검색 필요 판단 → 도구 실행 → 결과 보고 재판단</td></tr><tr><td>Toolkit</td><td>관련 도구들의 묶음</td><td>SQL 테이블 목록 조회·스키마 조회·쿼리 실행</td></tr></tbody></table></div>
+<div class="callout"><span class="lbl">수업 예제 읽을 때 주의</span><p>교재의 “항상 맑음, 22도”를 반환하는 날씨 함수는 연결 구조를 보여주는 모의 도구입니다. 실제 날씨를 확인한 결과가 아닙니다. 실시간 답변에는 신뢰할 수 있는 외부 데이터와 조회 시점이 필요합니다.</p></div>
+<p><strong>무한 반복은 장애에 더해 API 비용도 발생</strong>시킵니다. 위의 <code>recursion_limit</code>은 그래프 단계 상한이지 정확한 금액 상한이 아닙니다. 별도로 요청 횟수·시간·토큰 예산을 두고 종료 조건과 실패 처리를 정합니다. DB 도구는 최소 권한으로, 결제·삭제·전송은 사용자 확인 후 실행하도록 설계합니다.</p>
+<p class="source-note">교재 PDF 72–81쪽, 92–104쪽 · <a href="https://docs.langchain.com/oss/python/langchain/tools">도구 정의와 실행</a></p></div></details>
+<details class="chapter" id="ch10">
+<summary><span class="ch-num">10</span><div class="ch-title"><h2>RAG: 필요한 문서를 찾아 답변에 넣기</h2><span class="sub">이번 수업은 전체 구조와 조정 기준까지</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<p><strong>RAG(Retrieval-Augmented Generation)</strong>는 질문과 관련된 문서를 검색해 LLM의 참고 문맥으로 넣는 방식입니다. 모델의 가중치를 새로 학습시키는 것이 아닙니다. 사내 규정처럼 모델이 모르는 지식을 제공할 때 유용하지만, 검색과 답변 모두 틀릴 수 있습니다.</p>
+<h3>① 미리 준비하는 단계: 색인 구축</h3>
+<div class="flow learning-viz" role="img" aria-label="문서를 로딩해 본문과 메타데이터를 얻고 청크로 분할한 뒤 임베딩 벡터를 만들고 내용과 출처를 함께 저장하는 RAG 구축 흐름"><div class="flow-step"><span class="k">1</span><span class="v">Loader<br>문서 읽기</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">2</span><span class="v">Splitter<br>조각 나누기</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">3</span><span class="v">Embedding<br>벡터 변환</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">4</span><span class="v">Vector Store<br>내용·출처와 저장</span></div></div>
+<h3>② 질문이 들어올 때: 검색과 생성</h3>
+<div class="flow learning-viz" role="img" aria-label="질문을 같은 임베딩 체계로 검색하여 관련 문서를 찾고 질문과 문서 본문을 프롬프트에 넣어 근거 있는 답변을 생성하는 RAG 활용 흐름"><div class="flow-step"><span class="k">1</span><span class="v">질문</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">2</span><span class="v">Retriever<br>관련 문서 찾기</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">3</span><span class="v">질문 + 문서 본문</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">4</span><span class="v">LLM<br>근거 기반 답변</span></div></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="컴포넌트 · 무엇을 내놓나? · 헷갈리지 않기"><table><thead><tr><th scope="col">컴포넌트</th><th scope="col">무엇을 내놓나?</th><th scope="col">헷갈리지 않기</th></tr></thead><tbody><tr><td>Document Loader</td><td>Document: page_content + metadata</td><td>PDF를 읽었다고 검색 DB가 생긴 것은 아님</td></tr><tr><td>Text Splitter</td><td>작은 텍스트 또는 Document 청크</td><td>크기는 기본 설정에서 보통 문자 수 기준</td></tr><tr><td>Embedding Model</td><td>숫자 벡터</td><td>답변을 쓰는 Chat Model과 역할이 다름</td></tr><tr><td>Vector Store</td><td>벡터 색인, 문서·메타데이터 연계</td><td>Retriever와 같은 개념이 아님</td></tr><tr><td>Retriever</td><td>질문에 관련된 문서 목록</td><td>최종 자연어 답변이 아님. 키워드 검색도 가능</td></tr></tbody></table></div>
+<h3>교수님이 길게 설명한 세 가지</h3>
+<ol><li><strong>chunk_size와 overlap:</strong> 너무 작으면 문맥이 끊기고 너무 크면 불필요한 내용까지 검색됩니다. 겹침은 경계의 정보 손실을 줄이지만 저장·검색 중복이 늘어납니다.</li><li><strong>검색 개수 k:</strong> 크면 항상 좋지 않습니다. 필요한 근거를 더 담을 수 있지만 관련 없는 문서·비용·지연도 증가합니다. 대표 질문으로 시험해 정합니다.</li><li><strong>임베딩 일관성:</strong> 문서와 질문은 호환되는 같은 임베딩 체계로 비교해야 합니다. 모델을 바꾸면 기존 문서 재임베딩·재색인을 검토해야 합니다. <em>차원 수만 같다고 호환되는 것도 아닙니다.</em></li></ol>
+<div class="learning-viz viz-stack" role="img" aria-label="문자 기준 크기 500 겹침 50의 이상화된 분할은 첫 청크 1부터 500, 다음 청크 451부터 950으로 경계 50자가 중복된다"><div class="viz-layer"><span>CHUNK 1</span><strong>1 … 450 [451 … 500]</strong><p>뒤쪽 경계 50자를 다음 조각과 공유</p></div><div class="viz-layer is-accent"><span>CHUNK 2</span><strong>[451 … 500] 501 … 950</strong><p>overlap=50은 50%가 아니라 50자</p></div></div>
+<p>위 그림은 길이로 자른 이상화된 예시입니다. <code>RecursiveCharacterTextSplitter</code>는 구분자를 고려하므로 실제 경계·겹침은 달라질 수 있습니다.</p>
+<pre tabindex="0"><code class="language-python"># 별도 설치: python -m pip install langchain-text-splitters
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500, chunk_overlap=50,
+)
+chunks = splitter.split_text(
+    "첫 문단에는 서비스 개요가 있습니다.\n\n"
+    "다음 문단에는 이용 조건과 제한이 있습니다."
+)
+print(chunks)</code></pre>
+<div class="callout"><span class="lbl">보완 · 실제 문서를 다룰 때</span><p>이미지 PDF는 일반 텍스트 로더만으로 본문을 얻지 못해 OCR이 필요할 수 있습니다. 로딩 직후 본문이 비어 있지 않은지, 표의 행·열과 페이지 출처가 유지됐는지 확인합니다. 검색 문서의 악성 지시를 시스템 지침으로 취급하지 않도록 경계도 둡니다.</p></div>
+<p>문서 권한은 <strong>검색 전 또는 검색 단계</strong>에서 검사하고 답변에서만 숨기지 않습니다. 근거가 없으면 “확인할 수 없음”이라고 답하게 하며 출처를 함께 표시합니다. Retriever는 벡터 검색 외의 구현도 있으므로 RAG에 벡터 DB가 언제나 필수인 것은 아닙니다.</p>
+<p class="source-note">교재 PDF 113–135쪽 · 9/18 구축/활용, 겹침, k, 임베딩 모델 설명</p></div></details>
+<details class="chapter" id="ch11">
+<summary><span class="ch-num">11</span><div class="ch-title"><h2>Gradio: 체인을 간단한 화면에 연결하기</h2><span class="sub">입력 → Python 함수 → 출력의 연결부터</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<p>Gradio는 Python 함수를 입력창·출력창과 연결해 데모 화면을 만드는 라이브러리입니다. LangChain의 실행 로직을 대신하지 않습니다. <code>Interface</code>는 간단한 함수 연결, <code>Blocks</code>는 여러 컴포넌트·이벤트를 조합하는 데 사용합니다.</p>
+<div class="flow learning-viz" role="img" aria-label="Gradio 입력창의 문자열을 Python 함수가 받아 체인이 요구하는 딕셔너리로 감싼 뒤 최종 문자열을 출력창에 표시하는 흐름"><div class="flow-step"><span class="k">1</span><span class="v">입력창<br>문자열</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">2</span><span class="v">explain_topic(text)<br>키 이름 맞추기</span></div><div class="flow-arrow">→</div><div class="flow-step"><span class="k">3</span><span class="v">chain.invoke<br>{topic: text}</span></div><div class="flow-arrow">→</div><div class="flow-step accent"><span class="k">4</span><span class="v">출력창<br>결과 문자열</span></div></div>
+<pre tabindex="0"><code class="language-python"># 별도 설치: python -m pip install gradio
+# 2장의 model, prompt, parser, chain을 먼저 생성합니다.
+import gradio as gr
+
+def explain_topic(text: str) -&gt; str:
+    text = text.strip()
+    if not text:
+        return "설명할 주제를 입력해 주세요."
+    if len(text) &gt; 1000:
+        return "주제를 1,000자 이내로 입력해 주세요."
+    return chain.invoke({"topic": text})
+
+demo = gr.Interface(
+    fn=explain_topic,
+    inputs=gr.Textbox(label="복습할 주제"),
+    outputs=gr.Textbox(label="설명"),
+    title="나의 LangChain 복습 도우미",
+)
+demo.launch(share=False)</code></pre>
+<div class="callout"><span class="lbl">실습 연결 포인트</span><p>화면은 문자열을 주지만 체인은 <code>{"topic": text}</code>를 기대합니다. 중간 함수에서 입력 형태를 맞춰야 합니다. 화면에 과거 대화가 보이는 것만으로 모델 메모리가 생기지는 않습니다. 이 예제는 매 요청이 독립적인 설명 도구입니다.</p></div>
+<p><code>share=True</code>로 생기는 공유 링크는 개발 환경의 접근성을 열어주는 데모 기능이지 영구 배포가 아닙니다. 비용·인증·민감정보를 확인하기 전에는 공개하지 마세요. GitHub Pages에는 이 복습 페이지처럼 정적 파일을 올릴 수 있지만, <strong>Python 실행과 비밀 API 키가 필요한 Gradio 앱은 별도의 실행 서버가 필요</strong>합니다.</p>
+<p class="source-note">교재 PDF 158–161쪽 · 9/21 Gradio 설명 · <a href="https://www.gradio.app/guides/quickstart">Gradio 공식 시작 안내</a></p></div></details>
+<details class="chapter" id="ch12">
+<summary><span class="ch-num">12</span><div class="ch-title"><h2>실습 오류와 운영 체크리스트</h2><span class="sub">동작하는 데모에서 믿고 쓰는 서비스로</span></div><span class="chev">▸</span></summary>
+<div class="ch-body">
+<div class="table-scroll" tabindex="0" role="region" aria-label="증상 · 먼저 확인할 것"><table><thead><tr><th scope="col">증상</th><th scope="col">먼저 확인할 것</th></tr></thead><tbody><tr><td>ModuleNotFoundError</td><td>해당 provider 통합 패키지를 현재 런타임에 설치했는가?</td></tr><tr><td>인증 실패·모델 접근 오류</td><td>키 로딩, 공급자, 정확한 모델명, 계정 권한 확인. 키 값 출력 금지</td></tr><tr><td>프롬프트 변수 오류</td><td>템플릿 변수명과 입력 딕셔너리 키가 일치하는가?</td></tr><tr><td>문자열을 더하다 타입 오류</td><td>AIMessage.content가 문자열인지 목록인지 확인. 무조건 str()로 덮기보다 텍스트 블록을 추출</td></tr><tr><td>구조화 출력 실패</td><td>모델 지원·스키마·범위·필수 필드·거절/잘림 확인</td></tr><tr><td>대화를 기억하지 못함</td><td>같은 상태 저장 객체와 thread_id로 호출하는가?</td></tr><tr><td>요청 제한·비용 급증</td><td>병렬 수, retry, agent 반복, 컨텍스트 길이 확인</td></tr><tr><td>RAG가 엉뚱하게 답함</td><td>생성 모델을 바꾸기 전에 로딩 본문과 검색된 청크·출처부터 확인</td></tr></tbody></table></div>
+<div class="callout"><span class="lbl">교수님 강조 · 비용과 회귀 테스트</span><p>프롬프트나 모델을 바꾸고 방금 실패한 질문만 고치면 끝이 아닙니다. 기존에 잘되던 질문도 함께 다시 확인합니다. 사용자에게 받는 정액 요금과 공급자에게 내는 사용량 기반 비용은 다를 수 있어 호출량을 따로 관리해야 합니다.</p></div>
+<div class="learning-viz viz-timeline" role="img" aria-label="대표 질문으로 기준을 만들고 품질 비용 지연을 측정한 뒤 한 요소를 바꾸고 기존 질문까지 재검증하는 평가 루프"><div class="viz-step"><span>BASELINE</span><strong>대표 질문·기대 기준</strong></div><div class="viz-step"><span>MEASURE</span><strong>품질·비용·지연 측정</strong></div><div class="viz-step"><span>CHANGE</span><strong>한 요소 변경</strong></div><div class="viz-step is-accent"><span>REGRESSION</span><strong>기존 질문까지 재검증</strong></div></div>
+<p>처음에는 대표 질문 10개 정도로 시작합니다. 정상 질문뿐 아니라 빈 입력, 문서에 없는 질문, 틀린 분류, 긴 대화, 도구 실패도 넣습니다. 형식은 자동 검증하고 내용은 근거·관련성·누락을 기준으로 평가합니다. 자동 LLM 평가도 비용이 들고 틀릴 수 있으므로 사람의 표본 검토와 함께 사용합니다.</p>
+<ul><li><strong>관측:</strong> 어느 단계가 느리거나 실패했는지, 모델·프롬프트·검색 설정과 사용량을 기록합니다. 개인정보·키는 로그에서 제외합니다.</li><li><strong>재시도:</strong> 일시적 오류에 제한적으로 적용합니다. 결제·전송 같은 작업을 통째로 재실행하면 중복 실행될 수 있습니다.</li><li><strong>Fallback:</strong> 대체 모델의 출력 스키마·데이터 전송 정책까지 맞아야 합니다.</li><li><strong>권한:</strong> Tool·DB·검색 자료는 최소 권한. 모델의 판단을 인증·인가로 사용하지 않습니다.</li><li><strong>격리:</strong> 생성 코드를 실행한다면 별도의 격리 환경에서 시간·CPU·메모리·네트워크를 제한합니다.</li></ul>
+<h3>이번 범위에서 꼭 설명할 수 있어야 하는 것</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="학습 우선순위 · 스스로 답해보기"><table><thead><tr><th scope="col">학습 우선순위</th><th scope="col">스스로 답해보기</th></tr></thead><tbody><tr><td>1 · 공통 실행 규약</td><td>왜 여러 컴포넌트가 같은 invoke()를 쓰는가?</td></tr><tr><td>2 · 입출력 연결</td><td>파이프 중간의 값과 타입은 어떻게 바뀌는가?</td></tr><tr><td>3 · 실행 순서</td><td>요약문 번역은 왜 요약과 병렬로 못 하는가?</td></tr><tr><td>4 · 상태와 검증</td><td>대화 범위·저장 위치·구조 검증·사실 검증을 구분하는가?</td></tr><tr><td>5 · 도구와 검색</td><td>도구 호출 요청, 실제 실행, 문서 검색, 답변 생성이 각각 무엇인가?</td></tr></tbody></table></div>
+<h3>자료 범위와 확인 기준</h3>
+<p>9월 18일 수업의 기본 컴포넌트·통합·RAG 개요와 9월 21일의 Runnable 심화·분기·마스킹·Gradio를 한 흐름으로 합쳤습니다. “교수님 강조”는 수업에서 반복하거나 실습으로 확인한 부분이고, “보완”은 오해를 줄이기 위한 추가 설명입니다. 교재 쪽수는 슬라이드 안의 인쇄 번호가 아닌 <strong>PDF 뷰어의 페이지 순서</strong>입니다.</p>
+<p>교재의 이미지를 재배포하지 않고 개념과 예제를 학습 목적에 맞게 재구성했습니다. 코드는 교재의 <code>init_chat_model</code>·<code>create_agent</code>·<code>langchain_core</code> 흐름으로 통일했습니다. 오래된 <code>LLMChain</code>·<code>initialize_agent</code> 예제와 섞지 말고 사용하는 버전의 공식 문서를 확인하세요.</p>
+<p class="source-note">교재 PDF 4–15쪽, 75–81쪽, 97–112쪽, 151–156쪽 · 공식 문서 확인: 2026-09-29</p></div></details>
+<section id="confuse"><span class="eyebrow">Review map</span><h2>자주 헷갈리는 포인트</h2>
+<div class="confuse-grid"><div class="confuse-card"><h4>Model vs LangChain</h4><p>모델은 답변을 생성하고 LangChain은 여러 실행 단계를 연결합니다.</p></div><div class="confuse-card"><h4>PromptTemplate vs Prompt</h4><p>템플릿은 빈칸이 있는 틀, 프롬프트는 값이 채워진 실제 입력입니다.</p></div><div class="confuse-card"><h4>batch vs Parallel</h4><p>batch는 같은 작업에 여러 입력, Parallel은 같은 입력에 여러 작업입니다.</p></div><div class="confuse-card"><h4>Parser vs 사실 검증</h4><p>문자열·JSON으로 바꾸거나 형식을 검사해도 내용이 참이라는 뜻은 아닙니다.</p></div><div class="confuse-card"><h4>Memory vs 학습</h4><p>대화 이력을 다시 제공하는 것과 모델 가중치를 바꾸는 것은 다릅니다.</p></div><div class="confuse-card"><h4>Tool call vs Tool result</h4><p>호출 요청은 AIMessage, 실행 결과는 ToolMessage입니다.</p></div><div class="confuse-card"><h4>RAG vs Fine-tuning</h4><p>RAG는 검색 문맥을 제공하고, Fine-tuning은 학습으로 모델 가중치를 조정합니다.</p></div><div class="confuse-card"><h4>Gradio UI vs 서비스 운영</h4><p>입출력 데모 화면과 인증·서버·비용 관리가 갖춰진 운영 서비스는 다릅니다.</p></div></div></section>
+<section id="quiz"><div class="quiz-head"><span class="eyebrow">Self check</span><h2>복습 퀴즈 20문항</h2><p>이름보다 흐름을 떠올리며 풀어보세요. 채점하면 정답과 이유를 함께 확인할 수 있습니다.</p></div>
+<div id="quizContainer"></div>
+<div class="quiz-footer"><div id="scoreText" role="status" aria-live="polite">아직 채점하지 않았습니다.</div><div id="scoreDetail">20문항을 모두 풀고 결과를 확인하세요.</div><button class="btn" id="gradeBtn" type="button">채점하기</button><button class="btn secondary" id="resetBtn" type="button">다시 풀기</button></div>
+</section>
+<footer class="pagefoot">LangChain · 개념 → 데이터 흐름 → 안전한 실행 → 검증</footer>
+</main></div>
+  <script>
+  const themeBtn=document.getElementById('themeBtn');
+  themeBtn.addEventListener('click',()=>{document.body.classList.toggle('light');themeBtn.textContent=document.body.classList.contains('light')?'다크 모드':'라이트 모드'});
+  const navLinks=[...document.querySelectorAll('.navlink')];
+  const searchable=[...document.querySelectorAll('details.chapter,#confuse,#quiz')];
+  document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',()=>{const target=document.querySelector(link.getAttribute('href'));if(target?.matches('details'))target.open=true}));
+  document.getElementById('searchBox').addEventListener('input',event=>{const query=event.target.value.trim().toLowerCase();searchable.forEach(target=>{const match=!query||target.textContent.toLowerCase().includes(query);target.style.display=match?'':'none';if(query&&match&&target.matches('details'))target.open=true})});
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;navLinks.forEach(link=>link.classList.toggle('active',link.hash==='#'+entry.target.id))}),{rootMargin:'-10% 0px -70% 0px'});
+  searchable.forEach(target=>observer.observe(target));
+
+  const QUESTIONS=[
+  {
+    "q": "LangChain의 역할을 가장 정확하게 설명한 것은?",
+    "opts": [
+      "새로운 LLM 가중치를 학습하는 모델",
+      "모델·프롬프트·도구·검색을 연결하는 프레임워크",
+      "모든 데이터를 저장하는 벡터 DB",
+      "모델의 환각을 없애는 검증기"
+    ],
+    "correct": 1,
+    "explain": "LangChain은 모델 그 자체가 아니라 모델을 포함한 실행 흐름을 구성하는 도구입니다."
+  },
+  {
+    "q": "init_chat_model로 공급자를 바꾼 뒤 가장 적절한 확인은?",
+    "opts": [
+      "공급자만 바꿨으니 검증을 생략한다",
+      "모든 모델의 출력 형식이 같다고 가정한다",
+      "통합 패키지·키·지원 기능·출력 형태를 다시 확인한다",
+      "기존 API 키를 어떤 공급자에도 쓴다"
+    ],
+    "correct": 2,
+    "explain": "표준 인터페이스는 수정 범위를 줄이지만 공급자별 인증과 기능 차이는 남습니다."
+  },
+  {
+    "q": "prompt.invoke({'topic': 'RAG'})가 하는 일은?",
+    "opts": [
+      "변수를 채운 프롬프트 생성",
+      "외부 모델에서 최종 답변 생성",
+      "벡터 DB에 질문 저장",
+      "대화의 모든 기록 삭제"
+    ],
+    "correct": 0,
+    "explain": "PromptTemplate은 입력으로 프롬프트를 만듭니다. 그 자체로 LLM을 호출하지 않습니다."
+  },
+  {
+    "q": "prompt | model | StrOutputParser()의 최종 출력은?",
+    "opts": [
+      "항상 검증된 사실",
+      "Document 목록",
+      "항상 JSON 딕셔너리",
+      "텍스트 문자열"
+    ],
+    "correct": 3,
+    "explain": "StrOutputParser는 모델 응답에서 텍스트를 추출합니다. 사실·JSON 검증과는 다릅니다."
+  },
+  {
+    "q": "여러 컴포넌트가 invoke()를 쓸 수 있는 이유는?",
+    "opts": [
+      "모두 같은 내부 계산을 하기 때문",
+      "Runnable이라는 공통 실행 규약을 따르기 때문",
+      "모든 단계가 같은 API를 호출하기 때문",
+      "모든 입력을 자동으로 문자열로 바꾸기 때문"
+    ],
+    "correct": 1,
+    "explain": "공통 호출 방식과 각 컴포넌트의 실제 기능을 구분해야 합니다."
+  },
+  {
+    "q": "원문 요약과 '그 요약문'의 번역은 어떻게 연결할까?",
+    "opts": [
+      "요약과 번역을 독립적으로 병렬 실행",
+      "번역 후 원문을 요약",
+      "요약 결과를 번역 입력에 전달하는 순차 실행",
+      "둘 중 한 단계만 실행"
+    ],
+    "correct": 2,
+    "explain": "번역이 요약의 출력에 의존하므로 요약이 먼저 끝나야 합니다."
+  },
+  {
+    "q": "RunnableParallel(summary=요약체인, keywords=키워드체인)의 역할은?",
+    "opts": [
+      "같은 입력을 각 체인에 보내고 결과를 키별로 모은다",
+      "두 체인이 서로의 결과를 자동으로 공유한다",
+      "여러 입력을 순서대로 하나의 문자열로 합친다",
+      "모델 호출 비용을 절반으로 줄인다"
+    ],
+    "correct": 0,
+    "explain": "독립 작업을 동시에 실행할 수 있지만 각 모델 호출 비용은 그대로 발생합니다."
+  },
+  {
+    "q": "원문 딕셔너리를 유지하면서 summary 키를 추가하려면?",
+    "opts": [
+      "StrOutputParser만 사용한다",
+      "모든 필드를 문자열로 변환한다",
+      "thread_id를 변경한다",
+      "RunnablePassthrough.assign을 사용한다"
+    ],
+    "correct": 3,
+    "explain": "assign은 입력 딕셔너리를 유지하면서 계산한 새 키를 추가합니다."
+  },
+  {
+    "q": "RunnableBranch에서 두 조건이 모두 참이면?",
+    "opts": [
+      "두 경로를 병렬 실행한다",
+      "먼저 참이 된 경로 하나를 실행한다",
+      "무조건 기본 경로만 실행한다",
+      "자동으로 오류를 낸다"
+    ],
+    "correct": 1,
+    "explain": "위에서부터 확인한 첫 번째 참 조건이 선택됩니다. 어느 조건도 맞지 않으면 기본 경로를 사용합니다."
+  },
+  {
+    "q": "model | parser | 마스킹으로 개인정보의 외부 전송을 막을 수 있을까?",
+    "opts": [
+      "예, 화면에서 안 보이면 전송되지 않았다",
+      "예, 파서가 키를 암호화한다",
+      "아니요, 모델 호출 전에 이미 원문이 전달되었다",
+      "예, 정규식이 과거 전송까지 취소한다"
+    ],
+    "correct": 2,
+    "explain": "외부 전송 보호는 모델 호출 전에 처리해야 합니다. 후처리는 출력 노출을 줄입니다."
+  },
+  {
+    "q": "Pydantic의 rating: int = Field(ge=1, le=5)가 검증하는 것은?",
+    "opts": [
+      "평점 값의 타입과 허용 범위",
+      "리뷰 작성자가 실제로 영화를 봤는지",
+      "영화 내용이 사실인지",
+      "모델이 원문을 완벽히 요약했는지"
+    ],
+    "correct": 0,
+    "explain": "구조와 범위를 검사하며 사실·근거의 일치 여부는 따로 검토해야 합니다."
+  },
+  {
+    "q": "thread_id에 대한 올바른 설명은?",
+    "opts": [
+      "값만 알면 누구나 조회해도 된다",
+      "DB 비밀번호를 대신한다",
+      "모델의 장기 학습 가중치다",
+      "대화 상태를 구분하지만 접근 권한 검사는 별도다"
+    ],
+    "correct": 3,
+    "explain": "대화 구분과 인증·인가는 다릅니다. 서버에서 대화 소유자를 확인해야 합니다."
+  },
+  {
+    "q": "대화 체크포인트를 DB에 저장하면 자동으로 장기 기억이 될까?",
+    "opts": [
+      "예, 디스크에 있으면 모두 장기 기억이다",
+      "아니요, 한 대화의 상태를 재개하기 위한 단기 기억일 수 있다",
+      "예, DB가 모델을 재학습한다",
+      "아니요, 단기 기억은 DB에 저장할 수 없다"
+    ],
+    "correct": 1,
+    "explain": "단기·장기 구분은 기억의 사용 범위, 인메모리·DB 구분은 저장 방식입니다."
+  },
+  {
+    "q": "스트리밍의 주된 효과는?",
+    "opts": [
+      "입력 토큰 비용을 제거한다",
+      "전체 답변의 사실 정확성을 높인다",
+      "답변 일부를 먼저 보여 체감 대기를 줄인다",
+      "전체 생성 시간을 항상 절반으로 줄인다"
+    ],
+    "correct": 2,
+    "explain": "생성 도중 결과를 볼 수 있게 하지만 총비용이나 총소요시간 감소는 보장하지 않습니다."
+  },
+  {
+    "q": "bind_tools 후 AIMessage에 tool_calls가 들어왔다. 지금 상태는?",
+    "opts": [
+      "모델이 도구 이름과 인자로 실행을 요청한 상태",
+      "도구 실행과 검증이 모두 끝난 상태",
+      "ToolMessage가 이미 반환된 상태",
+      "권한 검사가 자동 완료된 상태"
+    ],
+    "correct": 0,
+    "explain": "로컬 도구는 애플리케이션이나 에이전트 실행기가 실행하고 결과를 다시 전달해야 합니다."
+  },
+  {
+    "q": "도구를 모델이 올바르게 고르도록 특히 잘 작성해야 하는 것은?",
+    "opts": [
+      "함수 파일의 배경색",
+      "프로젝트 폴더 이름만",
+      "함수 실행 결과를 항상 동일하게 고정하는 코드",
+      "도구 이름·docstring·입력 타입과 설명"
+    ],
+    "correct": 3,
+    "explain": "모델에는 주로 도구 메타데이터와 스키마가 전달됩니다. 함수 내부 소스를 자동으로 읽는 것이 아닙니다."
+  },
+  {
+    "q": "RAG에서 Retriever가 반환하는 것은?",
+    "opts": [
+      "반드시 검증이 끝난 최종 답변",
+      "질문과 관련된 문서 목록",
+      "새로 학습한 모델 가중치",
+      "모델의 대화 전체 기록"
+    ],
+    "correct": 1,
+    "explain": "검색 문서를 질문과 함께 LLM에 전달해 답변을 생성하는 단계는 별도입니다."
+  },
+  {
+    "q": "문서를 임베딩한 모델과 다른 모델로 질문을 임베딩해도 차원만 같으면 괜찮을까?",
+    "opts": [
+      "같은 차원이면 항상 가능하다",
+      "질문이 짧으면 가능하다",
+      "벡터 공간이 달라질 수 있으므로 안심할 수 없다",
+      "검색 개수 k를 늘리면 호환된다"
+    ],
+    "correct": 2,
+    "explain": "같은 차원도 같은 좌표 체계를 의미하지 않습니다. 호환 가능한 동일한 임베딩 설정을 유지해야 합니다."
+  },
+  {
+    "q": "기본 문자 기준 Splitter에서 chunk_overlap=50의 의미는?",
+    "opts": [
+      "인접 청크 경계에 약 50자를 겹치도록 설정",
+      "전체 문서의 50%를 삭제",
+      "각 청크의 절반을 항상 중복",
+      "질문 50개를 동시에 처리"
+    ],
+    "correct": 0,
+    "explain": "비율이 아니라 길이 기준입니다. 실제 겹침은 분할 방식·구분자에 따라 달라질 수 있습니다."
+  },
+  {
+    "q": "프롬프트 변경으로 실패하던 질문이 잘되기 시작했다. 다음 할 일은?",
+    "opts": [
+      "바로 전체 서비스에 반영하고 끝낸다",
+      "새 질문 한 개만 추가로 확인한다",
+      "출력 모양만 확인한다",
+      "기존 대표 질문의 품질·비용·지연도 다시 평가한다"
+    ],
+    "correct": 3,
+    "explain": "한 문제를 고치다 기존 동작이 나빠질 수 있어 회귀 평가가 필요합니다."
+  }
+];
+
+  const quizContainer=document.getElementById('quizContainer');
+  function renderQuiz(){quizContainer.innerHTML=QUESTIONS.map((item,index)=>`<article class="qcard"><div class="qnum">Q${String(index+1).padStart(2,'0')}</div><div class="qtext">${item.q}</div><div class="opts">${item.opts.map((opt,optIndex)=>`<label class="opt"><input type="radio" name="q${index}" value="${optIndex}"><span>${opt}</span></label>`).join('')}</div><div class="explain" id="explain${index}">${item.explain}</div></article>`).join('')}
+  renderQuiz();
+  document.getElementById('gradeBtn').addEventListener('click',()=>{let score=0;QUESTIONS.forEach((item,index)=>{const selected=document.querySelector(`input[name="q${index}"]:checked`);document.querySelectorAll(`input[name="q${index}"]`).forEach(input=>{const label=input.closest('.opt');label.classList.remove('correct','wrong');if(Number(input.value)===item.correct)label.classList.add('correct');else if(input.checked)label.classList.add('wrong')});if(selected&&Number(selected.value)===item.correct)score++;document.getElementById(`explain${index}`).classList.add('show')});document.getElementById('scoreText').textContent=`${score} / ${QUESTIONS.length}`;document.getElementById('scoreDetail').textContent=score===QUESTIONS.length?'핵심 연결을 정확히 이해했습니다.':`틀린 ${QUESTIONS.length-score}문항의 설명을 다시 확인하세요.`});
+  document.getElementById('resetBtn').addEventListener('click',()=>{renderQuiz();document.getElementById('scoreText').textContent='아직 채점하지 않았습니다.';document.getElementById('scoreDetail').textContent='20문항을 모두 풀고 결과를 확인하세요.';document.getElementById('quiz').scrollIntoView({behavior:'smooth'})});
+  </script>
+</body>
+</html>
